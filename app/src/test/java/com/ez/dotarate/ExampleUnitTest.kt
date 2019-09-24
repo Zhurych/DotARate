@@ -1,4 +1,4 @@
-package com.android.dotarate
+package com.ez.dotarate
 
 import org.junit.Test
 

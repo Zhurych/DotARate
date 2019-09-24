@@ -1,13 +1,13 @@
-package com.android.dotarate.view.activities
+package com.ez.dotarate.view.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.android.dotarate.R
+import com.ez.dotarate.R
 
-class LoginActivity : AppCompatActivity() {
+class SecondActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_second)
     }
 }
