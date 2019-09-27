@@ -11,8 +11,8 @@ import java.lang.reflect.ParameterizedType
 
 abstract class BaseActivity<VM : ViewModel, VB : ViewDataBinding> : AppCompatActivity() {
 
-    protected var vm: VM? = null
-    protected var vb: VB? = null
+    protected lateinit var vm: VM
+    protected lateinit var vb: VB
 
     @LayoutRes
     protected abstract fun layout(): Int

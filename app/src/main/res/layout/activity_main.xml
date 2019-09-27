@@ -7,19 +7,31 @@
 
     </data>
 
-    <FrameLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context="com.ez.dotarate.view.activities.MainActivity">
 
-        <!--Системная кнопка Back тоже работает и выполняет шаг назад. Это происходит благодаря атрибуту app:defaultNavHost="true"-->
-        <fragment
-            android:id="@+id/nav_host_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+        <!---your RecyclerView/Fragment Container Layout-->
+        <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/main_graph" />
+            android:layout_above="@id/bottom_navigation" />
 
-    </FrameLayout>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="@color/white"
+            app:itemIconTint="@drawable/bottom_navigation_icon_colors"
+            app:itemTextColor="@drawable/bottom_navigation_text_colors"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/bottom_navigation_menu" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

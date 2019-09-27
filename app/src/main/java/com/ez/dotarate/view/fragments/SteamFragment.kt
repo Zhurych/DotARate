@@ -1,22 +1,29 @@
 package com.ez.dotarate.view.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Bitmap
+import android.os.Build
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.navigation.fragment.findNavController
+import androidx.core.content.ContextCompat
 import com.ez.dotarate.R
 import com.ez.dotarate.databinding.FragmentSteamBinding
 import com.ez.dotarate.view.BaseFragment
+import com.ez.dotarate.view.activities.MainActivity
 import com.ez.dotarate.viewModel.SteamViewModel
 
 
 // Убираем warning
 @SuppressLint("SetJavaScriptEnabled")
 class SteamFragment : BaseFragment<SteamViewModel, FragmentSteamBinding>() {
+
+    val LOG_TAG = "MyLogs"
 
     val REALM_PARAM = "DotA Rate"
 
@@ -32,32 +39,24 @@ class SteamFragment : BaseFragment<SteamViewModel, FragmentSteamBinding>() {
     override fun layout() = R.layout.fragment_steam
 
     override fun afterCreateView(view: View) {
+
+        val window = activity?.window
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window?.statusBarColor = ContextCompat.getColor(activity!!, R.color.colorBlue)
+        }
+
         // Container(родитель) WebView
-        val mCWebViewContainer = vb!!.wvContainer
+        val mCWebViewContainer = vb.wvContainer
 
         // WebView
-        val mWebView = vb!!.webView
+        val mWebView = vb.webView
         val settings: WebSettings = mWebView.settings
         settings.javaScriptEnabled = true
 
         mWebView.webViewClient = object : WebViewClient() {
-
-//            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-//
-//                Log.d("Steam ID", "Метод shouldOverrideUrlLoading запущен")
-//                Log.d("Steam ID", "String url: $url")
-//                val substr = "openid%2Fid%"
-//                val before = url.substring(0, url.indexOf(substr))
-//                val after = url.substring(url.indexOf(substr) + substr.length)
-//
-//                val steamId = after.substring(2, 19)
-//
-//
-//
-//                Log.d("Steam ID", steamId)
-//
-//                return false
-//            }
 
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
@@ -102,16 +101,39 @@ class SteamFragment : BaseFragment<SteamViewModel, FragmentSteamBinding>() {
                         mWebView.destroy()
 
                         // Сохраняем ID пользователя
-                        vm!!.saveId()
+                        vm.saveId(steamId.toLong())
 
-                        findNavController().navigateUp()
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                            window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                            window?.statusBarColor = ContextCompat.getColor(activity!!, R.color.colorPrimaryDark)
+                        }
+
+                        val intent = Intent(activity, MainActivity::class.java)
+                        startActivity(intent)
+
+                        activity!!.finish()
+
                     }
                 } catch (ex: StringIndexOutOfBoundsException) {
                     return
+                } catch (ex: NumberFormatException) {
+                    Log.d(LOG_TAG, "Ошибка при преобразовании String (ID) в Long")
                 }
             }
         }
 
         mWebView.loadUrl(mUrl)
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val window = activity?.window
+            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window?.statusBarColor = ContextCompat.getColor(activity!!, R.color.colorPrimaryDark)
+        }
     }
 }

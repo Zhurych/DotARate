@@ -3,13 +3,16 @@
 
     <item
         android:id="@+id/nav_games"
+        android:icon="@drawable/bnv_games_icon_selector"
         android:title="@string/games" />
 
     <item
         android:id="@+id/nav_mph"
+        android:icon="@drawable/bnv_mph_icon_selector"
         android:title="@string/mph" />
 
     <item
         android:id="@+id/nav_statistics"
-        android:title="@string/statistics"/>
+        android:icon="@drawable/bnv_profile_icon_selector"
+        android:title="@string/statistics" />
 </menu>

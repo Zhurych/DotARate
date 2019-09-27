@@ -14,8 +14,8 @@ import java.lang.reflect.ParameterizedType
 
 abstract class BaseFragment<VM : ViewModel, VB : ViewDataBinding> : Fragment() {
 
-    protected var vm: VM? = null
-    protected var vb: VB? = null
+    protected lateinit var vm: VM
+    protected lateinit var vb: VB
 
     @LayoutRes
     protected abstract fun layout(): Int
@@ -26,6 +26,7 @@ abstract class BaseFragment<VM : ViewModel, VB : ViewDataBinding> : Fragment() {
                 val className =
                     (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0].toString()
                 val clazz = Class.forName(className.replace("class ", ""))
+                @Suppress("UNCHECKED_CAST")
                 return clazz as Class<VM>
             } catch (e: Exception) {
                 throw IllegalStateException(e.message)
@@ -48,7 +49,7 @@ abstract class BaseFragment<VM : ViewModel, VB : ViewDataBinding> : Fragment() {
             e.printStackTrace()
         }
 
-        vb = DataBindingUtil.bind(view)
+        vb = DataBindingUtil.bind(view)!!
 
         afterCreateView(view)
         return view
