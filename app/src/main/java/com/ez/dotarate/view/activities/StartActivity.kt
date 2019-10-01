@@ -15,7 +15,6 @@ class StartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.d("MyLogs", "StartActivity. OnCreate")
         val vb: ActivityStartBinding = DataBindingUtil.setContentView(this, R.layout.activity_start)
-
     }
 
     override fun onStart() {
@@ -43,5 +42,5 @@ class StartActivity : AppCompatActivity() {
         Log.d("MyLogs", "StartActivity. onDestroy")
     }
 
-    override fun onSupportNavigateUp() = findNavController(R.id.nav_host_fragment).navigateUp()
+    // override fun onSupportNavigateUp() = findNavController(R.id.nav_host_fragment).navigateUp()
 }

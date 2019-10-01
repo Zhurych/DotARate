@@ -23,7 +23,8 @@
             android:name=".view.activities.StartActivity"
             android:theme="@style/LoginTheme">
         </activity>
-        <activity android:name=".view.activities.MainActivity" />
+        <activity android:name=".view.activities.MainActivity"
+            android:theme="@style/LoginTheme"/>
     </application>
 
 </manifest>

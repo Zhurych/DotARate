@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.ez.dotarate.R
 import com.ez.dotarate.viewModel.SplashViewModel
 
 class SplashActivity : AppCompatActivity() {
@@ -22,6 +23,7 @@ class SplashActivity : AppCompatActivity() {
                 finish()
             } else {
                 val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("id", it.id)
                 startActivity(intent)
                 finish()
             }
