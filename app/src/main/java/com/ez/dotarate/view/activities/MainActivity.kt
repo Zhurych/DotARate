@@ -12,6 +12,7 @@ import com.ez.dotarate.view.fragments.ProfileFragment
 import com.ez.dotarate.viewModel.MainViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+
 class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
     private val fragmentGames = GamesFragment()
@@ -45,6 +46,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                         return true
                     }
                     R.id.nav_profile -> {
+                        title = ""
                         currentId = R.id.nav_profile
                         fm.beginTransaction().hide(active).show(fragmentProfile).commit()
                         active = fragmentProfile
@@ -60,6 +62,10 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
     override fun afterCreate(savedInstanceState: Bundle?) {
         vb.bottomNavigation.setOnNavigationItemSelectedListener(mNavigationItemSelectedListener)
+
+        // Sets the Toolbar to act as the ActionBar for this Activity window.
+        // Make sure the toolbar exists in the activity and is not null
+        setSupportActionBar(vb.fpToolbar)
 
         if (savedInstanceState == null) {
             fm.beginTransaction().add(R.id.fragment_container, fragmentProfile, "3")

@@ -1,13 +1,14 @@
 package com.ez.dotarate.view.fragments
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -64,6 +65,8 @@ class SteamFragment : BaseFragment<SteamViewModel, FragmentSteamBinding>() {
                 if (url == null)
                     return
 
+                vb.progressBar.visibility = View.GONE
+
                 try {
                     val substr = "openid%2Fid%"
                     val before = url.substring(0, url.indexOf(substr))
@@ -72,8 +75,6 @@ class SteamFragment : BaseFragment<SteamViewModel, FragmentSteamBinding>() {
                     val steamId = after.substring(2, 19)
 
                     if (steamId.isNotEmpty()) {
-                        Log.d("Steam ID", steamId)
-
                         // Очищаем WebView
                         // Make sure you remove the WebView from its parent view before doing anything.
                         mCWebViewContainer.removeAllViews()
@@ -106,10 +107,12 @@ class SteamFragment : BaseFragment<SteamViewModel, FragmentSteamBinding>() {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
                             window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-                            window?.statusBarColor = ContextCompat.getColor(activity!!, R.color.colorPrimaryDark)
+                            window?.statusBarColor =
+                                ContextCompat.getColor(activity!!, R.color.colorPrimaryDark)
                         }
 
                         val intent = Intent(activity, MainActivity::class.java)
+                        intent.putExtra("id", steamId.toLong())
                         startActivity(intent)
 
                         activity!!.finish()
@@ -124,16 +127,5 @@ class SteamFragment : BaseFragment<SteamViewModel, FragmentSteamBinding>() {
         }
 
         mWebView.loadUrl(mUrl)
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val window = activity?.window
-            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window?.statusBarColor = ContextCompat.getColor(activity!!, R.color.colorPrimaryDark)
-        }
     }
 }

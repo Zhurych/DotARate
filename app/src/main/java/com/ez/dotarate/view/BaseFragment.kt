@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import java.lang.reflect.ParameterizedType
 
+
 abstract class BaseFragment<VM : ViewModel, VB : ViewDataBinding> : Fragment() {
 
     protected lateinit var vm: VM

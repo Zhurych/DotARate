@@ -13,5 +13,4 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
     override fun afterCreateView(view: View) {
 
     }
-
 }

@@ -8,5 +8,7 @@ import com.ez.dotarate.model.User
 interface UserRepository {
     fun saveUserId(dao: UserIdDao, userId: UserId)
     fun getUserId(dao: UserIdDao): UserId?
+    fun logout(dao: UserIdDao)
+
     fun getUser(data: MutableLiveData<User>, id: Long)
 }

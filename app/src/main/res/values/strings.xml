@@ -3,7 +3,7 @@
 
     <string name="mph">Most played heroes</string>
     <string name="statistics">Statistics</string>
-    <!--General-->
+
     <string name="games">Games</string>
 
     <string name="wins">Wins</string>
@@ -270,11 +270,15 @@
     <string name="backpack">Backpack</string>
     <string name="winner">Winner</string>
 
-    <!--Enter Activity-->
+    <!--Login Screen-->
     <string name="greeting">Welcome to DotA Rate</string>
     <string name="enter_steam">Sign in with your Steam account to get started</string>
-    <string name="login">Login</string>
+    <string name="login">Log In</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--Profile screen-->
+    <string name="profile_screen_dialog_logout">Log out of DotA Rate?</string>
+
+    <!--General-->
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

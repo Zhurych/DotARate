@@ -1,6 +1,5 @@
 package com.ez.dotarate.model.repository
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.ez.dotarate.database.UserId
 import com.ez.dotarate.database.UserIdDao
@@ -16,7 +15,8 @@ class UserRepositoryImpl : UserRepository {
 
     private val mBaseUrl = "https://api.steampowered.com/"
 
-    private val keyApi = "224 272 200 268 280 220 260 220 268 212 192 228 280 192 280 212 276 192 192 212 208 280 200 224 264 224 268 212 204 224 196 204"
+    private val keyApi =
+        "224 272 200 268 280 220 260 220 268 212 192 228 280 192 280 212 276 192 192 212 208 280 200 224 264 224 268 212 204 224 196 204"
 
     private val retrofit =
         Retrofit.Builder().baseUrl(mBaseUrl).addConverterFactory(GsonConverterFactory.create())
@@ -54,5 +54,9 @@ class UserRepositoryImpl : UserRepository {
             result.append(int.toChar())
         }
         return result.toString()
+    }
+
+    override fun logout(dao: UserIdDao) {
+        dao.deleteUser()
     }
 }

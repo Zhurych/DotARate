@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.findNavController
 import com.ez.dotarate.R
 import com.ez.dotarate.databinding.ActivityStartBinding
 

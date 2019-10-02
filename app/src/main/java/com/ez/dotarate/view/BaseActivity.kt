@@ -1,13 +1,14 @@
 package com.ez.dotarate.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import java.lang.reflect.ParameterizedType
+
 
 abstract class BaseActivity<VM : ViewModel, VB : ViewDataBinding> : AppCompatActivity() {
 

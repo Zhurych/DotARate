@@ -8,6 +8,7 @@ import com.ez.dotarate.database.UserId
 import com.ez.dotarate.model.repository.UserRepositoryImpl
 import java.util.concurrent.Executors
 
+
 class SplashViewModel(application: Application) : AndroidViewModel(application) {
 
     private val db = AppDatabase.invoke(getApplication())

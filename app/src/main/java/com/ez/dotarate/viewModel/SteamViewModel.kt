@@ -9,6 +9,7 @@ import com.ez.dotarate.model.repository.UserRepositoryImpl
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+
 class SteamViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: UserRepository = UserRepositoryImpl()
@@ -18,6 +19,6 @@ class SteamViewModel(application: Application) : AndroidViewModel(application) {
     private val db: AppDatabase = AppDatabase.invoke(getApplication())
 
     fun saveId(id: Long) {
-        executor.execute { repository.saveUserId(db.userIdDao(), UserId(id))}
+        executor.execute { repository.saveUserId(db.userIdDao(), UserId(id)) }
     }
 }

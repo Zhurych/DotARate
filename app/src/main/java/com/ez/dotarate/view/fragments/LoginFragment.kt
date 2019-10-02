@@ -1,8 +1,9 @@
 package com.ez.dotarate.view.fragments
 
-import android.content.Context
-import android.os.Bundle
+import android.os.Build
 import android.view.View
+import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.ez.dotarate.R
 import com.ez.dotarate.databinding.FragmentLoginBinding
@@ -15,27 +16,20 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
     override fun layout() = R.layout.fragment_login
 
     override fun afterCreateView(view: View) {
+
+        val window = activity?.window
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window?.statusBarColor = ContextCompat.getColor(activity!!, R.color.colorGreen)
+        }
+
         vb.loginListener = loginListener
     }
 
     val loginListener: View.OnClickListener = View.OnClickListener {
         // Можно получить NavController
         it.findNavController().navigate(R.id.steamFragment)
-
-        //val intent = Intent(activity, MainActivity::class.java)
-        // start your next activity
-        //startActivity(intent)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
-
-    override fun onDetach() {
-        super.onDetach()
     }
 }
