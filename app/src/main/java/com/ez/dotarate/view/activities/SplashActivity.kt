@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.ez.dotarate.viewModel.SplashViewModel
 
+const val USER_ID_KEY = "id"
 
 class SplashActivity : AppCompatActivity() {
 
@@ -23,7 +24,8 @@ class SplashActivity : AppCompatActivity() {
                 finish()
             } else {
                 val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("id", it.id)
+
+                intent.putExtra(USER_ID_KEY, it.id)
                 startActivity(intent)
                 finish()
             }

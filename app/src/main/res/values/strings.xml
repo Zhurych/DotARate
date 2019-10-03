@@ -4,8 +4,6 @@
     <string name="mph">Most played heroes</string>
     <string name="statistics">Statistics</string>
 
-    <string name="games">Games</string>
-
     <string name="wins">Wins</string>
     <string name="losses">Losses</string>
     <string name="carry">Carry</string>
@@ -275,7 +273,14 @@
     <string name="enter_steam">Sign in with your Steam account to get started</string>
     <string name="login">Log In</string>
 
+    <!--Games screen-->
+    <string name="games_screen_title">Games</string>
+
+    <!--MPH screen-->
+    <string name="mph_screen_title">Heroes</string>
+
     <!--Profile screen-->
+    <string name="profile_screen_title">Settings</string>
     <string name="profile_screen_dialog_logout">Log out of DotA Rate?</string>
 
     <!--General-->

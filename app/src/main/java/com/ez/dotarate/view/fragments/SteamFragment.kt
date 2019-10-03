@@ -1,14 +1,12 @@
 package com.ez.dotarate.view.fragments
 
 import android.annotation.SuppressLint
-import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -42,6 +40,13 @@ class SteamFragment : BaseFragment<SteamViewModel, FragmentSteamBinding>() {
     override fun afterCreateView(view: View) {
 
         val window = activity?.window
+
+        val decorView = window?.decorView
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            decorView?.systemUiVisibility =
+                decorView?.getSystemUiVisibility()!! and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -90,6 +95,7 @@ class SteamFragment : BaseFragment<SteamViewModel, FragmentSteamBinding>() {
 
                         mWebView.onPause()
                         mWebView.removeAllViews()
+                        @Suppress("DEPRECATION")
                         mWebView.destroyDrawingCache()
 
                         // NOTE: This pauses JavaScript execution for ALL WebViews,

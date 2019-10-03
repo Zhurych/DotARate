@@ -19,10 +19,14 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
 
         val window = activity?.window
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window?.statusBarColor = ContextCompat.getColor(activity!!, R.color.colorGreen)
+            window?.statusBarColor = ContextCompat.getColor(activity!!, R.color.colorPrimaryDark)
         }
 
         vb.loginListener = loginListener
