@@ -1,7 +1,10 @@
 package com.ez.dotarate.view.fragments
 
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -9,6 +12,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.ez.dotarate.R
+import com.ez.dotarate.constants.USER_ID_KEY
 import com.ez.dotarate.databinding.FragmentProfileBinding
 import com.ez.dotarate.view.BaseFragment
 import com.ez.dotarate.view.activities.StartActivity
@@ -20,7 +24,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
     override fun layout() = R.layout.fragment_profile
 
     override fun afterCreateView(view: View) {
-        val id = activity!!.intent.getLongExtra("id", 0)
+        val id = activity!!.intent.getLongExtra(USER_ID_KEY, 0)
 
         // Говорим фрагменту, что ему нужно отобразить меню
         setHasOptionsMenu(true)
@@ -59,5 +63,45 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
         }
 
         return true
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("MyLogs", "ProfileFragment. onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("MyLogs", "ProfileFragment. onResume")
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("MyLogs", "ProfileFragment. onCreate")
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d("MyLogs", "ProfileFragment. onAttach")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.d("MyLogs", "ProfileFragment. onDetach")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("MyLogs", "ProfileFragment. onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("MyLogs", "ProfileFragment. onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("MyLogs", "ProfileFragment. onDestroy")
     }
 }

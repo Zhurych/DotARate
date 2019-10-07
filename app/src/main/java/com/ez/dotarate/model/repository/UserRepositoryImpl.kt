@@ -1,52 +1,50 @@
 package com.ez.dotarate.model.repository
 
-import androidx.lifecycle.MutableLiveData
+import com.ez.dotarate.constants.BASE_URL
+import com.ez.dotarate.constants.STEAM_API_KEY
 import com.ez.dotarate.database.UserId
 import com.ez.dotarate.database.UserIdDao
-import com.ez.dotarate.model.User
 import com.ez.dotarate.network.ServerApi
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 class UserRepositoryImpl : UserRepository {
 
-    private val mBaseUrl = "https://api.steampowered.com/"
-
-    private val keyApi =
-        "224 272 200 268 280 220 260 220 268 212 192 228 280 192 280 212 276 192 192 212 208 280 200 224 264 224 268 212 204 224 196 204"
-
     private val retrofit =
-        Retrofit.Builder().baseUrl(mBaseUrl).addConverterFactory(GsonConverterFactory.create())
+        Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
             .build()
 
     private val api: ServerApi = retrofit.create(ServerApi::class.java)
 
-    override fun getUserId(dao: UserIdDao) = dao.getId()
+    /**
+     * This is a "regular" suspending function, which means the caller must
+     * be in a coroutine. The repository is not responsible for starting or
+     * stopping coroutines since it doesn't have a natural lifecycle to cancel
+     * unnecessary work.
+     *
+     * This *may* be called from Dispatchers.Main and is main-safe because
+     * Room will take care of main-safety for us.
+     */
+    override suspend fun getUserId(dao: UserIdDao) = dao.getId()
 
-    override fun saveUserId(dao: UserIdDao, userId: UserId) {
+    override suspend fun saveUserId(dao: UserIdDao, userId: UserId) {
         dao.saveId(userId)
     }
 
-    override fun getUser(data: MutableLiveData<User>, id: Long) {
-        val call = api.getUser(getK(), id)
-        call.enqueue(object : Callback<User> {
-            override fun onFailure(call: Call<User>, t: Throwable) {
+    /**
+     * GET request.
+     * Receive User Data
+     * We don’t need to call enqueue() and implement callbacks anymore!
+     * But notice, now our repo method is suspend too and returns a User object.
+     */
+    override suspend fun getUser(id: Long) = api.getUser(getK(), id)
 
-            }
-
-            override fun onResponse(call: Call<User>, response: Response<User>) {
-                if (response.isSuccessful) {
-                    data.postValue(response.body())
-                }
-            }
-        })
-    }
-
+    /**
+     * Decode Steam Api Key.
+     */
     private fun getK(): String {
-        val key = keyApi.split(" ")
+        val key = STEAM_API_KEY.split(" ")
 
         val result = StringBuilder()
         for (i in key) {
@@ -56,7 +54,7 @@ class UserRepositoryImpl : UserRepository {
         return result.toString()
     }
 
-    override fun logout(dao: UserIdDao) {
+    override suspend fun logout(dao: UserIdDao) {
         dao.deleteUser()
     }
 }

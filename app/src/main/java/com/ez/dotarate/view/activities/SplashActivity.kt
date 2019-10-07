@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.ez.dotarate.constants.USER_ID_KEY
 import com.ez.dotarate.viewModel.SplashViewModel
 
-const val USER_ID_KEY = "id"
 
 class SplashActivity : AppCompatActivity() {
 
@@ -16,8 +16,7 @@ class SplashActivity : AppCompatActivity() {
 
         val vm = ViewModelProviders.of(this).get(SplashViewModel::class.java)
 
-        vm.getUser()
-        vm.data.observe(this, Observer {
+        vm.liveData.observe(this, Observer {
             if (it == null) {
                 val intent = Intent(this, StartActivity::class.java)
                 startActivity(intent)

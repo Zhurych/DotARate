@@ -1,29 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/loginFragment">
-
+    app:startDestination="@id/gamesFragment">
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.ez.dotarate.view.fragments.LoginFragment"
-        android:label="LoginFragment" >
+        android:id="@+id/gamesFragment"
+        android:name="com.ez.dotarate.view.fragments.GamesFragment"
+        android:label="GamesFragment">
         <action
-            android:id="@+id/action_loginFragment_to_steamFragment"
-            app:destination="@id/steamFragment" />
+            android:id="@+id/action_gamesFragment_to_mphFragment"
+            app:destination="@id/mphFragment" />
+        <action
+            android:id="@+id/action_gamesFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
-        android:id="@+id/steamFragment"
-        android:name="com.ez.dotarate.view.fragments.SteamFragment"
-        android:label="SteamFragment" >
+        android:id="@+id/mphFragment"
+        android:name="com.ez.dotarate.view.fragments.MphFragment"
+        android:label="MphFragment">
         <action
-            android:id="@+id/action_steamFragment_to_mainActivity"
-            app:destination="@id/mainActivity" />
+            android:id="@+id/action_mphFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_mphFragment_to_gamesFragment"
+            app:destination="@id/gamesFragment" />
     </fragment>
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.ez.dotarate.view.activities.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.ez.dotarate.view.fragments.ProfileFragment"
+        android:label="ProfileFragment">
+        <action
+            android:id="@+id/action_profileFragment_to_mphFragment"
+            app:destination="@id/mphFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_gamesFragment"
+            app:destination="@id/gamesFragment" />
+    </fragment>
 </navigation>

@@ -1,6 +1,9 @@
 package com.ez.dotarate.view.fragments
 
+import android.content.Context
 import android.os.Build
+import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
@@ -35,5 +38,45 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
     val loginListener: View.OnClickListener = View.OnClickListener {
         // Можно получить NavController
         it.findNavController().navigate(R.id.steamFragment)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("MyLogs", "LoginFragment. onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("MyLogs", "LoginFragment. onResume")
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("MyLogs", "LoginFragment. onCreate")
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d("MyLogs", "LoginFragment. onAttach")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.d("MyLogs", "LoginFragment. onDetach")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("MyLogs", "LoginFragment. onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("MyLogs", "LoginFragment. onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("MyLogs", "LoginFragment. onDestroy")
     }
 }

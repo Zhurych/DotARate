@@ -1,14 +1,15 @@
 package com.ez.dotarate.model.repository
 
-import androidx.lifecycle.MutableLiveData
 import com.ez.dotarate.database.UserId
 import com.ez.dotarate.database.UserIdDao
 import com.ez.dotarate.model.User
 
 interface UserRepository {
-    fun saveUserId(dao: UserIdDao, userId: UserId)
-    fun getUserId(dao: UserIdDao): UserId?
-    fun logout(dao: UserIdDao)
+    // Database
+    suspend fun saveUserId(dao: UserIdDao, userId: UserId)
+    suspend fun getUserId(dao: UserIdDao): UserId?
+    suspend fun logout(dao: UserIdDao)
 
-    fun getUser(data: MutableLiveData<User>, id: Long)
+    // Network
+    suspend fun getUser(id: Long): User
 }

@@ -3,10 +3,13 @@ package com.ez.dotarate.viewModel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.ez.dotarate.database.AppDatabase
 import com.ez.dotarate.model.User
 import com.ez.dotarate.model.repository.UserRepositoryImpl
-import java.util.concurrent.Executors
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class ProfileViewModel(application: Application) : AndroidViewModel(application) {
@@ -14,15 +17,33 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
 
     private val db = AppDatabase.invoke(getApplication())
 
-    private val executor = Executors.newSingleThreadExecutor()
+    /**
+     * LiveData’s building block already provides a Coroutine Scope where to call
+     *  suspend functions like the one in our repository.
+     * So let’s use that with the IO Dispatcher since we’re making a network call.
+     * The building block will automatically switch to the UI thread to update LiveData value when needed.
+     * We don’t even need to make a method to get the
+     */
+//    val data = liveData(Dispatchers.IO) {
+//        val user = repository.getUser(id)
+//        emit(user)
+//    }
 
-    val data: MutableLiveData<User> = MutableLiveData()
+    val data = MutableLiveData<User>()
 
     fun getUser(id: Long) {
-        repository.getUser(data, id)
+        viewModelScope.launch {
+            val user = withContext(Dispatchers.IO) {
+                repository.getUser(id)
+            }
+
+            data.value = user
+        }
     }
 
     fun logout() {
-        executor.execute { repository.logout(db.userIdDao()) }
+        viewModelScope.launch {
+            repository.logout(db.userIdDao())
+        }
     }
 }
