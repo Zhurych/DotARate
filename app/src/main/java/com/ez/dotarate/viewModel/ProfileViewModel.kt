@@ -1,6 +1,7 @@
 package com.ez.dotarate.viewModel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -32,11 +33,13 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
     val data = MutableLiveData<User>()
 
     fun getUser(id: Long) {
+        Log.d("MyLogs", "ProfileVM. getUser()")
         viewModelScope.launch {
             val user = withContext(Dispatchers.IO) {
                 repository.getUser(id)
             }
 
+            Log.d("MyLogs", "ProfileVM. ЗНАЧЕНИЕ ОТВЕТА User: $user")
             data.value = user
         }
     }

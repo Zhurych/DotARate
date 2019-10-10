@@ -1,21 +1,40 @@
 package com.ez.dotarate.model.repository
 
+import com.ez.dotarate.BuildConfig
 import com.ez.dotarate.constants.BASE_URL
+import com.ez.dotarate.constants.BASE_URL_OPENDOTA
 import com.ez.dotarate.constants.STEAM_API_KEY
+import com.ez.dotarate.database.Games
+import com.ez.dotarate.database.GamesDao
 import com.ez.dotarate.database.UserId
 import com.ez.dotarate.database.UserIdDao
 import com.ez.dotarate.network.ServerApi
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
 class UserRepositoryImpl : UserRepository {
 
-    private val retrofit =
+    private var interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor()
+
+    init {
+        interceptor.level =
+            if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+    }
+
+    private val retrofitSteam =
         Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
+            .client(OkHttpClient.Builder().addInterceptor(interceptor).build())
             .build()
 
-    private val api: ServerApi = retrofit.create(ServerApi::class.java)
+    private val retrofitOpenDota = Retrofit.Builder().baseUrl(BASE_URL_OPENDOTA)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val apiSteam: ServerApi = retrofitSteam.create(ServerApi::class.java)
+    private val apiOpenDota: ServerApi = retrofitOpenDota.create(ServerApi::class.java)
 
     /**
      * This is a "regular" suspending function, which means the caller must
@@ -32,13 +51,29 @@ class UserRepositoryImpl : UserRepository {
         dao.saveId(userId)
     }
 
+    override suspend fun logout(dao: UserIdDao) {
+        dao.deleteUser()
+    }
+
+    override suspend fun saveGames(dao: GamesDao, listGames: ArrayList<Games>) {
+        dao.saveGames(listGames)
+    }
+
     /**
      * GET request.
      * Receive User Data
      * We don’t need to call enqueue() and implement callbacks anymore!
      * But notice, now our repo method is suspend too and returns a User object.
      */
-    override suspend fun getUser(id: Long) = api.getUser(getK(), id)
+    override suspend fun getUser(id: Long) = apiSteam.getUser(getK(), id)
+
+    /**
+     * GET request.
+     * Receive Games Response that contains 100 matches by default
+     * We don’t need to call enqueue() and implement callbacks anymore!
+     * But notice, now our repo method is suspend too and returns a ArrayList<Games>.
+     */
+    override suspend fun getMatches(id32: Int): ArrayList<Games> = apiOpenDota.getGames(id32)
 
     /**
      * Decode Steam Api Key.
@@ -52,9 +87,5 @@ class UserRepositoryImpl : UserRepository {
             result.append(int.toChar())
         }
         return result.toString()
-    }
-
-    override suspend fun logout(dao: UserIdDao) {
-        dao.deleteUser()
     }
 }

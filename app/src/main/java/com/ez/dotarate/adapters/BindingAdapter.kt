@@ -13,9 +13,9 @@ object BindingAdapter {
     @JvmStatic
     fun loadImage(view: ImageView, url: String?, errorImage: Drawable) {
         if (TextUtils.isEmpty(url))
-            view.setImageResource(R.drawable.ic_base_avatar)
+            view.setImageResource(R.drawable.ic_empty_avatar)
         else
-            Picasso.get().load(url).placeholder(R.drawable.ic_base_avatar).error(
+            Picasso.get().load(url).placeholder(errorImage).error(
                 errorImage
             ).into(view)
     }

@@ -1,14 +1,14 @@
 package com.ez.dotarate.model
 
 data class User(
-    val response: Response
+    val userResponse: UserResponse
 )
 
-data class Response(
-    val players: List<Player>
+data class UserResponse(
+    val userPlayers: List<UserPlayer>
 )
 
-data class Player(
+data class UserPlayer(
     val avatarfull: String,
     val personaname: String,
     val profileurl: String,

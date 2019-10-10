@@ -4,25 +4,6 @@
     <string name="mph">Most played heroes</string>
     <string name="statistics">Statistics</string>
 
-    <string name="wins">Wins</string>
-    <string name="losses">Losses</string>
-    <string name="carry">Carry</string>
-    <string name="mid">Mid</string>
-    <string name="hard">Hard</string>
-    <string name="roam">Roam</string>
-    <string name="supp">Support</string>
-    <string name="win">Win</string>
-    <string name="lose">Lose</string>
-
-    <string name="win_rate">Win rate</string>
-    <string name="role">Role</string>
-    <string name="result">Result</string>
-
-    <string name="error_with_role">Select role</string>
-    <string name="save">Save</string>
-    <string name="save_successfully">Game saved</string>
-    <string name="editor_activity_title_new_game">Add a game</string>
-    <string name="erroe_with_result">Select result</string>
     <string name="minutes">%d minutes ago</string>
     <string name="hours">%d hours ago</string>
     <string name="days">%d days ago</string>
@@ -273,8 +254,9 @@
     <string name="enter_steam">Sign in with your Steam account to get started</string>
     <string name="login">Log In</string>
 
-    <!--Games screen-->
+    <!--GamesResponse screen-->
     <string name="games_screen_title">Games</string>
+    <string name="games_screen_empty">No games</string>
 
     <!--MPH screen-->
     <string name="mph_screen_title">Heroes</string>

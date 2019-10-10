@@ -1,7 +1,9 @@
 package com.ez.dotarate.network
 
+import com.ez.dotarate.database.Games
 import com.ez.dotarate.model.User
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 
@@ -12,4 +14,7 @@ import retrofit2.http.Query
 interface ServerApi {
     @GET("ISteamUser/GetPlayerSummaries/v0002/?")
     suspend fun getUser(@Query("key") key: String, @Query("steamids") id: Long): User
+
+    @GET("api/players/{steamID32}/matches/?limit=100")
+    suspend fun getGames(@Path("steamID32") id: Int): ArrayList<Games>
 }

@@ -107,7 +107,7 @@ class SteamFragment : BaseFragment<SteamViewModel, FragmentSteamBinding>() {
                         // NOTE: This can occasionally cause a segfault below API 17 (4.2)
                         mWebView.destroy()
 
-                        // Сохраняем ID пользователя
+                        // Save User ID
                         vm.saveId(steamId.toLong())
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

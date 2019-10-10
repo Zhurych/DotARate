@@ -30,7 +30,9 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
         setHasOptionsMenu(true)
 
         vm.getUser(id)
+        Log.d("MyLogs", "Profile. После вызова vm.getUser(id)")
         vm.data.observe(this, Observer {
+            Log.d("MyLogs", "Profile. $it")
             vb.user = it
         })
     }

@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/proileLogout"
-        android:icon="@drawable/ic_logout"
+        android:icon="@drawable/ic_exit_48"
         android:title=""
         app:showAsAction="always" />
 
