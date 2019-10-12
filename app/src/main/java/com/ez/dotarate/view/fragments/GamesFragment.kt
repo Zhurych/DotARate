@@ -32,8 +32,9 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
 
         val id32: Int = (activity!!.intent!!.getLongExtra(USER_ID_KEY, 0) - CONVERTER_NUMBER).toInt()
         vm.getGames(id32)
-        // LiveData<PagedList<Games>> subscriber
-        vm.liveGames.observe(this, Observer {
+        // LiveData<PagedList<Game>> subscriber
+        vm.liveGame.observe(this, Observer {
+            Log.d("MyLogs", "ПОДПИСЫВАЕМСЯ НА БД GAMES. РАЗМЕР ДАННЫХ = ${it.size}")
             // Need to use submitList to set the PagedListAdapter value
             adapter.submitList(it)
         })

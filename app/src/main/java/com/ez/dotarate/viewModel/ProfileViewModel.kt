@@ -9,8 +9,12 @@ import com.ez.dotarate.database.AppDatabase
 import com.ez.dotarate.model.User
 import com.ez.dotarate.model.repository.UserRepositoryImpl
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody
+import java.lang.Exception
+import java.net.UnknownHostException
 
 
 class ProfileViewModel(application: Application) : AndroidViewModel(application) {
@@ -31,16 +35,25 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
 //    }
 
     val data = MutableLiveData<User>()
+    val errorLiveData = MutableLiveData<String>()
 
     fun getUser(id: Long) {
-        Log.d("MyLogs", "ProfileVM. getUser()")
-        viewModelScope.launch {
-            val user = withContext(Dispatchers.IO) {
-                repository.getUser(id)
-            }
+        viewModelScope.launch(IO) {
+            try {
+                val response = repository.getUser(id)
 
-            Log.d("MyLogs", "ProfileVM. ЗНАЧЕНИЕ ОТВЕТА User: $user")
-            data.value = user
+                if (response.isSuccessful) {
+                    data.postValue(response.body())
+
+                } else {
+                    errorLiveData.postValue(response.errorBody().toString())
+                    Log.d("MyLogs", "ОШИБКА ПРИ ЗАПРОСЕ. ИМЯ ОШИБКИ= ${response.errorBody()}")
+                    Log.d("MyLogs", "ОШИБКА ПРИ ЗАПРОСЕ. КОД ОШИБКИ= ${response.code()}")
+                }
+            } catch (e: UnknownHostException) {
+                errorLiveData.postValue("Нет интернета")
+                Log.d("MyLogs", "НЕТ ИНТЕРНЕТА = $e")
+            }
         }
     }
 

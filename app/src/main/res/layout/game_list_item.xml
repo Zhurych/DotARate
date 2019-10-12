@@ -3,9 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="com.ez.dotarate.adapters.BindingAdapter" />
+
         <variable
-            name="games"
-            type="com.ez.dotarate.database.Games" />
+            name="game"
+            type="com.ez.dotarate.database.Game" />
     </data>
 
     <LinearLayout
@@ -19,6 +22,7 @@
             android:layout_width="62dp"
             android:layout_height="55dp"
             android:layout_marginLeft="8dp"
+            android:src="@{game.hero_id}"
             tools:src="@drawable/invoker" />
 
         <LinearLayout
@@ -33,6 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="6dp"
+                android:text="@{BindingAdapter.findHeroName(game.hero_id)}"
                 android:textColor="@color/colorGreen"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -42,17 +47,18 @@
                 android:id="@+id/time_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{BindingAdapter.getTimeForGame(game.start_time)}"
                 android:textColor="@color/colorDarkGreen"
                 tools:text="16 hours ago" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:paddingLeft="1dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.5"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="1dp">
 
             <TextView
                 android:id="@+id/result_text_view"
@@ -60,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:paddingTop="6dp"
+                android:text="@{BindingAdapter.winOrLose(game.player_slot, game.leaver_status, game.radiant_win)}"
                 android:textSize="16sp"
                 tools:text="Win" />
 
@@ -69,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:paddingTop="4dp"
+                android:text="@{BindingAdapter.rankedOrNot(game.lobby_type)}"
                 android:textColor="@color/colorGreen"
                 android:textSize="11sp"
                 tools:text="Unranked" />
@@ -88,6 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:paddingTop="8dp"
+                android:text="@{BindingAdapter.gameMode(game.game_mode)}"
                 android:textColor="@color/colorGreen"
                 android:textSize="14sp"
                 tools:text="Single Draft" />
@@ -98,6 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:paddingTop="4dp"
+                android:text="@{BindingAdapter.skillPlayer(game.skill)}"
                 android:textColor="@color/colorGreen"
                 android:textSize="11sp"
                 tools:text="Very High Skill" />

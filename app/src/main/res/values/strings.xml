@@ -16,6 +16,7 @@
     <string name="year">a year ago</string>
     <string name="won_game">Won</string>
     <string name="lost_game">Lost</string>
+    <string name="unknown_result">Unknown</string>
     <string name="ranked">Ranked</string>
     <string name="unranked">Unranked</string>
     <string name="low_priority">LP</string>
@@ -34,9 +35,6 @@
 
     <string name="radiant">The Radiant</string>
     <string name="dire">The Dire</string>
-
-    <string name="no_internet_connection">No internet connection.</string>
-    <string name="no_games">No games</string>
 
     <string name="rate">Rate</string>
 
@@ -123,6 +121,7 @@
     <string name="anonym">Anonym</string>
     <string name="score_">Score:</string>
 
+    <!--Heroes-->
     <string name="anti_mage">Anti-Mage</string>
     <string name="axe">Axe</string>
     <string name="bane">Bane</string>
@@ -145,7 +144,6 @@
     <string name="tiny">Tiny</string>
     <string name="vengeful_spirit">Vengeful Spirit</string>
     <string name="windranger">Windranger</string>
-    <string name="windrunner">Windrunner</string>
     <string name="zeus">Zeus</string>
     <string name="kunkka">Kunkka</string>
     <string name="lina">Lina</string>
@@ -245,6 +243,7 @@
     <string name="pangolier">Pangolier</string>
     <string name="grimstroke">Grimstroke</string>
     <string name="mars">Mars</string>
+    <string name="unknown_hero">Unknown Hero</string>
 
     <string name="backpack">Backpack</string>
     <string name="winner">Winner</string>

@@ -7,21 +7,21 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ez.dotarate.R
-import com.ez.dotarate.database.Games
+import com.ez.dotarate.database.Game
 import com.ez.dotarate.databinding.GameListItemBinding
 
-class GamesAdapter : PagedListAdapter<Games, GamesAdapter.GamesHolder>(DIFF_CALLBACK) {
+class GamesAdapter : PagedListAdapter<Game, GamesAdapter.GamesHolder>(DIFF_CALLBACK) {
 
     companion object {
 
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Games>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Game>() {
 
-            override fun areItemsTheSame(oldItem: Games, newItem: Games): Boolean {
+            override fun areItemsTheSame(oldItem: Game, newItem: Game): Boolean {
                 // The ID property identifies when items are the same.
                 return oldItem.match_id.equals(newItem.match_id)
             }
 
-            override fun areContentsTheSame(oldItem: Games, newItem: Games): Boolean {
+            override fun areContentsTheSame(oldItem: Game, newItem: Game): Boolean {
                 // Don't use the "==" operator here. Either implement and use .equals(),
                 // or write custom data comparison logic here.
                 return oldItem.equals(newItem)
@@ -50,9 +50,9 @@ class GamesAdapter : PagedListAdapter<Games, GamesAdapter.GamesHolder>(DIFF_CALL
     inner class GamesHolder(private var binding: GameListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(games: Games) {
-            // Установка биндинга (передача в него объекта userData)
-            binding.games = games
+        fun bind(game: Game) {
+            // Установка биндинга (передача в него объекта game)
+            binding.game = game
             // Используется для того, что бы биндинг выполинлся как можно скорее
             binding.executePendingBindings()
         }

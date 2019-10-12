@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.ez.dotarate.R
@@ -30,10 +31,11 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
         setHasOptionsMenu(true)
 
         vm.getUser(id)
-        Log.d("MyLogs", "Profile. После вызова vm.getUser(id)")
         vm.data.observe(this, Observer {
-            Log.d("MyLogs", "Profile. $it")
             vb.user = it
+        })
+        vm.errorLiveData.observe(this, Observer {
+            Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
         })
     }
 

@@ -10,21 +10,24 @@ import androidx.room.RoomDatabase
  * Этот класс должен быть абстрактным и наследовать RoomDatabase
  * В Database классе необходимо описать абстрактные методы для получения Dao объектов
  */
-@Database(entities = [UserId::class, Games::class], version = 1, exportSchema = false)
+@Database(entities = [UserId::class, Game::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userIdDao(): UserIdDao
-   abstract fun gamesDao(): GamesDao
+    abstract fun gameDao(): GameDao
 
     companion object {
-        @Volatile private var instance: AppDatabase? = null
+        @Volatile
+        private var instance: AppDatabase? = null
         private val LOCK = Any()
 
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK){
-            instance ?: buildDatabase(context).also { instance = it}
+        operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
+            instance ?: buildDatabase(context).also { instance = it }
         }
 
-        private fun buildDatabase(context: Context) = Room.databaseBuilder(context,
-            AppDatabase::class.java, "database")
+        private fun buildDatabase(context: Context) = Room.databaseBuilder(
+            context,
+            AppDatabase::class.java, "database"
+        )
             .build()
     }
 }

@@ -9,8 +9,8 @@ import androidx.room.PrimaryKey
  * В качестве имени таблицы будет использовано имя класса
  * А поля таблицы будут созданы в соответствии с полями класса
  */
-@Entity
-data class Games internal constructor(
+@Entity(tableName = "games")
+data class Game internal constructor(
     @field:PrimaryKey
     val match_id: Long,
     val assists: Int,
@@ -25,14 +25,14 @@ data class Games internal constructor(
     val player_slot: Int,
     val radiant_win: Boolean,
     val skill: Int,
-    val start_time: Int,
+    val start_time: Long,
     val version: Int
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as Games
+        other as Game
 
         if (assists != other.assists) return false
         if (deaths != other.deaths) return false
@@ -67,7 +67,7 @@ data class Games internal constructor(
         result = 31 * result + player_slot
         result = 31 * result + radiant_win.hashCode()
         result = 31 * result + skill
-        result = 31 * result + start_time
+        result = 31 * result + start_time.hashCode()
         result = 31 * result + version
         return result
     }

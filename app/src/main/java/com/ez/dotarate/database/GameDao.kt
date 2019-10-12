@@ -5,14 +5,15 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.CompletableJob
 
 
 @Dao
-interface GamesDao {
+interface GameDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun saveGames(listGames: ArrayList<Games>)
+    suspend fun saveGames(listGames: ArrayList<Game>): List<Long>
 
     @Query("SELECT * FROM games")
-    fun getGames(): DataSource.Factory<Int, Games>
+    fun getGames(): DataSource.Factory<Int, Game>
 }

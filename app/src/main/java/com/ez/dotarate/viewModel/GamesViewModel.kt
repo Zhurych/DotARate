@@ -1,21 +1,28 @@
 package com.ez.dotarate.viewModel
 
 import android.app.Application
-import androidx.lifecycle.*
+import android.util.Log
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.ez.dotarate.R
+import com.ez.dotarate.constants.*
 import com.ez.dotarate.database.AppDatabase
-import com.ez.dotarate.database.Games
+import com.ez.dotarate.database.Game
 import com.ez.dotarate.model.repository.UserRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.UnknownHostException
+import java.util.*
 
 
 class GamesViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = UserRepositoryImpl()
 
-    var liveGames: LiveData<PagedList<Games>>
+    var liveGame: LiveData<PagedList<Game>>
 
     private val db = AppDatabase.invoke(getApplication())
 
@@ -26,18 +33,28 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
             .setPageSize(30)
             .setEnablePlaceholders(false)
             .build()
-        liveGames =
-            LivePagedListBuilder<Int, Games>(db.gamesDao().getGames(), config).setInitialLoadKey(10)
+        liveGame =
+            LivePagedListBuilder<Int, Game>(db.gameDao().getGames(), config).setInitialLoadKey(10)
                 .build()
     }
 
     fun getGames(id32: Int) {
         viewModelScope.launch {
-            val list = withContext(Dispatchers.IO) {
-                //repository.getMatches(id32)
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    repository.getMatches(id32)
+                }
+                if (response.isSuccessful) {
+                    Log.d("MyLogs", "ЗАПРОС ПРОШЁЛ УСПЕШНО. ЗНАЧЕНИЕ ОТВЕТА = ${response.body()}")
+                    val isAccesInsert = repository.saveGames(db.gameDao(), response.body()!!)
+                    Log.d("MyLogs", "СКОЛЬКО ВСТАВЛЕНО ЗАПИСЕЙ В БАЗУ ДАННЫХ = $isAccesInsert")
+                } else {
+                    Log.d("MyLogs", "ОШИБКА ПРИ ЗАПРОСЕ. ИМЯ ОШИБКИ= ${response.errorBody()}")
+                    Log.d("MyLogs", "ОШИБКА ПРИ ЗАПРОСЕ. КОД ОШИБКИ= ${response.code()}")
+                }
+            } catch (e: UnknownHostException) {
+                Log.d("MyLogs", "НЕТ ИНТЕРНЕТА = $e")
             }
-
-            //repository.saveGames(db.gamesDao(), list)
         }
     }
 }

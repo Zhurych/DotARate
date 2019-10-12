@@ -4,10 +4,7 @@ import com.ez.dotarate.BuildConfig
 import com.ez.dotarate.constants.BASE_URL
 import com.ez.dotarate.constants.BASE_URL_OPENDOTA
 import com.ez.dotarate.constants.STEAM_API_KEY
-import com.ez.dotarate.database.Games
-import com.ez.dotarate.database.GamesDao
-import com.ez.dotarate.database.UserId
-import com.ez.dotarate.database.UserIdDao
+import com.ez.dotarate.database.*
 import com.ez.dotarate.network.ServerApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -55,25 +52,25 @@ class UserRepositoryImpl : UserRepository {
         dao.deleteUser()
     }
 
-    override suspend fun saveGames(dao: GamesDao, listGames: ArrayList<Games>) {
-        dao.saveGames(listGames)
+    override suspend fun saveGames(dao: GameDao, listGames: ArrayList<Game>): List<Long> {
+        return dao.saveGames(listGames)
     }
 
     /**
      * GET request.
      * Receive User Data
      * We don’t need to call enqueue() and implement callbacks anymore!
-     * But notice, now our repo method is suspend too and returns a User object.
+     * But notice, now our repo method is suspend too and returns a Response<User> object.
      */
     override suspend fun getUser(id: Long) = apiSteam.getUser(getK(), id)
 
     /**
      * GET request.
-     * Receive Games Response that contains 100 matches by default
+     * Receive Game Response that contains 100 matches by default
      * We don’t need to call enqueue() and implement callbacks anymore!
-     * But notice, now our repo method is suspend too and returns a ArrayList<Games>.
+     * But notice, now our repo method is suspend too and returns a Response<ArrayList<Game>>.
      */
-    override suspend fun getMatches(id32: Int): ArrayList<Games> = apiOpenDota.getGames(id32)
+    override suspend fun getMatches(id32: Int) = apiOpenDota.getGames(id32)
 
     /**
      * Decode Steam Api Key.
