@@ -8,19 +8,17 @@ import androidx.lifecycle.viewModelScope
 import com.ez.dotarate.database.AppDatabase
 import com.ez.dotarate.model.User
 import com.ez.dotarate.model.repository.UserRepositoryImpl
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.ResponseBody
-import java.lang.Exception
 import java.net.UnknownHostException
+import javax.inject.Inject
 
 
-class ProfileViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = UserRepositoryImpl()
-
-    private val db = AppDatabase.invoke(getApplication())
+class ProfileViewModel @Inject
+constructor(
+    application: Application, private val repository: UserRepositoryImpl,
+    private val db: AppDatabase
+) : AndroidViewModel(application) {
 
     /**
      * LiveData’s building block already provides a Coroutine Scope where to call

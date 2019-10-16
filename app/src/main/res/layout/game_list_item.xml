@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -11,10 +12,10 @@
             type="com.ez.dotarate.database.Game" />
     </data>
 
-    <LinearLayout
+    <com.ez.dotarate.view.layouts.RecyclerViewItemLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/games_rectangle"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -37,11 +38,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="6dp"
-                android:text="@{BindingAdapter.findHeroName(game.hero_id)}"
                 android:textColor="@color/colorGreen"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                tools:text="Invoker" />
+                app:heroName="@{game.hero_id}"
+                tools:text="Outworld Devourer" />
 
             <TextView
                 android:id="@+id/time_text_view"
@@ -66,9 +67,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:paddingTop="6dp"
-                android:text="@{BindingAdapter.winOrLose(game.player_slot, game.leaver_status, game.radiant_win)}"
                 android:textSize="16sp"
-                tools:text="Win" />
+                app:leaverStatus="@{game.leaver_status}"
+                app:playerSlot="@{game.player_slot}"
+                app:radiantWin="@{game.radiant_win}"
+                tools:text="Abandon" />
 
             <TextView
                 android:id="@+id/ranked_text_view"
@@ -114,5 +117,5 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </com.ez.dotarate.view.layouts.RecyclerViewItemLayout>
 </layout>

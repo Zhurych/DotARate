@@ -6,4 +6,7 @@
 
     <!--Profile screen-->
     <dimen name="image_size">128dp</dimen>
+
+    <dimen name="radius_corner">4dp</dimen>
+    <dimen name="elevation">2dp</dimen>
 </resources>

@@ -26,16 +26,14 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
             window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window?.statusBarColor = ContextCompat.getColor(activity!!, R.color.colorPrimaryDark)
-        }
+        window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window?.statusBarColor = ContextCompat.getColor(activity!!, R.color.colorPrimaryDark)
 
         vb.loginListener = loginListener
     }
 
-    val loginListener: View.OnClickListener = View.OnClickListener {
+    private val loginListener: View.OnClickListener = View.OnClickListener {
         // Можно получить NavController
         it.findNavController().navigate(R.id.steamFragment)
     }

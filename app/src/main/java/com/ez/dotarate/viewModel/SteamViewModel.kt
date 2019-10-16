@@ -8,13 +8,14 @@ import com.ez.dotarate.database.UserId
 import com.ez.dotarate.model.repository.UserRepository
 import com.ez.dotarate.model.repository.UserRepositoryImpl
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-class SteamViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository: UserRepository = UserRepositoryImpl()
-
-    private val db: AppDatabase = AppDatabase.invoke(getApplication())
+class SteamViewModel @Inject
+constructor(
+    application: Application, private val repository: UserRepositoryImpl,
+    private val db: AppDatabase
+) : AndroidViewModel(application) {
 
     fun saveId(id: Long) {
         viewModelScope.launch {

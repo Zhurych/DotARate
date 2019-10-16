@@ -9,11 +9,20 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.DaggerFragment
 import java.lang.reflect.ParameterizedType
+import javax.inject.Inject
 
 
-abstract class BaseFragment<VM : ViewModel, VB : ViewDataBinding> : Fragment() {
+abstract class BaseFragment<VM : ViewModel, VB : ViewDataBinding> : DaggerFragment() {
+
+    @Inject
+    protected lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    protected lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
     protected lateinit var vm: VM
     protected lateinit var vb: VB
@@ -32,7 +41,6 @@ abstract class BaseFragment<VM : ViewModel, VB : ViewDataBinding> : Fragment() {
             } catch (e: Exception) {
                 throw IllegalStateException(e.message)
             }
-
         }
 
     protected abstract fun afterCreateView(view: View)
@@ -45,7 +53,7 @@ abstract class BaseFragment<VM : ViewModel, VB : ViewDataBinding> : Fragment() {
         val view = inflater.inflate(layout(), container, false)
 
         try {
-            vm = ViewModelProviders.of(this).get(vmTypeClass)
+            vm = ViewModelProvider(this, viewModelFactory).get(vmTypeClass)
         } catch (e: IllegalStateException) {
             e.printStackTrace()
         }
@@ -55,4 +63,6 @@ abstract class BaseFragment<VM : ViewModel, VB : ViewDataBinding> : Fragment() {
         afterCreateView(view)
         return view
     }
+
+    override fun supportFragmentInjector() = dispatchingAndroidInjector
 }

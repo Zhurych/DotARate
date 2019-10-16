@@ -2,7 +2,9 @@ package com.ez.dotarate.adapters
 
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
+import android.util.Log
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.ez.dotarate.App
 import com.ez.dotarate.R
@@ -154,135 +156,143 @@ object BindingAdapter {
     /**
      * Return Hero Name
      */
+    @BindingAdapter("heroName")
     @JvmStatic
-    fun findHeroName(heroID: Int): String {
+    fun findHeroName(view: TextView, heroID: Int) {
 
         val context = App.applicationContext()
 
-        return when (heroID) {
-            ANTI_MAGE -> context.getString(R.string.anti_mage)
-            AXE -> context.getString(R.string.axe)
-            BANE -> context.getString(R.string.bane)
-            BLOODSEEKER -> context.getString(R.string.bloodseeker)
-            CRYSTAL_MAIDEN -> context.getString(R.string.crystal_maiden)
-            DROW_RANGER -> context.getString(R.string.drow_ranger)
-            EARTHSHAKER -> context.getString(R.string.earthshaker)
-            JUGGERNAUT -> context.getString(R.string.juggernaut)
-            MORPHLING -> context.getString(R.string.morphling)
-            MIRANA -> context.getString(R.string.mirana)
-            SHADOW_FIEND -> context.getString(R.string.shadow_fiend)
-            PHANTOM_LANCER -> context.getString(R.string.phantom_lancer)
-            PUCK -> context.getString(R.string.puck)
-            PUDGE -> context.getString(R.string.pudge)
-            RAZOR -> context.getString(R.string.razor)
-            SAND_KING -> context.getString(R.string.sand_king)
-            STORM -> context.getString(R.string.storm)
-            SVEN -> context.getString(R.string.sven)
-            TINY -> context.getString(R.string.tiny)
-            VENGEFUL_SPIRIT -> context.getString(R.string.vengeful_spirit)
-            WINDRANGER -> context.getString(R.string.windranger)
-            ZEUS -> context.getString(R.string.zeus)
-            KUNKKA -> context.getString(R.string.kunkka)
-            LINA -> context.getString(R.string.lina)
-            LION -> context.getString(R.string.lion)
-            SHADOW_SHAMAN -> context.getString(R.string.shadow_shaman)
-            SLARDAR -> context.getString(R.string.slardar)
-            TIDEHUNTER -> context.getString(R.string.tidehunter)
-            WITCH_DOCTOR -> context.getString(R.string.witch_doctor)
-            LICH -> context.getString(R.string.lich)
-            RIKI -> context.getString(R.string.riki)
-            ENIGMA -> context.getString(R.string.enigma)
-            TINKER -> context.getString(R.string.tinker)
-            SNIPER -> context.getString(R.string.sniper)
-            NECROPHOS -> context.getString(R.string.necrophos)
-            WARLOCK -> context.getString(R.string.warlock)
-            BEASTMASTER -> context.getString(R.string.beastmaster)
-            QUEEN_OF_PAIN -> context.getString(R.string.queen_of_pain)
-            VENOMANCER -> context.getString(R.string.venomancer)
-            VOID -> context.getString(R.string.faceless_void)
-            WRAITH_KING -> context.getString(R.string.wraith_king)
-            DEATH_PROPHET -> context.getString(R.string.death_prophet)
-            PHANTOM_ASSASSIN -> context.getString(R.string.phantom_assassin)
-            PUGNA -> context.getString(R.string.pugna)
-            TEMPLAR_ASSASSIN -> context.getString(R.string.templar_assassin)
-            VIPER -> context.getString(R.string.viper)
-            LUNA -> context.getString(R.string.luna)
-            DRAGON_KNIGHT -> context.getString(R.string.dragon_knight)
-            DAZZLE -> context.getString(R.string.dazzle)
-            CLOCKWERK -> context.getString(R.string.clockwerk)
-            LESHRAC -> context.getString(R.string.leshrac)
-            FURION -> context.getString(R.string.natures_prophet)
-            LIFESTEALER -> context.getString(R.string.lifestealer)
-            DARK_SEER -> context.getString(R.string.dark_seer)
-            CLINKZ -> context.getString(R.string.clinkz)
-            OMNI -> context.getString(R.string.omniknight)
-            ENCHANTRESS -> context.getString(R.string.enchantress)
-            HUSKAR -> context.getString(R.string.huskar)
-            NIGHT_STALKER -> context.getString(R.string.night_stalker)
-            BROODMOTHER -> context.getString(R.string.broodmother)
-            BOUNTY_HUNTER -> context.getString(R.string.bounty_hunter)
-            WEAVER -> context.getString(R.string.weaver)
-            JAKIRO -> context.getString(R.string.jakiro)
-            BATRIDER -> context.getString(R.string.batrider)
-            CHEN -> context.getString(R.string.chen)
-            SPECTRE -> context.getString(R.string.spectre)
-            APPARATION -> context.getString(R.string.ancient_apparition)
-            DOOM -> context.getString(R.string.doom)
-            URSA -> context.getString(R.string.ursa)
-            SPIRIT_BREAKER -> context.getString(R.string.spirit_breaker)
-            GYROCOPTER -> context.getString(R.string.gyrocopter)
-            ALCHEMIST -> context.getString(R.string.alchemist)
-            INVOKER -> context.getString(R.string.invoker)
-            SILENCER -> context.getString(R.string.silencer)
-            OUTWORLD_DEVOURER -> context.getString(R.string.outworld_devourer)
-            LYCAN -> context.getString(R.string.lycan)
-            BREWMASTER -> context.getString(R.string.brewmaster)
-            SHADOW_DEMON -> context.getString(R.string.shadow_demon)
-            LONE_DRUID -> context.getString(R.string.lone_druid)
-            CHAOS_KNIGHT -> context.getString(R.string.chaos_knight)
-            MEEPO -> context.getString(R.string.meepo)
-            TREANT -> context.getString(R.string.treant)
-            OGRE -> context.getString(R.string.ogre_magi)
-            UNDYING -> context.getString(R.string.undying)
-            RUBICK -> context.getString(R.string.rubick)
-            DISRUPTOR -> context.getString(R.string.disruptor)
-            NYX -> context.getString(R.string.nyx_assassin)
-            NAGA_SIREN -> context.getString(R.string.naga_siren)
-            KOTL -> context.getString(R.string.keeper_of_the_light)
-            IO -> context.getString(R.string.io)
-            VISAGE -> context.getString(R.string.visage)
-            SLARK -> context.getString(R.string.slark)
-            MEDUSA -> context.getString(R.string.medusa)
-            TROLL -> context.getString(R.string.troll_warlord)
-            CENTAUR -> context.getString(R.string.centaur_warrunner)
-            MAGNUS -> context.getString(R.string.magnus)
-            TIMBERSAW -> context.getString(R.string.timbersaw)
-            BRISTLEBACK -> context.getString(R.string.bristleback)
-            TUSKAR -> context.getString(R.string.tuskar)
-            SKY -> context.getString(R.string.skywrath_mage)
-            ABADDON -> context.getString(R.string.abaddon)
-            ELDER_TITAN -> context.getString(R.string.elder_titan)
-            LEGOIN_COMANDER -> context.getString(R.string.legion_commander)
-            TECHIES -> context.getString(R.string.techies)
-            EMBER_SPIRIT -> context.getString(R.string.ember_spirit)
-            EARTH_SPIRIT -> context.getString(R.string.earth_spirit)
-            UNDERLORD -> context.getString(R.string.underlord)
-            TERRORBLADE -> context.getString(R.string.terrorblade)
-            PHOENIX -> context.getString(R.string.phoenix)
-            ORACLE -> context.getString(R.string.oracle)
-            WYVERN -> context.getString(R.string.winter_wyvern)
-            ARC_WARDEN -> context.getString(R.string.arc_warden)
-            MONKEY_KING -> context.getString(R.string.monkey_king)
-            DARK_WILLOW -> context.getString(R.string.dark_willow)
-            PANGOLIER -> context.getString(R.string.pangolier)
-            GRIMSTROKE -> context.getString(R.string.grimstroke)
-            MARS -> context.getString(R.string.mars)
-            else -> context.getString(R.string.unknown_hero)
+        val heroName: String
+
+        when (heroID) {
+            ANTI_MAGE -> heroName = context.getString(R.string.anti_mage)
+            AXE -> heroName = context.getString(R.string.axe)
+            BANE -> heroName = context.getString(R.string.bane)
+            BLOODSEEKER -> heroName = context.getString(R.string.bloodseeker)
+            CRYSTAL_MAIDEN -> heroName = context.getString(R.string.crystal_maiden)
+            DROW_RANGER -> heroName = context.getString(R.string.drow_ranger)
+            EARTHSHAKER -> heroName = context.getString(R.string.earthshaker)
+            JUGGERNAUT -> heroName = context.getString(R.string.juggernaut)
+            MORPHLING -> heroName = context.getString(R.string.morphling)
+            MIRANA -> heroName = context.getString(R.string.mirana)
+            SHADOW_FIEND -> heroName = context.getString(R.string.shadow_fiend)
+            PHANTOM_LANCER -> heroName = context.getString(R.string.phantom_lancer)
+            PUCK -> heroName = context.getString(R.string.puck)
+            PUDGE -> heroName = context.getString(R.string.pudge)
+            RAZOR -> heroName = context.getString(R.string.razor)
+            SAND_KING -> heroName = context.getString(R.string.sand_king)
+            STORM -> heroName = context.getString(R.string.storm)
+            SVEN -> heroName = context.getString(R.string.sven)
+            TINY -> heroName = context.getString(R.string.tiny)
+            VENGEFUL_SPIRIT -> heroName = context.getString(R.string.vengeful_spirit)
+            WINDRANGER -> heroName = context.getString(R.string.windranger)
+            ZEUS -> heroName = context.getString(R.string.zeus)
+            KUNKKA -> heroName = context.getString(R.string.kunkka)
+            LINA -> heroName = context.getString(R.string.lina)
+            LION -> heroName = context.getString(R.string.lion)
+            SHADOW_SHAMAN -> heroName = context.getString(R.string.shadow_shaman)
+            SLARDAR -> heroName = context.getString(R.string.slardar)
+            TIDEHUNTER -> heroName = context.getString(R.string.tidehunter)
+            WITCH_DOCTOR -> heroName = context.getString(R.string.witch_doctor)
+            LICH -> heroName = context.getString(R.string.lich)
+            RIKI -> heroName = context.getString(R.string.riki)
+            ENIGMA -> heroName = context.getString(R.string.enigma)
+            TINKER -> heroName = context.getString(R.string.tinker)
+            SNIPER -> heroName = context.getString(R.string.sniper)
+            NECROPHOS -> heroName = context.getString(R.string.necrophos)
+            WARLOCK -> heroName = context.getString(R.string.warlock)
+            BEASTMASTER -> heroName = context.getString(R.string.beastmaster)
+            QUEEN_OF_PAIN -> heroName = context.getString(R.string.queen_of_pain)
+            VENOMANCER -> heroName = context.getString(R.string.venomancer)
+            VOID -> heroName = context.getString(R.string.faceless_void)
+            WRAITH_KING -> heroName = context.getString(R.string.wraith_king)
+            DEATH_PROPHET -> heroName = context.getString(R.string.death_prophet)
+            PHANTOM_ASSASSIN -> heroName = context.getString(R.string.phantom_assassin)
+            PUGNA -> heroName = context.getString(R.string.pugna)
+            TEMPLAR_ASSASSIN -> heroName = context.getString(R.string.templar_assassin)
+            VIPER -> heroName = context.getString(R.string.viper)
+            LUNA -> heroName = context.getString(R.string.luna)
+            DRAGON_KNIGHT -> heroName = context.getString(R.string.dragon_knight)
+            DAZZLE -> heroName = context.getString(R.string.dazzle)
+            CLOCKWERK -> heroName = context.getString(R.string.clockwerk)
+            LESHRAC -> heroName = context.getString(R.string.leshrac)
+            FURION -> heroName = context.getString(R.string.natures_prophet)
+            LIFESTEALER -> heroName = context.getString(R.string.lifestealer)
+            DARK_SEER -> heroName = context.getString(R.string.dark_seer)
+            CLINKZ -> heroName = context.getString(R.string.clinkz)
+            OMNI -> heroName = context.getString(R.string.omniknight)
+            ENCHANTRESS -> heroName = context.getString(R.string.enchantress)
+            HUSKAR -> heroName = context.getString(R.string.huskar)
+            NIGHT_STALKER -> heroName = context.getString(R.string.night_stalker)
+            BROODMOTHER -> heroName = context.getString(R.string.broodmother)
+            BOUNTY_HUNTER -> heroName = context.getString(R.string.bounty_hunter)
+            WEAVER -> heroName = context.getString(R.string.weaver)
+            JAKIRO -> heroName = context.getString(R.string.jakiro)
+            BATRIDER -> heroName = context.getString(R.string.batrider)
+            CHEN -> heroName = context.getString(R.string.chen)
+            SPECTRE -> heroName = context.getString(R.string.spectre)
+            APPARATION -> heroName = context.getString(R.string.ancient_apparition)
+            DOOM -> heroName = context.getString(R.string.doom)
+            URSA -> heroName = context.getString(R.string.ursa)
+            SPIRIT_BREAKER -> heroName = context.getString(R.string.spirit_breaker)
+            GYROCOPTER -> heroName = context.getString(R.string.gyrocopter)
+            ALCHEMIST -> heroName = context.getString(R.string.alchemist)
+            INVOKER -> heroName = context.getString(R.string.invoker)
+            SILENCER -> heroName = context.getString(R.string.silencer)
+            OUTWORLD_DEVOURER -> heroName = context.getString(R.string.outworld_devourer)
+            LYCAN -> heroName = context.getString(R.string.lycan)
+            BREWMASTER -> heroName = context.getString(R.string.brewmaster)
+            SHADOW_DEMON -> heroName = context.getString(R.string.shadow_demon)
+            LONE_DRUID -> heroName = context.getString(R.string.lone_druid)
+            CHAOS_KNIGHT -> heroName = context.getString(R.string.chaos_knight)
+            MEEPO -> heroName = context.getString(R.string.meepo)
+            TREANT -> heroName = context.getString(R.string.treant)
+            OGRE -> heroName = context.getString(R.string.ogre_magi)
+            UNDYING -> heroName = context.getString(R.string.undying)
+            RUBICK -> heroName = context.getString(R.string.rubick)
+            DISRUPTOR -> heroName = context.getString(R.string.disruptor)
+            NYX -> heroName = context.getString(R.string.nyx_assassin)
+            NAGA_SIREN -> heroName = context.getString(R.string.naga_siren)
+            KOTL -> heroName = context.getString(R.string.keeper_of_the_light)
+            IO -> heroName = context.getString(R.string.io)
+            VISAGE -> heroName = context.getString(R.string.visage)
+            SLARK -> heroName = context.getString(R.string.slark)
+            MEDUSA -> heroName = context.getString(R.string.medusa)
+            TROLL -> heroName = context.getString(R.string.troll_warlord)
+            CENTAUR -> heroName = context.getString(R.string.centaur_warrunner)
+            MAGNUS -> heroName = context.getString(R.string.magnus)
+            TIMBERSAW -> heroName = context.getString(R.string.timbersaw)
+            BRISTLEBACK -> heroName = context.getString(R.string.bristleback)
+            TUSKAR -> heroName = context.getString(R.string.tuskar)
+            SKY -> heroName = context.getString(R.string.skywrath_mage)
+            ABADDON -> heroName = context.getString(R.string.abaddon)
+            ELDER_TITAN -> heroName = context.getString(R.string.elder_titan)
+            LEGOIN_COMANDER -> heroName = context.getString(R.string.legion_commander)
+            TECHIES -> heroName = context.getString(R.string.techies)
+            EMBER_SPIRIT -> heroName = context.getString(R.string.ember_spirit)
+            EARTH_SPIRIT -> heroName = context.getString(R.string.earth_spirit)
+            UNDERLORD -> heroName = context.getString(R.string.underlord)
+            TERRORBLADE -> heroName = context.getString(R.string.terrorblade)
+            PHOENIX -> heroName = context.getString(R.string.phoenix)
+            ORACLE -> heroName = context.getString(R.string.oracle)
+            WYVERN -> heroName = context.getString(R.string.winter_wyvern)
+            ARC_WARDEN -> heroName = context.getString(R.string.arc_warden)
+            MONKEY_KING -> heroName = context.getString(R.string.monkey_king)
+            DARK_WILLOW -> heroName = context.getString(R.string.dark_willow)
+            PANGOLIER -> heroName = context.getString(R.string.pangolier)
+            GRIMSTROKE -> heroName = context.getString(R.string.grimstroke)
+            MARS -> heroName = context.getString(R.string.mars)
+            else -> heroName = context.getString(R.string.unknown_hero)
         }
+
+        if (heroName.length > 15) view.textSize = 14F
+        else view.textSize = 16F
+
+        view.text = heroName
     }
 
     /**
-     * Return Game Date tring
+     * Return Game Date String
      */
     @JvmStatic
     fun getTimeForGame(startTime: Long): String {
@@ -327,23 +337,38 @@ object BindingAdapter {
      * Return Game result.
      * Win or Lose
      */
+    @BindingAdapter("playerSlot", "leaverStatus", "radiantWin")
     @JvmStatic
-    fun winOrLose(playerSlot: Int, leaverStatus: Int, radiantWin: Boolean): String {
+    fun winOrLose(view: TextView, playerSlot: Int, leaverStatus: Int, radiantWin: Boolean) {
         val context = App.applicationContext()
 
-        if (!(ABANDONED === leaverStatus && leaverStatus !== ABANDONED_TWO)) {
-            return context.getString(R.string.abandoned)
+        if (!(ABANDONED == leaverStatus && leaverStatus != ABANDONED_TWO)) {
+            view.text = context.getString(R.string.abandoned)
+            view.textSize = 14F
+            view.setTextColor(context.getColor(R.color.colorRed))
         }
 
         if (playerSlot in 0..4) {
-            return if (radiantWin) context.getString(R.string.won_game)
-            else context.getString(R.string.lost_game)
+            if (radiantWin) {
+                view.text = context.getString(R.string.won_game)
+                view.textSize = 16F
+                view.setTextColor(context.getColor(R.color.colorLightGreen))
+            } else {
+                view.text = context.getString(R.string.lost_game)
+                view.textSize = 16F
+                view.setTextColor(context.getColor(R.color.colorRed))
+            }
         } else if (playerSlot in 128..132) {
-            return if (!radiantWin) context.getString(R.string.won_game)
-            else context.getString(R.string.lost_game)
+            if (!radiantWin) {
+                view.text = context.getString(R.string.won_game)
+                view.textSize = 16F
+                view.setTextColor(context.getColor(R.color.colorLightGreen))
+            } else {
+                view.text = context.getString(R.string.lost_game)
+                view.textSize = 16F
+                view.setTextColor(context.getColor(R.color.colorRed))
+            }
         }
-
-        return context.getString(R.string.unknown_result)
     }
 
     /**

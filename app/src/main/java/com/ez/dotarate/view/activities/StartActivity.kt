@@ -6,11 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.ez.dotarate.R
 import com.ez.dotarate.databinding.ActivityStartBinding
+import dagger.android.AndroidInjection
+import dagger.android.support.DaggerAppCompatActivity
 
-
-class StartActivity : AppCompatActivity() {
+class StartActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
+
         super.onCreate(savedInstanceState)
         Log.d("MyLogs", "StartActivity. OnCreate")
         val vb: ActivityStartBinding = DataBindingUtil.setContentView(this, R.layout.activity_start)
@@ -40,6 +43,4 @@ class StartActivity : AppCompatActivity() {
         super.onDestroy()
         Log.d("MyLogs", "StartActivity. onDestroy")
     }
-
-    // override fun onSupportNavigateUp() = findNavController(R.id.nav_host_fragment).navigateUp()
 }

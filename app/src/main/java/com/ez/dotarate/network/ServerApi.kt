@@ -16,6 +16,6 @@ interface ServerApi {
     @GET("ISteamUser/GetPlayerSummaries/v0002/?")
     suspend fun getUser(@Query("key") key: String, @Query("steamids") id: Long): Response<User>
 
-    @GET("api/players/{steamID32}/matches/?limit=10")
+    @GET("api/players/{steamID32}/matches/?limit=100")
     suspend fun getGames(@Path("steamID32") id: Int): Response<ArrayList<Game>>
 }

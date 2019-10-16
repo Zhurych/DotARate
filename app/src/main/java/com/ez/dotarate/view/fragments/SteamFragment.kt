@@ -45,14 +45,12 @@ class SteamFragment : BaseFragment<SteamViewModel, FragmentSteamBinding>() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             decorView?.systemUiVisibility =
-                decorView?.getSystemUiVisibility()!! and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+                decorView?.systemUiVisibility!! and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window?.statusBarColor = ContextCompat.getColor(activity!!, R.color.colorBlue)
-        }
+        window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window?.statusBarColor = ContextCompat.getColor(activity!!, R.color.colorBlue)
 
         // Container(родитель) WebView
         val mCWebViewContainer = vb.wvContainer
@@ -70,12 +68,18 @@ class SteamFragment : BaseFragment<SteamViewModel, FragmentSteamBinding>() {
                 if (url == null)
                     return
 
+                Log.d(LOG_TAG, "Url = $url")
+
                 vb.progressBar.visibility = View.GONE
 
                 try {
+                    Log.d(LOG_TAG, "Url в try = $url")
                     val substr = "openid%2Fid%"
+                    /** Без следующей строки не открывается WebView */
                     val before = url.substring(0, url.indexOf(substr))
                     val after = url.substring(url.indexOf(substr) + substr.length)
+                    Log.d(LOG_TAG, "before = $before")
+                    Log.d(LOG_TAG, "after = $after")
 
                     val steamId = after.substring(2, 19)
 
@@ -107,22 +111,21 @@ class SteamFragment : BaseFragment<SteamViewModel, FragmentSteamBinding>() {
                         // NOTE: This can occasionally cause a segfault below API 17 (4.2)
                         mWebView.destroy()
 
+                        Log.d(LOG_TAG, "String (ID) = $steamId")
                         // Save User ID
                         vm.saveId(steamId.toLong())
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                            window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-                            window?.statusBarColor =
-                                ContextCompat.getColor(activity!!, R.color.colorPrimaryDark)
-                        }
+                        window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                        window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                        window?.statusBarColor =
+                            ContextCompat.getColor(activity!!, R.color.colorPrimaryDark)
 
                         val intent = Intent(activity, MainActivity::class.java)
+                        Log.d(LOG_TAG, "String (ID) = $steamId")
                         intent.putExtra("id", steamId.toLong())
                         startActivity(intent)
 
                         activity!!.finish()
-
                     }
                 } catch (ex: StringIndexOutOfBoundsException) {
                     return

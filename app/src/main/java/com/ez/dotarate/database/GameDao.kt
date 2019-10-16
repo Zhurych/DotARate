@@ -14,6 +14,6 @@ interface GameDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun saveGames(listGames: ArrayList<Game>): List<Long>
 
-    @Query("SELECT * FROM games")
+    @Query("SELECT * FROM games ORDER BY match_id DESC")
     fun getGames(): DataSource.Factory<Int, Game>
 }

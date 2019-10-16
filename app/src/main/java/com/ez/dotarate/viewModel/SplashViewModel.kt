@@ -5,13 +5,14 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.liveData
 import com.ez.dotarate.database.AppDatabase
 import com.ez.dotarate.model.repository.UserRepositoryImpl
+import javax.inject.Inject
 
 
-class SplashViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val db = AppDatabase.invoke(getApplication())
-
-    private val repository = UserRepositoryImpl()
+class SplashViewModel @Inject
+constructor(
+    application: Application, private val repository: UserRepositoryImpl,
+    private val db: AppDatabase
+) : AndroidViewModel(application) {
 
     /**
      * LiveData’s building block already provides a Coroutine Scope where to call

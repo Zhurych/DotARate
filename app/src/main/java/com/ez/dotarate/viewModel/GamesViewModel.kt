@@ -2,39 +2,41 @@ package com.ez.dotarate.viewModel
 
 import android.app.Application
 import android.util.Log
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.ez.dotarate.R
-import com.ez.dotarate.constants.*
 import com.ez.dotarate.database.AppDatabase
 import com.ez.dotarate.database.Game
-import com.ez.dotarate.model.repository.UserRepositoryImpl
+import com.ez.dotarate.model.repository.OpenDotaRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
-import java.util.*
+import javax.inject.Inject
 
 
-class GamesViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = UserRepositoryImpl()
+class GamesViewModel @Inject
+constructor(
+    application: Application, private val repository: OpenDotaRepositoryImpl,
+    private val db: AppDatabase
+) : AndroidViewModel(application) {
+
+    val isGamesEmpty = ObservableBoolean(false)
 
     var liveGame: LiveData<PagedList<Game>>
-
-    private val db = AppDatabase.invoke(getApplication())
 
     // У LivePagedListBuilder есть метод setInitialLoadKey.
     // Он задает начальное значение для первоначальной подгрузки
     init {
         val config = PagedList.Config.Builder()
-            .setPageSize(30)
+            .setPageSize(20)
             .setEnablePlaceholders(false)
             .build()
         liveGame =
-            LivePagedListBuilder<Int, Game>(db.gameDao().getGames(), config).setInitialLoadKey(10)
+            LivePagedListBuilder<Int, Game>(db.gameDao().getGames(), config).setInitialLoadKey(15)
                 .build()
     }
 
@@ -53,7 +55,7 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
                     Log.d("MyLogs", "ОШИБКА ПРИ ЗАПРОСЕ. КОД ОШИБКИ= ${response.code()}")
                 }
             } catch (e: UnknownHostException) {
-                Log.d("MyLogs", "НЕТ ИНТЕРНЕТА = $e")
+                Log.d("MyLogs", "НЕТ ИНТЕРНЕТА = $e")// Получаем при Авиа - режиме
             }
         }
     }

@@ -5,9 +5,12 @@
     <color name="colorAccent">#435118</color>
     <color name="white">#FFFFFF</color>
     <color name="white_tran">#fffffd</color>
+    <color name="colorShadow">#BDBDBD</color>
     <color name="black">#000000</color>
     <color name="black_tran">#95000000</color>
 
+    <color name="colorRed">#F0514B</color>
+    <color name="colorLightGreen">#B2FF59</color>
     <color name="colorGreen">#364113</color>
     <color name="colorDarkGreen">#2b340f</color>
     <color name="colorRadiant">#9CCC65</color>

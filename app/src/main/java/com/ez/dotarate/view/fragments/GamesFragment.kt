@@ -35,6 +35,7 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
         // LiveData<PagedList<Game>> subscriber
         vm.liveGame.observe(this, Observer {
             Log.d("MyLogs", "ПОДПИСЫВАЕМСЯ НА БД GAMES. РАЗМЕР ДАННЫХ = ${it.size}")
+            if (it != null && it.size > 0) vm.isGamesEmpty.set(true)
             // Need to use submitList to set the PagedListAdapter value
             adapter.submitList(it)
         })
