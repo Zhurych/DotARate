@@ -18,7 +18,7 @@
     <string name="lost_game">Lost</string>
     <string name="unknown_result">Unknown</string>
     <string name="ranked">Ranked</string>
-    <string name="unranked">Unranked</string>
+    <string name="normal">Normal</string>
     <string name="low_priority">LP</string>
 
     <string name="all_pick">All Pick</string>
@@ -33,8 +33,8 @@
     <string name="very_high_skill">Very High Skill</string>
     <string name="unknown_skill">Unknown Skill</string>
 
-    <string name="radiant">The Radiant</string>
-    <string name="dire">The Dire</string>
+    <string name="radiant">Radiant</string>
+    <string name="dire">Dire</string>
 
     <string name="rate">Rate</string>
 
@@ -119,7 +119,7 @@
     <string name="unknown">Unknown</string>
 
     <string name="anonym">Anonym</string>
-    <string name="score_">Score:</string>
+    <string name="score">Score:</string>
 
     <!--Heroes-->
     <string name="anti_mage">Anti-Mage</string>

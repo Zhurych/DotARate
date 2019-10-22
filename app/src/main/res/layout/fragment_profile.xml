@@ -18,8 +18,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/avatar"
-            android:layout_width="@dimen/image_size"
-            android:layout_height="@dimen/image_size"
+            android:layout_width="@dimen/profileScreenImageSize"
+            android:layout_height="@dimen/profileScreenImageSize"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             app:civ_border_color="@color/colorGreen"

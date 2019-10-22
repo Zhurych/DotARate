@@ -3,14 +3,20 @@ package com.ez.dotarate.adapters
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.ez.dotarate.App
 import com.ez.dotarate.R
 import com.ez.dotarate.constants.*
+import com.ez.dotarate.database.Game
+import com.ez.dotarate.model.PermanentBuff
 import com.squareup.picasso.Picasso
 import java.util.*
+import kotlin.math.roundToInt
+
 
 object BindingAdapter {
 
@@ -26,7 +32,7 @@ object BindingAdapter {
     }
 
     /**
-     * Return ID Hero Image
+     * Set Hero Image
      */
     @BindingAdapter("android:src")
     @JvmStatic
@@ -154,7 +160,7 @@ object BindingAdapter {
     }
 
     /**
-     * Return Hero Name
+     * Determines Hero Name
      */
     @BindingAdapter("heroName")
     @JvmStatic
@@ -313,7 +319,7 @@ object BindingAdapter {
         // Количество месяцев
         val months = differenceTime.toInt() / 3600 / 24 / 30
         // Количество минут прошедших после игры
-        var minutes = 0
+        val minutes: Int
 
         when {
             hours < 1 -> {
@@ -379,7 +385,7 @@ object BindingAdapter {
         val context = App.applicationContext()
 
         return if (lobbyType == RANKED) context.getString(R.string.ranked)
-        else context.getString(R.string.unranked)
+        else context.getString(R.string.normal)
     }
 
     /**
@@ -411,6 +417,360 @@ object BindingAdapter {
             HIGH_SKILL -> context.getString(R.string.high_skill)
             VERY_HIGH_SKILL -> context.getString(R.string.very_high_skill)
             else -> context.getString(R.string.unknown_skill)
+        }
+    }
+
+    /**
+     * Determines percent KDA
+     */
+    @BindingAdapter("game", "necessaryValue")
+    @JvmStatic
+    fun percentKda(view: View, game: Game, necessaryValue: Int) {
+        val kills = game.kills
+        val deaths = game.deaths
+        val assists = game.assists
+
+        val sum = kills + deaths + assists
+
+        val params = view.layoutParams as LinearLayout.LayoutParams
+
+        when (necessaryValue) {
+            KILLS_ID -> {
+                params.weight = ((kills * 100.0) / sum).roundToInt() / 100F
+                Log.d("EDYA", "УБИЙСТВ = $kills. ЗНАЧЕНИЕ ВЕСА = ${params.weight}")
+                Log.d("EDYA", "-------------------")
+            }
+            DEATHS_ID -> {
+                params.weight = ((deaths * 100.0) / sum).roundToInt() / 100F
+                Log.d("EDYA", "СМЕРТЕЙ = $deaths. ЗНАЧЕНИЕ ВЕСА = ${params.weight}")
+            }
+            ASSISTS_ID -> {
+                params.weight = ((assists * 100.0) / sum).roundToInt() / 100F
+                Log.d("EDYA", "АССИСТОВ = $assists. ЗНАЧЕНИЕ ВЕСА = ${params.weight}")
+            }
+        }
+    }
+
+    /**
+     * Determines Player RANG
+     */
+    @BindingAdapter("rankTier")
+    @JvmStatic
+    fun rankOfPlayer(view: ImageView, rankTier: Int) {
+
+        when (rankTier) {
+            HERALD_1 -> view.setImageResource(R.drawable.herald_1)
+            HERALD_2 -> view.setImageResource(R.drawable.herald_2)
+            HERALD_3 -> view.setImageResource(R.drawable.herald_3)
+            HERALD_4 -> view.setImageResource(R.drawable.herald_4)
+            HERALD_5 -> view.setImageResource(R.drawable.herald_5)
+            GUARDIAN_1 -> view.setImageResource(R.drawable.guardian_1)
+            GUARDIAN_2 -> view.setImageResource(R.drawable.guardian_2)
+            GUARDIAN_3 -> view.setImageResource(R.drawable.guardian_3)
+            GUARDIAN_4 -> view.setImageResource(R.drawable.guardian_4)
+            GUARDIAN_5 -> view.setImageResource(R.drawable.guardian_5)
+            CRUSADER_1 -> view.setImageResource(R.drawable.crusader_1)
+            CRUSADER_2 -> view.setImageResource(R.drawable.crusader_2)
+            CRUSADER_3 -> view.setImageResource(R.drawable.crusader_3)
+            CRUSADER_4 -> view.setImageResource(R.drawable.crusader_4)
+            CRUSADER_5 -> view.setImageResource(R.drawable.crusader_5)
+            ARCHON_1 -> view.setImageResource(R.drawable.archon_1)
+            ARCHON_2 -> view.setImageResource(R.drawable.archon_2)
+            ARCHON_3 -> view.setImageResource(R.drawable.archon_3)
+            ARCHON_4 -> view.setImageResource(R.drawable.archon_4)
+            ARCHON_5 -> view.setImageResource(R.drawable.archon_5)
+            LEGEND_1 -> view.setImageResource(R.drawable.legend_1)
+            LEGEND_2 -> view.setImageResource(R.drawable.legend_2)
+            LEGEND_3 -> view.setImageResource(R.drawable.legend_3)
+            LEGEND_4 -> view.setImageResource(R.drawable.legend_4)
+            LEGEND_5 -> view.setImageResource(R.drawable.legend_5)
+            ANCIENT_1 -> view.setImageResource(R.drawable.ancient_1)
+            ANCIENT_2 -> view.setImageResource(R.drawable.ancient_2)
+            ANCIENT_3 -> view.setImageResource(R.drawable.ancient_3)
+            ANCIENT_4 -> view.setImageResource(R.drawable.ancient_4)
+            ANCIENT_5 -> view.setImageResource(R.drawable.ancient_5)
+            DIVINE_1 -> view.setImageResource(R.drawable.divine_1)
+            DIVINE_2 -> view.setImageResource(R.drawable.divine_2)
+            DIVINE_3 -> view.setImageResource(R.drawable.divine_3)
+            DIVINE_4 -> view.setImageResource(R.drawable.divine_4)
+            DIVINE_5 -> view.setImageResource(R.drawable.divine_5)
+            IMMORTAL -> view.setImageResource(R.drawable.immortal)
+        }
+    }
+
+    /**
+     * Устанавливает пробелы в больших цифрах
+     */
+    @BindingAdapter("largeNumbers")
+    @JvmStatic
+    fun correctValue(view: TextView, value: Int) {
+        val length = value.toString().length
+
+        val result = StringBuilder()
+        when {
+            length < 4 -> view.text = value.toString()
+            length == 4 -> {
+                val array = value.toString().toCharArray()
+                result.append(array[0]).append(" ").append(array[1]).append(array[2])
+                    .append(array[3])
+                view.text = result.toString()
+            }
+            length == 5 -> {
+                val array = value.toString().toCharArray()
+                result.append(array[0]).append(array[1]).append(" ").append(array[2])
+                    .append(array[3])
+                    .append(array[4])
+                view.text = result.toString()
+            }
+        }
+    }
+
+    /**
+     * Set Item Icon
+     */
+    @BindingAdapter("itemIcon")
+    @JvmStatic
+    fun itemIcon(view: ImageView, itemId: Int) {
+
+        when (itemId) {
+            BLINK_DAGGER -> view.setImageResource(R.drawable.blink_dagger)
+            BLADES_OF_ATTACK -> view.setImageResource(R.drawable.blades_of_attack)
+            BROADSWORD -> view.setImageResource(R.drawable.broadsword)
+            CHAINMAIL -> view.setImageResource(R.drawable.bhainmail)
+            CLAYMORE -> view.setImageResource(R.drawable.claymore)
+            HELM_OF_IRON_WILL -> view.setImageResource(R.drawable.helm_of_iron_will)
+            JAVELIN -> view.setImageResource(R.drawable.javelin)
+            MITHRIL_HAMMER -> view.setImageResource(R.drawable.mithril_hammer)
+            PLATEMAIL -> view.setImageResource(R.drawable.platemail)
+            QUARTERSTAFF -> view.setImageResource(R.drawable.quarterstaff)
+            QUELLING_BLADE -> view.setImageResource(R.drawable.quelling_blade)
+            RING_OF_PROTECTION -> view.setImageResource(R.drawable.ring_of_protection)
+            GAUNTLETS_OF_STRENGTH -> view.setImageResource(R.drawable.gauntlets_of_strength)
+            SLIPPERS_OF_AGILITY -> view.setImageResource(R.drawable.slippers_of_agility)
+            MANTLE_OF_INTELLIGENCE -> view.setImageResource(R.drawable.mantle_of_intelligence)
+            IRON_BRANCH -> view.setImageResource(R.drawable.iron_branch)
+            BELT_OF_STRENGTH -> view.setImageResource(R.drawable.belt_of_strength)
+            BAND_OF_ELVENSKIN -> view.setImageResource(R.drawable.band_of_elvenskin)
+            ROBE_OF_THE_MAGI -> view.setImageResource(R.drawable.robe_of_the_magi)
+            CIRCLET -> view.setImageResource(R.drawable.circlet)
+            OGRE_AXE -> view.setImageResource(R.drawable.ogre_club)
+            BLADE_OF_ALACRITY -> view.setImageResource(R.drawable.blade_of_alacrity)
+            STAFF_OF_WIZARDRY -> view.setImageResource(R.drawable.staff_of_wizardry)
+            ULTIMATE_ORB -> view.setImageResource(R.drawable.ultimate_orb)
+            GLOVES_OF_HASTE -> view.setImageResource(R.drawable.gloves_of_haste)
+            MORBID_MASK -> view.setImageResource(R.drawable.morbid_mask)
+            RING_OF_REGEN -> view.setImageResource(R.drawable.ring_of_regen)
+            SAGES_MASK -> view.setImageResource(R.drawable.sages_mask)
+            BOOTS_OF_SPEED -> view.setImageResource(R.drawable.boots_of_speed)
+            GEM_OF_TRUE_SIGHT -> view.setImageResource(R.drawable.gem_of_true_sight)
+            CLOAK -> view.setImageResource(R.drawable.cloak)
+            TALISMAN_OF_EVASION -> view.setImageResource(R.drawable.talisman_of_evasion)
+            CHEESE -> view.setImageResource(R.drawable.cheese)
+            MAGIC_STICK -> view.setImageResource(R.drawable.magic_stick)
+            MAGIC_WAND_RECIPE -> view.setImageResource(R.drawable.magic_wand_recipe_icon)
+            MAGIC_WAND -> view.setImageResource(R.drawable.magic_wand)
+            GHOST_SCEPTER -> view.setImageResource(R.drawable.ghost_scepter)
+            CLARITY -> view.setImageResource(R.drawable.clarity)
+            HEALING_SALVE -> view.setImageResource(R.drawable.healing_salve)
+            DUST_OF_APPEARANCE -> view.setImageResource(R.drawable.dust_of_appearance)
+            BOTTLE -> view.setImageResource(R.drawable.bottle)
+            OBSERVER_WARD -> view.setImageResource(R.drawable.observer_ward)
+            SENTRY_WARD -> view.setImageResource(R.drawable.sentry_ward)
+            TANGO -> view.setImageResource(R.drawable.tango)
+            BOOTS_OF_TREVEL_RECIPE -> view.setImageResource(R.drawable.boots_of_travel_recipe_icon)
+            BOOTS_OF_TREVEL_1_LVL -> view.setImageResource(R.drawable.boots_of_travel)
+            PHASE_BOOTS -> view.setImageResource(R.drawable.phase_boots)
+            DEMON_EDGE -> view.setImageResource(R.drawable.demon_edge)
+            EAGLESONG -> view.setImageResource(R.drawable.eaglehorn)
+            REAVER -> view.setImageResource(R.drawable.reaver)
+            SACRED_RELIC -> view.setImageResource(R.drawable.sacred_relic)
+            HYPERSTONE -> view.setImageResource(R.drawable.hyperstone)
+            RING_OF_HEALTH -> view.setImageResource(R.drawable.ring_of_health)
+            VOID_STONE -> view.setImageResource(R.drawable.void_stone)
+            MYSTIC_STAFF -> view.setImageResource(R.drawable.mystic_staff)
+            ENERGY_BOOSTER -> view.setImageResource(R.drawable.energy_booster)
+            POINT_BOOSTER -> view.setImageResource(R.drawable.point_booster)
+            VITALITY_BOOSTER -> view.setImageResource(R.drawable.vitality_booster)
+            POWER_TREADS -> view.setImageResource(R.drawable.power_treads)
+            HAND_OF_MIDAS_RECIPE -> view.setImageResource(R.drawable.hand_of_midas_recipe_icon)
+            HAND_OF_MIDAS -> view.setImageResource(R.drawable.hand_of_midas)
+            OBLIVION_STAFF -> view.setImageResource(R.drawable.oblivion_staff)
+            PERSEVERANCE -> view.setImageResource(R.drawable.perseverance)
+            BRACER_RECIPE -> view.setImageResource(R.drawable.bracer_recipe_icon)
+            BRACER -> view.setImageResource(R.drawable.bracer)
+            WRAITH_BAND_RECIPE -> view.setImageResource(R.drawable.wraith_band_recipe_icon)
+            WRAITH_BAND -> view.setImageResource(R.drawable.wraith_band)
+            NULL_TALISMAN_RECIPE -> view.setImageResource(R.drawable.null_talisman_recipe_icon)
+            NULL_TALISMAN -> view.setImageResource(R.drawable.null_talisman)
+            MEKANSM_RECIPE -> view.setImageResource(R.drawable.mekansm_recipe_icon)
+            MEKANSM -> view.setImageResource(R.drawable.mekansm)
+            VLADMIRS_OFFERING_RECIPE -> view.setImageResource(R.drawable.default_recipe_icon)
+            VLADMIRS_OFFERING -> view.setImageResource(R.drawable.vladmirs_offering)
+            BUCKLER_RECIPE -> view.setImageResource(R.drawable.buckler_recipe_icon)
+            BUCKLER -> view.setImageResource(R.drawable.buckler)
+            RING_OF_BASILIUS -> view.setImageResource(R.drawable.ring_of_basilius)
+            PIPE_OF_INSIGHT_RECIPE -> view.setImageResource(R.drawable.pipe_of_insight_recipe_icon)
+            PIPE_OF_INSIGHT -> view.setImageResource(R.drawable.pipe_of_insight)
+            URN_OF_SHADOWS_RECIPE -> view.setImageResource(R.drawable.urn_of_shadows_recipe_icon)
+            URN_OF_SHADOWS -> view.setImageResource(R.drawable.urn_of_shadows)
+            HEADRESS_RECIPE -> view.setImageResource(R.drawable.headdress_recipe_icon)
+            HEADRESS -> view.setImageResource(R.drawable.headdress)
+            SCYTHE_OF_VYSE -> view.setImageResource(R.drawable.scythe_of_vyse)
+            ORCHID_MALEVOLENCE_RECIPE -> view.setImageResource(R.drawable.orchid_malevolence_recipe_icon)
+            ORCHID_MALEVOLENCE -> view.setImageResource(R.drawable.orchid_malevolence)
+            EULS_SCEPTER_OF_DIVINITY_RECIPE -> view.setImageResource(R.drawable.euls_scepter_of_divinity_recipe_icon)
+            EULS_SCEPTER_OF_DIVINITY -> view.setImageResource(R.drawable.euls_scepter_of_divinity)
+            FORCE_STAFF_RECIPE -> view.setImageResource(R.drawable.force_staff_recipe_icon)
+            FORCE_STAFF -> view.setImageResource(R.drawable.force_staff)
+            DAGON_RECIPE -> view.setImageResource(R.drawable.dagon_recipe_icon)
+            DAGON_1_LVL -> view.setImageResource(R.drawable.dagon_1)
+            NECRONOMICON_RECIPE -> view.setImageResource(R.drawable.necronomicon_recipe_icon)
+            NECRONOMICON_1_LVL -> view.setImageResource(R.drawable.necronomicon_1)
+            AGHANIMS_SCEPTER -> view.setImageResource(R.drawable.aghanims_scepter)
+            REFRESHER_ORB_RECIPE -> view.setImageResource(R.drawable.refresher_orb_recipe_icon)
+            REFRESHER_ORB -> view.setImageResource(R.drawable.refresher_orb)
+            ASSAULT_CUIRASS_RECIPE -> view.setImageResource(R.drawable.assault_cuirass_recipe_icon)
+            ASSAULT_CUIRASS -> view.setImageResource(R.drawable.assault_cuirass)
+            HEART_OF_TARASQUE_RECIPE -> view.setImageResource(R.drawable.heart_of_tarrasque_recipe_icon)
+            HEART_OF_TARASQUE -> view.setImageResource(R.drawable.heart_of_tarrasque)
+            BLACK_KING_BAR_RECIPE -> view.setImageResource(R.drawable.black_king_bar_recipe_icon)
+            BLACK_KING_BAR -> view.setImageResource(R.drawable.black_king_bar)
+            AEGIS_OF_THE_IMMORTAL -> view.setImageResource(R.drawable.aegis_of_the_immortal)
+            SHIVAS_GUARD_RECIPE -> view.setImageResource(R.drawable.shivas_guard_recipe_icon)
+            SHIVAS_GUARD -> view.setImageResource(R.drawable.shivas_guard)
+            BLOODSTONE -> view.setImageResource(R.drawable.bloodstone)
+            LINKENS_SPHERE_RECIPE -> view.setImageResource(R.drawable.linkens_sphere_recipe_icon)
+            LINKENS_SPHERE -> view.setImageResource(R.drawable.linkens_sphere)
+            VANGUARD -> view.setImageResource(R.drawable.vanguard)
+            BLADE_MAIL -> view.setImageResource(R.drawable.blade_mail)
+            SOUL_BOOSTER -> view.setImageResource(R.drawable.soul_booster)
+            HOOD_OF_DEFIANCE -> view.setImageResource(R.drawable.hood_of_defiance)
+            DIVINE_RAPIER -> view.setImageResource(R.drawable.divine_rapier)
+            MONKEY_KING_BAR -> view.setImageResource(R.drawable.monkey_king_bar)
+            RADIANCE_RECIPE -> view.setImageResource(R.drawable.radiance_recipe_icon)
+            RADIANCE -> view.setImageResource(R.drawable.radiance)
+            BUTTERFLY -> view.setImageResource(R.drawable.butterfly)
+            DAEDALUS_RECIPE -> view.setImageResource(R.drawable.daedalus_recipe_icon)
+            DAEDALUS -> view.setImageResource(R.drawable.daedalus)
+            SKULL_BASHER_RECIPE -> view.setImageResource(R.drawable.skull_basher_recipe_icon)
+            SKULL_BASHER -> view.setImageResource(R.drawable.skull_basher)
+            BATTLE_FURY_RECIPE -> view.setImageResource(R.drawable.battle_fury_recipe_icon)
+            BATTLE_FURY -> view.setImageResource(R.drawable.battle_fury)
+            MANTA_STYLE_RECIPE -> view.setImageResource(R.drawable.manta_style_recipe_icon)
+            MANTA_STYLE -> view.setImageResource(R.drawable.manta_style)
+            CRYSTALYS_RECIPE -> view.setImageResource(R.drawable.crystalys_recipe_icon)
+            CRYSTALYS -> view.setImageResource(R.drawable.crystalys)
+            ARMLET_OF_MORDIGGIAN_RECIPE -> view.setImageResource(R.drawable.armlet_of_mordiggian_recipe_icon)
+            ARMLET_OF_MORDIGGIAN -> view.setImageResource(R.drawable.armlet_of_mordiggian)
+            SHADOW_BLADE -> view.setImageResource(R.drawable.shadow_blade)
+            SANGE_AND_YASHA -> view.setImageResource(R.drawable.sange_and_yasha)
+            SATANIC -> view.setImageResource(R.drawable.satanic)
+            MJOLLNIR_RECIPE -> view.setImageResource(R.drawable.mjollnir_recipe_icon)
+            MJOLLNIR -> view.setImageResource(R.drawable.mjollnir)
+            EYE_OF_SKADI -> view.setImageResource(R.drawable.eye_of_skadi)
+            SANGE_RECIPE -> view.setImageResource(R.drawable.sange_recipe_icon)
+            SANGE -> view.setImageResource(R.drawable.sange)
+            HELM_OF_THE_DOMINATOR -> view.setImageResource(R.drawable.helm_of_the_dominator)
+            MAELSTROM -> view.setImageResource(R.drawable.maelstrom)
+            DESOLATOR -> view.setImageResource(R.drawable.desolator)
+            YASHA_RECIPE -> view.setImageResource(R.drawable.yasha_recipe_icon)
+            YASHA -> view.setImageResource(R.drawable.yasha)
+            MASK_OF_MADNESS -> view.setImageResource(R.drawable.mask_of_madness)
+            DIFFUSAL_BLADE_RECIPE -> view.setImageResource(R.drawable.diffusal_blade_recipe_icon)
+            DIFFUSAL_BLADE -> view.setImageResource(R.drawable.diffusal_blade)
+            ETHEREAL_BLADE -> view.setImageResource(R.drawable.ethereal_blade)
+            SOUL_RING_RECIPE -> view.setImageResource(R.drawable.soul_ring_recipe_icon)
+            SOUL_RING -> view.setImageResource(R.drawable.soul_ring)
+            ARCANE_BOOTS -> view.setImageResource(R.drawable.arcane_boots)
+            ORB_OF_VENOM -> view.setImageResource(R.drawable.orb_of_venom)
+            STOUT_SHIELD -> view.setImageResource(R.drawable.stout_shield)
+            DRUM_OF_ENDURANCE_RECIPE -> view.setImageResource(R.drawable.drum_of_endurance_recipe_icon)
+            DRUM_OF_ENDURANCE -> view.setImageResource(R.drawable.drum_of_endurance)
+            MEDALLION_OF_COURAGE -> view.setImageResource(R.drawable.medallion_of_courage)
+            SMOKE_OF_DECEIT -> view.setImageResource(R.drawable.smoke_of_deceit)
+            VEIL_OF_DISCORD_RECIPE -> view.setImageResource(R.drawable.veil_of_discord_recipe_icon)
+            VEIL_OF_DISCORD -> view.setImageResource(R.drawable.veil_of_discord)
+            NECRONOMICON_2_LVL -> view.setImageResource(R.drawable.necronomicon_2)
+            NECRONOMICON_3_LVL -> view.setImageResource(R.drawable.necronomicon_3)
+            DAGON_2_LVL -> view.setImageResource(R.drawable.dagon_2)
+            DAGON_3_LVL -> view.setImageResource(R.drawable.dagon_3)
+            DAGON_4_LVL -> view.setImageResource(R.drawable.dagon_4)
+            DAGON_5_LVL -> view.setImageResource(R.drawable.dagon_5)
+            ROD_OF_ATOS_RECIPE -> view.setImageResource(R.drawable.rod_of_atos_recipe_icon)
+            ROD_OF_ATOS -> view.setImageResource(R.drawable.rod_of_atos)
+            ABYSSAL_BLADE_RECIPE -> view.setImageResource(R.drawable.abyssal_blade_recipe_icon)
+            ABYSSAL_BLADE -> view.setImageResource(R.drawable.abyssal_blade)
+            HEAVENS_HALBERD -> view.setImageResource(R.drawable.heavens_halberd)
+            TRANQUIL_BOOTS -> view.setImageResource(R.drawable.tranquil_boots)
+            SHADOW_AMULET -> view.setImageResource(R.drawable.shadow_amulet)
+            ENCHANTED_MANGO -> view.setImageResource(R.drawable.enchanted_mango)
+            OBSERVER_AND_SENTRY_WARDS -> view.setImageResource(R.drawable.observer_and_sentry_wards_icon)
+            BOOTS_OF_TRAVEL_2_LVL -> view.setImageResource(R.drawable.boots_of_travel_2)
+            METEOR_HAMMER -> view.setImageResource(R.drawable.meteor_hammer)
+            NULLIFIER -> view.setImageResource(R.drawable.nullifier)
+            LOTUS_ORB -> view.setImageResource(R.drawable.lotus_orb)
+            SOLAR_CREST_RECIPE -> view.setImageResource(R.drawable.solar_crest_recipe_icon)
+            SOLAR_CREST -> view.setImageResource(R.drawable.solar_crest)
+            GUARDIAN_GREAVES_RECIPE -> view.setImageResource(R.drawable.guardian_greaves_recipe_icon)
+            GUARDIAN_GREAVES -> view.setImageResource(R.drawable.guardian_greaves)
+            AETHER_LENS -> view.setImageResource(R.drawable.aether_lens)
+            AETHER_LENS_RECIPE -> view.setImageResource(R.drawable.aether_lens_recipe_icon)
+            OCTARINE_CORE -> view.setImageResource(R.drawable.octarine_core)
+            DRAGON_LANCE -> view.setImageResource(R.drawable.dragon_lance)
+            FAERIE_FIRE -> view.setImageResource(R.drawable.faerie_fire)
+            BLIGHT_STONE -> view.setImageResource(R.drawable.blight_stone)
+            TANGO_SHARED -> view.setImageResource(R.drawable.tango_shared_icon)
+            CRIMSON_GUARD -> view.setImageResource(R.drawable.crimson_guard)
+            CRIMSON_GUARD_RECIPE -> view.setImageResource(R.drawable.crimson_guard_recipe_icon)
+            WIND_LANCE -> view.setImageResource(R.drawable.wind_lace)
+            BLOODTHORN_RECIPE -> view.setImageResource(R.drawable.bloodthorn_recipe_icon)
+            MOON_SHARD -> view.setImageResource(R.drawable.moon_shard)
+            SILVER_EDGE_RECIPE -> view.setImageResource(R.drawable.silver_edge_recipe_icon)
+            SILVER_EDGE -> view.setImageResource(R.drawable.silver_edge)
+            BLOODTHORN -> view.setImageResource(R.drawable.bloodthorn)
+            ECHO_SABRE -> view.setImageResource(R.drawable.echo_sabre)
+            GLIMMER_CAPE -> view.setImageResource(R.drawable.glimmer_cape)
+            AEON_DISK_RECIPE -> view.setImageResource(R.drawable.aeon_disk_recipe_icon)
+            AEON_DISK -> view.setImageResource(R.drawable.aeon_disk)
+            TOME_OF_KNOWLEDGE -> view.setImageResource(R.drawable.tome_of_knowledge)
+            KAYA_RECIPE -> view.setImageResource(R.drawable.kaya_recipe_icon)
+            KAYA -> view.setImageResource(R.drawable.kaya)
+            CROWN -> view.setImageResource(R.drawable.crown)
+            HURRICANE_PIKE_RECIPE -> view.setImageResource(R.drawable.hurricane_pike_recipe_icon)
+            HURRICANE_PIKE -> view.setImageResource(R.drawable.hurricane_pike)
+            INFUSED_RAINDROPS -> view.setImageResource(R.drawable.infused_raindrop)
+            SPIRIT_VESSEL_RECIPE -> view.setImageResource(R.drawable.spirit_vessel_recipe_icon)
+            SPIRIT_VESSEL -> view.setImageResource(R.drawable.spirit_vessel)
+            HOLY_LOCKET_RECIPE -> view.setImageResource(R.drawable.holy_locket_recipe_icon)
+            HOLY_LOCKET -> view.setImageResource(R.drawable.holy_locket)
+            KAYA_AND_SANGE -> view.setImageResource(R.drawable.kaya_and_sange)
+            YASHA_AND_KAYA -> view.setImageResource(R.drawable.yasha_and_kaya)
+            RING_OF_TARRASQUE -> view.setImageResource(R.drawable.ring_of_tarrasque)
+        }
+    }
+
+    /**
+     * Set Buff Icon
+     */
+    @BindingAdapter("buffIcon", "position")
+    @JvmStatic
+    fun buffIcon(view: ImageView, buffs: List<PermanentBuff>?, position: Int) {
+
+        if (buffs == null) return
+
+        if (position < buffs.size) {
+            when (buffs[position].permanent_buff) {
+                MOON_SHARD_BUFF -> view.setImageResource(R.drawable.moon_shard_buff)
+                AGHANIM_SCEPTER_BUFF -> view.setImageResource(R.drawable.aghanims_scepter_buff)
+                GLAIVES_OF_WISDOM_BUFF -> view.setImageResource(R.drawable.glaives_of_wisdom_icon)
+                FLESH_HEAP_BUFF -> view.setImageResource(R.drawable.flesh_heap_icon)
+                DUEL_BUFF -> view.setImageResource(R.drawable.duel_icon)
+                TOME_OF_KNOWLEDGE_BUFF -> view.setImageResource(R.drawable.tome_of_knowledge_buff)
+                FINGER_OF_DEATH_BUFF -> view.setImageResource(R.drawable.finger_of_death_icon)
+                ESSENCE_SHIFT_BUFF -> view.setImageResource(R.drawable.essence_shift_icon)
+                ATROPHY_AURA_BUFF -> view.setImageResource(R.drawable.atrophy_aura_icon)
+                JINADA_BUFF -> view.setImageResource(R.drawable.jinada_icon)
+            }
         }
     }
 }

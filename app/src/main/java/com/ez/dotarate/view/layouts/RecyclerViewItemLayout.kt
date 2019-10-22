@@ -29,7 +29,7 @@ class RecyclerViewItemLayout : LinearLayout {
     private fun initBackground() {
         background = generateBackgroundWithShadow(
             this, R.color.white_tran,
-            R.dimen.radius_corner, R.color.colorShadow, R.dimen.elevation, Gravity.CENTER
+            R.dimen.radiusCorner, R.color.colorShadow, R.dimen.elevation, Gravity.CENTER
         )
     }
 }

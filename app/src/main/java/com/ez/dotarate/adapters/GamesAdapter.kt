@@ -18,19 +18,20 @@ class GamesAdapter : PagedListAdapter<Game, GamesAdapter.GamesHolder>(DIFF_CALLB
 
             override fun areItemsTheSame(oldItem: Game, newItem: Game): Boolean {
                 // The ID property identifies when items are the same.
-                return oldItem.match_id.equals(newItem.match_id)
+                return oldItem.match_id == newItem.match_id
             }
 
             override fun areContentsTheSame(oldItem: Game, newItem: Game): Boolean {
                 // Don't use the "==" operator here. Either implement and use .equals(),
                 // or write custom data comparison logic here.
-                return oldItem.equals(newItem)
+                return oldItem == newItem
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GamesHolder {
         val inflater = LayoutInflater.from(parent.context)
+
         val binding = DataBindingUtil.inflate<GameListItemBinding>(
             inflater,
             R.layout.game_list_item,
@@ -43,7 +44,7 @@ class GamesAdapter : PagedListAdapter<Game, GamesAdapter.GamesHolder>(DIFF_CALLB
     override fun onBindViewHolder(holder: GamesHolder, position: Int) {
         val game = getItem(position)
 
-        // Note that "userData" can be null if it's a placeholder.
+        // Note that "game" can be null if it's a placeholder.
         if (game != null) holder.bind(game)
     }
 

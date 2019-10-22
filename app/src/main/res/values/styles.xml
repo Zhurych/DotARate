@@ -18,4 +18,141 @@
     <style name="ActionButton" parent="@android:style/Widget.ActionButton">
         <item name="android:drawablePadding">@dimen/action_button_padding</item>
     </style>
+
+    <style name="CategorySide">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">6dp</item>
+    </style>
+
+    <style name="Side">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/gameScreenSideHeight</item>
+        <item name="android:textSize">@dimen/gameScreenSideTextSize</item>
+    </style>
+
+    <style name="Score">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="Score.CategoryKDA" >
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textColor">@color/colorTextDark</item>
+    </style>
+
+    <style name="ScoreValue">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Winner">
+        <item name="android:layout_width">66dp</item>
+        <item name="android:layout_height">22dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:background">@drawable/winner_figure</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">serif-monospace</item>
+    </style>
+
+    <style name="PlayerHeroImage">
+        <item name="android:layout_width">@dimen/gameScreenHeroImageWidth</item>
+        <item name="android:layout_height">@dimen/gameScreenHeroImageHeight</item>
+        <item name="android:layout_marginStart">5dp</item>
+    </style>
+
+    <style name="PlayerCDA">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorTextDark</item>
+    </style>
+
+    <style name="SupportItem">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+    <style name="SupportItem.Item">
+        <item name="android:layout_width">46dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:background">@drawable/item_rectangle</item>
+    </style>
+
+    <style name="Buff">
+        <item name="android:layout_width">38dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="BuffCount">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:shadowColor">@color/colorPlayer</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <style name="PlayerValues">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textColor">@color/colorTextDark</item>
+    </style>
+
+    <style name="PlayerHeroesKilledRelativeLayout">
+        <item name="android:layout_width">56dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">14dp</item>
+    </style>
+
+    <style name="PlayerHeroesKilledIcon">
+        <item name="android:layout_width">34dp</item>
+        <item name="android:layout_height">34dp</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="PlayerHeroesKilledCount">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:background">@drawable/hero_kills_rectangle</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="PlayerSupportItemsRelativeLayout">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
 </resources>

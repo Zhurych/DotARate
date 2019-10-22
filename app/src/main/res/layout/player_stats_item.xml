@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="player"
+            type="com.ez.dotarate.model.Player" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/rootView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/playerStatsScreenHeight"
+        android:orientation="horizontal">
+
+        <!--Player-->
+        <RelativeLayout
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/player_rectangle"
+            tools:ignore="ContentDescription,RtlSymmetry">
+
+            <LinearLayout
+                android:layout_width="140dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/first_player_name_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="26dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="12dp"
+                    android:text="@{player.personaname}"
+                    android:textColor="@color/colorText"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="Петяджойстик3000  " />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="26dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/first_player_lvl_text_view"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginBottom="2dp"
+                        android:background="@drawable/lvl_circle"
+                        android:gravity="center"
+                        android:text="@{String.valueOf(player.level)}"
+                        android:textColor="@color/colorText"
+                        android:textSize="16sp"
+                        tools:text="23" />
+
+                    <TextView
+                        android:id="@+id/first_player_hero_text_view"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="4dp"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorTextDark"
+                        app:heroName="@{player.hero_id}"
+                        tools:text="MIRANA" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/first_player_rank_image_view"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="4dp"
+                app:rankTier="@{player.rank_tier}"
+                tools:src="@drawable/divine_3" />
+
+
+        </RelativeLayout>
+
+        <!--KDA/ITEMS-->
+        <LinearLayout
+            android:id="@+id/first_linear_layout_field"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            tools:ignore="ContentDescription,RtlSymmetry">
+
+            <LinearLayout
+                android:layout_width="140dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingStart="16dp">
+
+                <TextView
+                    android:id="@+id/player_kills_text_view"
+                    style="@style/PlayerCDA"
+                    android:text="@{String.valueOf(player.kills)}"
+                    android:textColor="@color/colorText"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    tools:text="8" />
+
+                <TextView
+                    android:id="@+id/player_deaths_text_view"
+                    style="@style/PlayerCDA"
+                    android:text="@{String.valueOf(player.deaths)}"
+                    tools:text="10" />
+
+                <TextView
+                    android:id="@+id/player_assists_text_view"
+                    style="@style/PlayerCDA"
+                    android:text="@{String.valueOf(player.assists)}"
+                    tools:text="21" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp">
+
+                <TextView
+                    android:id="@+id/player_net_worth_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/colorRed"
+                    android:textSize="18sp"
+                    app:largeNumbers="@{player.total_gold}"
+                    tools:text="14 771" />
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/first_slot_image_view"
+                style="@style/SupportItem.Item"
+                android:layout_marginStart="38dp"
+                app:itemIcon="@{player.item_0}"
+                tools:src="@drawable/solar_crest" />
+
+            <ImageView
+                android:id="@+id/second_slot_image_view"
+                style="@style/SupportItem.Item"
+                app:itemIcon="@{player.item_1}"
+                tools:src="@drawable/bottle" />
+
+            <ImageView
+                android:id="@+id/third_slot_image_view"
+                style="@style/SupportItem.Item"
+                app:itemIcon="@{player.item_2}"
+                tools:src="@drawable/euls_scepter_of_divinity" />
+
+            <ImageView
+                android:id="@+id/four_slot_image_view"
+                style="@style/SupportItem.Item"
+                app:itemIcon="@{player.item_3}"
+                tools:src="@drawable/phase_boots" />
+
+            <ImageView
+                android:id="@+id/five_slot_image_view"
+                style="@style/SupportItem.Item"
+                app:itemIcon="@{player.item_4}"
+                tools:src="@drawable/magic_stick" />
+
+            <ImageView
+                android:id="@+id/six_slot_image_view"
+                style="@style/SupportItem.Item"
+                app:itemIcon="@{player.item_5}" />
+
+            <ImageView
+                android:id="@+id/backpack_first_slot_image_view"
+                style="@style/SupportItem.Item"
+                android:layout_marginStart="38dp"
+                app:itemIcon="@{player.backpack_0}" />
+
+            <ImageView
+                android:id="@+id/backpack_second_slot_image_view"
+                style="@style/SupportItem.Item"
+                app:itemIcon="@{player.backpack_1}" />
+
+            <ImageView
+                android:id="@+id/backpack_third_slot_image_view"
+                style="@style/SupportItem.Item"
+                app:itemIcon="@{player.backpack_2}" />
+
+            <RelativeLayout
+                android:layout_width="38dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="38dp">
+
+                <ImageView
+                    android:id="@+id/first_buff_image_view"
+                    style="@style/Buff"
+                    android:layout_marginStart="0dp"
+                    app:buffIcon="@{player.permanent_buffs}"
+                    app:position="@{0}" />
+
+                <TextView
+                    android:id="@+id/first_buff_text_view"
+                    style="@style/BuffCount" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="46dp"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/second_buff_image_view"
+                    style="@style/Buff"
+                    app:buffIcon="@{player.permanent_buffs}"
+                    app:position="@{1}" />
+
+                <TextView
+                    android:id="@+id/second_buff_text_view"
+                    style="@style/BuffCount" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/third_buff_field"
+                android:layout_width="46dp"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/third_buff_image_view"
+                    style="@style/Buff"
+                    app:buffIcon="@{player.permanent_buffs}"
+                    app:position="@{2}" />
+
+                <TextView
+                    android:id="@+id/third_buff_text_view"
+                    style="@style/BuffCount" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fourth_buff_field"
+                android:layout_width="46dp"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/fourth_buff_image_view"
+                    style="@style/Buff"
+                    app:buffIcon="@{player.permanent_buffs}"
+                    app:position="@{3}" />
+
+                <TextView
+                    android:id="@+id/fourth_buff_text_view"
+                    style="@style/BuffCount" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="75dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="28dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/last_hits_and_denied_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/colorTextDark"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="45dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp">
+
+                <TextView
+                    android:id="@+id/gpm_text_view"
+                    style="@style/PlayerValues"
+                    android:textColor="@color/colorGold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="45dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="12dp">
+
+                <TextView
+                    android:id="@+id/xpm_text_view"
+                    style="@style/PlayerValues" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="81dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="14dp">
+
+                <TextView
+                    android:id="@+id/heal_text_view"
+                    style="@style/PlayerValues"
+                    android:paddingEnd="16dp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <!--Damage-->
+        <LinearLayout
+            android:layout_width="160dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="14dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="65dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/hero_damage_text_view"
+                    style="@style/PlayerValues" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp">
+
+                <TextView
+                    android:id="@+id/tower_damage_text_view"
+                    style="@style/PlayerValues"
+                    android:layout_marginStart="16dp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <!--Support Contribution-->
+        <LinearLayout
+            android:id="@+id/root_support_item_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="54dp"
+            android:orientation="horizontal"
+            tools:ignore="ContentDescription,RtlSymmetry">
+
+            <RelativeLayout style="@style/PlayerSupportItemsRelativeLayout">
+
+                <ImageView
+                    android:id="@+id/first_support_item_icon_image_view"
+                    style="@style/SupportItem" />
+
+                <TextView
+                    android:id="@+id/first_support_item_count_text_view"
+                    style="@style/PlayerHeroesKilledCount" />
+
+            </RelativeLayout>
+
+            <RelativeLayout style="@style/PlayerSupportItemsRelativeLayout">
+
+                <ImageView
+                    android:id="@+id/second_support_item_icon_image_view"
+                    style="@style/SupportItem" />
+
+                <TextView
+                    android:id="@+id/second_support_item_count_text_view"
+                    style="@style/PlayerHeroesKilledCount" />
+
+            </RelativeLayout>
+
+            <RelativeLayout style="@style/PlayerSupportItemsRelativeLayout">
+
+                <ImageView
+                    android:id="@+id/third_support_item_icon_image_view"
+                    style="@style/SupportItem" />
+
+                <TextView
+                    android:id="@+id/third_support_item_count_text_view"
+                    style="@style/PlayerHeroesKilledCount" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fourth_support_item_layout"
+                style="@style/PlayerSupportItemsRelativeLayout">
+
+                <ImageView
+                    android:id="@+id/fourth_support_item_icon_image_view"
+                    style="@style/SupportItem" />
+
+                <TextView
+                    android:id="@+id/fourth_support_item_count_text_view"
+                    style="@style/PlayerHeroesKilledCount" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fifth_support_item_layout"
+                style="@style/PlayerSupportItemsRelativeLayout">
+
+                <ImageView
+                    android:id="@+id/fifth_support_item_icon_image_view"
+                    style="@style/SupportItem" />
+
+                <TextView
+                    android:id="@+id/fifth_support_item_count_text_view"
+                    style="@style/PlayerHeroesKilledCount" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="88dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingStart="32dp">
+
+                <TextView
+                    android:id="@+id/gold_spent_for_support_item"
+                    style="@style/PlayerValues"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:paddingEnd="16dp"
+                    android:textColor="@color/colorGold" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

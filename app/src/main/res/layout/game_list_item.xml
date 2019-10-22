@@ -22,16 +22,18 @@
             android:id="@+id/image_view"
             android:layout_width="62dp"
             android:layout_height="55dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:src="@{game.hero_id}"
-            tools:src="@drawable/invoker" />
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/outworld_devourer" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2.8"
             android:orientation="vertical"
-            android:paddingLeft="8dp">
+            android:paddingStart="8dp"
+            tools:ignore="RtlSymmetry">
 
             <TextView
                 android:id="@+id/name_text_view"
@@ -59,7 +61,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1.5"
             android:orientation="vertical"
-            android:paddingLeft="1dp">
+            android:paddingStart="1dp"
+            tools:ignore="RtlSymmetry">
 
             <TextView
                 android:id="@+id/result_text_view"
@@ -82,7 +85,8 @@
                 android:text="@{BindingAdapter.rankedOrNot(game.lobby_type)}"
                 android:textColor="@color/colorGreen"
                 android:textSize="11sp"
-                tools:text="Unranked" />
+                tools:ignore="SmallSp"
+                tools:text="Normal" />
 
         </LinearLayout>
 
@@ -91,7 +95,8 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:orientation="vertical"
-            android:paddingLeft="1dp">
+            android:paddingStart="1dp"
+            tools:ignore="RtlSymmetry">
 
             <TextView
                 android:id="@+id/mode_text_view"
@@ -113,6 +118,7 @@
                 android:text="@{BindingAdapter.skillPlayer(game.skill)}"
                 android:textColor="@color/colorGreen"
                 android:textSize="11sp"
+                tools:ignore="SmallSp"
                 tools:text="Very High Skill" />
 
         </LinearLayout>

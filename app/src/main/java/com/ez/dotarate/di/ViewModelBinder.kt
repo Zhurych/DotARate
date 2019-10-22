@@ -51,4 +51,9 @@ abstract class ViewModelBinder {
     @IntoMap
     @ViewModelKey(SteamViewModel::class)
     protected abstract fun steamViewModel(viewModel: SteamViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(GameDetailViewModel::class)
+    protected abstract fun gameDetailViewModel(viewModel: GameDetailViewModel): ViewModel
 }

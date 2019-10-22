@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.ez.dotarate.database.AppDatabase
 import com.ez.dotarate.database.Game
 import com.ez.dotarate.model.repository.OpenDotaRepositoryImpl
 import kotlinx.coroutines.Dispatchers
@@ -20,8 +19,7 @@ import javax.inject.Inject
 
 class GamesViewModel @Inject
 constructor(
-    application: Application, private val repository: OpenDotaRepositoryImpl,
-    private val db: AppDatabase
+    application: Application, private val repository: OpenDotaRepositoryImpl
 ) : AndroidViewModel(application) {
 
     val isGamesEmpty = ObservableBoolean(false)
@@ -36,7 +34,7 @@ constructor(
             .setEnablePlaceholders(false)
             .build()
         liveGame =
-            LivePagedListBuilder<Int, Game>(db.gameDao().getGames(), config).setInitialLoadKey(15)
+            LivePagedListBuilder<Int, Game>(repository.getGames(), config).setInitialLoadKey(15)
                 .build()
     }
 
@@ -48,7 +46,7 @@ constructor(
                 }
                 if (response.isSuccessful) {
                     Log.d("MyLogs", "ЗАПРОС ПРОШЁЛ УСПЕШНО. ЗНАЧЕНИЕ ОТВЕТА = ${response.body()}")
-                    val isAccesInsert = repository.saveGames(db.gameDao(), response.body()!!)
+                    val isAccesInsert = repository.saveGames(response.body()!!)
                     Log.d("MyLogs", "СКОЛЬКО ВСТАВЛЕНО ЗАПИСЕЙ В БАЗУ ДАННЫХ = $isAccesInsert")
                 } else {
                     Log.d("MyLogs", "ОШИБКА ПРИ ЗАПРОСЕ. ИМЯ ОШИБКИ= ${response.errorBody()}")

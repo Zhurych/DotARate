@@ -5,19 +5,19 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ez.dotarate.database.AppDatabase
 import com.ez.dotarate.model.User
 import com.ez.dotarate.model.repository.UserRepositoryImpl
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 
 
 class ProfileViewModel @Inject
 constructor(
-    application: Application, private val repository: UserRepositoryImpl,
-    private val db: AppDatabase
+    application: Application, private val repository: UserRepositoryImpl
 ) : AndroidViewModel(application) {
 
     /**
@@ -51,13 +51,17 @@ constructor(
             } catch (e: UnknownHostException) {
                 errorLiveData.postValue("Нет интернета")
                 Log.d("MyLogs", "НЕТ ИНТЕРНЕТА = $e")
+            } catch (e: TimeoutException) {
+                errorLiveData.postValue("Плохое соединение. Попробуйте позже")
+            } catch (e: SocketTimeoutException) {
+                errorLiveData.postValue("Плохое соединение. Попробуйте позже")
             }
         }
     }
 
     fun logout() {
         viewModelScope.launch {
-            repository.logout(db.userIdDao())
+            repository.logout()
         }
     }
 }

@@ -3,15 +3,13 @@ package com.ez.dotarate.viewModel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.liveData
-import com.ez.dotarate.database.AppDatabase
 import com.ez.dotarate.model.repository.UserRepositoryImpl
 import javax.inject.Inject
 
 
 class SplashViewModel @Inject
 constructor(
-    application: Application, private val repository: UserRepositoryImpl,
-    private val db: AppDatabase
+    application: Application, private val repository: UserRepositoryImpl
 ) : AndroidViewModel(application) {
 
     /**
@@ -22,6 +20,6 @@ constructor(
      * We don’t even need to make a method to get the User ID Key
      */
     val liveData = liveData {
-        emit(repository.getUserId(db.userIdDao()))
+        emit(repository.getUserId())
     }
 }

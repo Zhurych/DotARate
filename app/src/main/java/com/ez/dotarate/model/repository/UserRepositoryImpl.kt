@@ -1,14 +1,17 @@
 package com.ez.dotarate.model.repository
 
 import com.ez.dotarate.constants.STEAM_API_KEY
+import com.ez.dotarate.database.AppDatabase
 import com.ez.dotarate.database.UserId
-import com.ez.dotarate.database.UserIdDao
 import com.ez.dotarate.network.ServerApi
 import javax.inject.Inject
+import javax.inject.Named
 
 
 class UserRepositoryImpl @Inject
-    constructor(private val api: ServerApi) : UserRepository {
+constructor(
+    @Named("Steam") private val api: ServerApi, private val db: AppDatabase
+) : UserRepository {
 
     /**
      * This is a "regular" suspending function, which means the caller must
@@ -19,14 +22,15 @@ class UserRepositoryImpl @Inject
      * This *may* be called from Dispatchers.Main and is main-safe because
      * Room will take care of main-safety for us.
      */
-    override suspend fun getUserId(dao: UserIdDao) = dao.getId()
+    override suspend fun getUserId() = db.userIdDao().getId()
 
-    override suspend fun saveUserId(dao: UserIdDao, userId: UserId) {
-        dao.saveId(userId)
+    override suspend fun saveUserId(userId: UserId) {
+        db.userIdDao().saveId(userId)
     }
 
-    override suspend fun logout(dao: UserIdDao) {
-        dao.deleteUser()
+    override suspend fun logout() {
+        db.userIdDao().deleteUser()
+        db.gameDao().deleteGames()
     }
 
     /**

@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 
 object ViewUtils {
 
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE", "UNUSED_VALUE")
     fun generateBackgroundWithShadow(
         view: View, @ColorRes backgroundColor: Int,
         @DimenRes cornerRadius: Int,

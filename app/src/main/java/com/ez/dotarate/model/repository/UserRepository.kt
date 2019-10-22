@@ -7,9 +7,9 @@ import retrofit2.Response
 
 interface UserRepository {
     // Database
-    suspend fun saveUserId(dao: UserIdDao, userId: UserId)
-    suspend fun getUserId(dao: UserIdDao): UserId?
-    suspend fun logout(dao: UserIdDao)
+    suspend fun saveUserId(userId: UserId)
+    suspend fun getUserId(): UserId?
+    suspend fun logout()
 
     // Network
     suspend fun getUser(id: Long): Response<User>

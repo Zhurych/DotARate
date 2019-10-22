@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_gamesFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_gamesFragment_to_gameDetailFragment"
+            app:destination="@id/gameDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/mphFragment"
@@ -36,4 +39,8 @@
             android:id="@+id/action_profileFragment_to_gamesFragment"
             app:destination="@id/gamesFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/gameDetailFragment"
+        android:name="com.ez.dotarate.view.fragments.GameDetailFragment"
+        android:label="GameDetailFragment" />
 </navigation>

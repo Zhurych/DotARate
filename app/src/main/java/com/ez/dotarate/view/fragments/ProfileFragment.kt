@@ -43,6 +43,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
         inflater.inflate(R.menu.profile_menu, menu)
     }
 
+    @Suppress("UNUSED_ANONYMOUS_PARAMETER")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.proileLogout -> {
@@ -51,7 +52,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
                     val builder = AlertDialog.Builder(context!!)
 
                     builder.setMessage(R.string.profile_screen_dialog_logout)
-                    builder.setPositiveButton(R.string.yes) { dialog: DialogInterface, id: Int ->
+                    builder.setPositiveButton(R.string.yes) { _: DialogInterface, id: Int ->
                         vm.logout()
                         val intent = Intent(activity, StartActivity::class.java)
                         startActivity(intent)
