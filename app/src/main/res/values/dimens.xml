@@ -7,19 +7,21 @@
     <!--Profile screen-->
     <dimen name="profileScreenImageSize">128dp</dimen>
 
-    <!--RecyclerView Item-->
+    <!--Games Item-->
     <dimen name="radiusCorner">4dp</dimen>
     <dimen name="elevation">2dp</dimen>
 
     <!--Game Screen-->
-    <dimen name="gameScreenRecyclerViewHeight">268dp</dimen>
-    <dimen name="gameScreenPlayersWidth">70dp</dimen>
+    <dimen name="gameScreenRecyclerViewHeight">264dp</dimen>
+    <dimen name="gameScreenPlayersWidth">81dp</dimen>
     <dimen name="gameScreenSideHeight">24dp</dimen>
-    <dimen name="gameScreenSideTextSize">18sp</dimen>
-    <dimen name="gameScreenHeroImageWidth">65dp</dimen>
-    <dimen name="gameScreenHeroImageHeight">50dp</dimen>
+    <dimen name="gameScreenSideTextSize">20sp</dimen>
+    <dimen name="gameScreenHeroImageWidth">81dp</dimen>
+    <dimen name="gameScreenHeroImageHeight">52dp</dimen>
 
     <!--Player Stats Item-->
     <dimen name="playerStatsScreenHeight">52dp</dimen>
+    <dimen name="playerStatsScreenRadiusCorner">0dp</dimen>
+    <dimen name="playerStatsScreenElevation">1.5dp</dimen>
 
 </resources>

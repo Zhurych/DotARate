@@ -4,6 +4,7 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorAccent">#435118</color>
     <color name="white">#FFFFFF</color>
+    <color name="whiteLight">#fefefe</color>
     <color name="white_tran">#fffffd</color>
     <color name="colorShadow">#BDBDBD</color>
     <color name="black">#000000</color>

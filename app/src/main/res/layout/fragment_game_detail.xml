@@ -17,13 +17,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="54dp">
 
         <HorizontalScrollView
+            android:id="@+id/hsvGameDetail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toEndOf="@+id/linear_layout_players"
-            android:paddingTop="16dp"
             android:scrollbars="none">
 
             <LinearLayout
@@ -37,7 +38,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingStart="32dp"
+                    android:layout_marginTop="6.5dp"
+                    android:paddingStart="236dp"
                     android:visibility="@{vm.isLoaded() ? View.VISIBLE : View.INVISIBLE}"
                     tools:ignore="RtlSymmetry, ContentDescription">
 
@@ -48,18 +50,18 @@
 
                     <TextView
                         style="@style/Score.CategoryKDA"
-                        android:paddingStart="32dp"
+                        android:paddingStart="37dp"
                         android:text="@string/d" />
 
                     <TextView
                         style="@style/Score.CategoryKDA"
-                        android:paddingStart="32dp"
+                        android:paddingStart="38dp"
                         android:text="@string/a" />
 
                     <ImageView
                         style="@style/Score.CategoryKDA"
                         android:layout_marginTop="23dp"
-                        android:paddingStart="35dp"
+                        android:paddingStart="32dp"
                         android:src="@drawable/gold_coin" />
 
                     <TextView
@@ -70,7 +72,7 @@
 
                     <TextView
                         style="@style/Score.CategoryKDA"
-                        android:paddingStart="38dp"
+                        android:paddingStart="44dp"
                         android:text="@string/items" />
 
                     <TextView
@@ -81,12 +83,12 @@
                     <TextView
                         style="@style/Score.CategoryKDA"
                         android:paddingStart="116dp"
+                        android:paddingEnd="82dp"
                         android:text="@string/buffs" />
 
                     <TextView
                         android:id="@+id/last_hits_and_denied_radiant_text_view"
                         style="@style/Score.CategoryKDA"
-                        android:paddingStart="176dp"
                         android:text="@string/last_hits_and_denied" />
 
                     <TextView
@@ -97,7 +99,7 @@
 
                     <TextView
                         style="@style/Score.CategoryKDA"
-                        android:paddingStart="28dp"
+                        android:paddingStart="30dp"
                         android:text="@string/xpm" />
 
                     <TextView
@@ -129,7 +131,7 @@
                             <TextView
                                 style="@style/Score.CategoryKDA"
                                 android:layout_marginTop="0dp"
-                                android:paddingStart="10dp"
+                                android:paddingStart="8dp"
                                 android:text="@string/hero" />
 
                             <TextView
@@ -143,7 +145,7 @@
 
                     <TextView
                         style="@style/Score.CategoryKDA"
-                        android:paddingStart="54dp"
+                        android:paddingStart="70dp"
                         android:text="@string/support_contribution" />
 
                     <ImageView
@@ -168,9 +170,9 @@
                     android:id="@+id/dire_layout_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="44dp"
                     android:orientation="horizontal"
-                    android:paddingStart="32dp"
+                    android:layout_marginTop="36dp"
+                    android:paddingStart="236dp"
                     android:visibility="@{vm.isLoaded() ? View.VISIBLE : View.INVISIBLE}"
                     tools:ignore="RtlSymmetry, ContentDescription">
 
@@ -181,18 +183,18 @@
 
                     <TextView
                         style="@style/Score.CategoryKDA"
-                        android:paddingStart="32dp"
+                        android:paddingStart="37dp"
                         android:text="@string/d" />
 
                     <TextView
                         style="@style/Score.CategoryKDA"
-                        android:paddingStart="32dp"
+                        android:paddingStart="38dp"
                         android:text="@string/a" />
 
                     <ImageView
                         style="@style/Score.CategoryKDA"
                         android:layout_marginTop="23dp"
-                        android:paddingStart="35dp"
+                        android:paddingStart="32dp"
                         android:src="@drawable/gold_coin" />
 
                     <TextView
@@ -203,7 +205,7 @@
 
                     <TextView
                         style="@style/Score.CategoryKDA"
-                        android:paddingStart="38dp"
+                        android:paddingStart="44dp"
                         android:text="@string/items" />
 
                     <TextView
@@ -214,12 +216,12 @@
                     <TextView
                         style="@style/Score.CategoryKDA"
                         android:paddingStart="116dp"
+                        android:paddingEnd="82dp"
                         android:text="@string/buffs" />
 
                     <TextView
                         android:id="@+id/last_hits_and_denied_dire_text_view"
                         style="@style/Score.CategoryKDA"
-                        android:paddingStart="176dp"
                         android:text="@string/last_hits_and_denied" />
 
                     <TextView
@@ -230,7 +232,7 @@
 
                     <TextView
                         style="@style/Score.CategoryKDA"
-                        android:paddingStart="28dp"
+                        android:paddingStart="30dp"
                         android:text="@string/xpm" />
 
                     <TextView
@@ -262,7 +264,7 @@
                             <TextView
                                 style="@style/Score.CategoryKDA"
                                 android:layout_marginTop="0dp"
-                                android:paddingStart="10dp"
+                                android:paddingStart="8dp"
                                 android:text="@string/hero" />
 
                             <TextView
@@ -276,7 +278,7 @@
 
                     <TextView
                         style="@style/Score.CategoryKDA"
-                        android:paddingStart="54dp"
+                        android:paddingStart="70dp"
                         android:text="@string/support_contribution" />
 
                     <ImageView
@@ -292,9 +294,7 @@
                     android:id="@+id/rvGameFragmentDire"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/gameScreenRecyclerViewHeight"
-                    android:layout_marginTop="2dp"
-                    android:divider="@null"
-                    android:dividerHeight="2dp">
+                    android:layout_marginTop="2dp">
 
                 </androidx.recyclerview.widget.RecyclerView>
 
@@ -306,7 +306,8 @@
             android:id="@+id/linear_layout_players"
             android:layout_width="@dimen/gameScreenPlayersWidth"
             android:layout_height="match_parent"
-            android:layout_marginTop="12dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="2dp"
             android:layout_marginBottom="12dp"
             android:orientation="vertical"
             android:visibility="@{vm.isLoaded() ? View.VISIBLE : View.INVISIBLE}">
@@ -318,26 +319,20 @@
                 android:orientation="vertical"
                 tools:ignore="ContentDescription">
 
+                <TextView
+                    style="@style/Side"
+                    android:text="@string/radiant"
+                    android:textColor="@color/colorRadiant" />
+
                 <!--Radiant score-->
                 <LinearLayout
                     style="@style/CategorySide"
                     android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/Side"
-                            android:text="@string/radiant"
-                            android:textColor="@color/colorRadiant" />
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:paddingStart="3dp"
                             tools:ignore="RtlSymmetry">
 
                             <TextView
@@ -348,40 +343,37 @@
                                 android:id="@+id/radiant_score_text_view"
                                 style="@style/ScoreValue"
                                 android:text="@{String.valueOf(gameDetail.radiant_score)}" />
-
                         </LinearLayout>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/radiant_winner_text_view"
-                        style="@style/Winner" />
-
                 </LinearLayout>
 
-                <ImageView
+                <com.ez.dotarate.model.HeroImageView
                     android:id="@+id/first_player_hero_image_view"
                     style="@style/PlayerHeroImage"
+                    android:src="@{gameDetail.players[0].hero_id}"
                     tools:src="@drawable/mirana" />
 
-                <ImageView
+                <com.ez.dotarate.model.HeroImageView
                     android:id="@+id/second_player_hero_image_view"
                     style="@style/PlayerHeroImage"
+                    android:src="@{gameDetail.players[1].hero_id}"
                     tools:src="@drawable/meepo" />
 
-                <ImageView
+                <com.ez.dotarate.model.HeroImageView
                     android:id="@+id/third_player_hero_image_view"
                     style="@style/PlayerHeroImage"
+                    android:src="@{gameDetail.players[2].hero_id}"
                     tools:src="@drawable/ogre" />
 
-                <ImageView
+                <com.ez.dotarate.model.HeroImageView
                     android:id="@+id/fourth_player_hero_image_view"
                     style="@style/PlayerHeroImage"
+                    android:src="@{gameDetail.players[3].hero_id}"
                     tools:src="@drawable/grimstroke" />
 
-                <ImageView
+                <com.ez.dotarate.model.HeroImageView
                     android:id="@+id/fifth_player_hero_image_view"
                     style="@style/PlayerHeroImage"
+                    android:src="@{gameDetail.players[4].hero_id}"
                     tools:src="@drawable/wraith_king" />
 
             </LinearLayout>
@@ -391,30 +383,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="8dp"
+                android:paddingTop="34.6dp"
                 tools:ignore="ContentDescription">
+
+                <TextView
+                    style="@style/Side"
+                    android:text="@string/dire"
+                    android:textColor="@color/colorDire" />
 
                 <!--Dire score-->
                 <LinearLayout
                     style="@style/CategorySide"
-                    android:orientation="horizontal"
-                    android:paddingTop="32dp">
+                    android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/Side"
-                            android:text="@string/dire"
-                            android:textColor="@color/colorDire" />
-
-                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:paddingStart="3dp"
                             tools:ignore="RtlSymmetry">
 
                             <TextView
@@ -425,45 +410,93 @@
                                 android:id="@+id/dire_score_text_view"
                                 style="@style/ScoreValue"
                                 android:text="@{String.valueOf(gameDetail.dire_score)}" />
-
                         </LinearLayout>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/dire_winner_text_view"
-                        style="@style/Winner" />
-
                 </LinearLayout>
 
-                <ImageView
+                <com.ez.dotarate.model.HeroImageView
                     android:id="@+id/sixth_player_hero_image_view"
                     style="@style/PlayerHeroImage"
+                    android:src="@{gameDetail.players[5].hero_id}"
                     tools:src="@drawable/crystal_maiden" />
 
-                <ImageView
+                <com.ez.dotarate.model.HeroImageView
                     android:id="@+id/seventh_player_hero_image_view"
                     style="@style/PlayerHeroImage"
+                    android:src="@{gameDetail.players[6].hero_id}"
                     tools:src="@drawable/axe" />
 
-                <ImageView
+                <com.ez.dotarate.model.HeroImageView
                     android:id="@+id/eighth_player_hero_image_view"
                     style="@style/PlayerHeroImage"
+                    android:src="@{gameDetail.players[7].hero_id}"
                     tools:src="@drawable/rubick" />
 
-                <ImageView
+                <com.ez.dotarate.model.HeroImageView
                     android:id="@+id/ninth_player_hero_image_view"
                     style="@style/PlayerHeroImage"
+                    android:src="@{gameDetail.players[8].hero_id}"
                     tools:src="@drawable/bloodseeker" />
 
-                <ImageView
+                <com.ez.dotarate.model.HeroImageView
                     android:id="@+id/tenth_player_hero_image_view"
                     style="@style/PlayerHeroImage"
+                    android:src="@{gameDetail.players[9].hero_id}"
                     tools:src="@drawable/io" />
 
             </LinearLayout>
 
         </LinearLayout>
+
+        <View
+            android:id="@+id/vGameDetailFirst"
+            style="@style/VerticalDivider"
+            android:layout_marginTop="52dp" />
+
+        <View
+            android:id="@+id/vGameDetailSecond"
+            style="@style/VerticalDivider"
+            android:layout_below="@id/vGameDetailFirst" />
+
+        <View
+            android:id="@+id/vGameDetailThird"
+            style="@style/VerticalDivider"
+            android:layout_below="@id/vGameDetailSecond" />
+
+        <View
+            android:id="@+id/vGameDetailFourth"
+            style="@style/VerticalDivider"
+            android:layout_below="@id/vGameDetailThird" />
+
+        <View
+            android:id="@+id/vGameDetailFifth"
+            style="@style/VerticalDivider"
+            android:layout_below="@id/vGameDetailFourth" />
+
+        <View
+            android:id="@+id/vGameDetailSixth"
+            style="@style/VerticalDivider"
+            android:layout_below="@id/vGameDetailFifth"
+            android:layout_marginTop="87.5dp" />
+
+        <View
+            android:id="@+id/vGameDetailSeventh"
+            style="@style/VerticalDivider"
+            android:layout_below="@id/vGameDetailSixth" />
+
+        <View
+            android:id="@+id/vGameDetailEighth"
+            style="@style/VerticalDivider"
+            android:layout_below="@id/vGameDetailSeventh" />
+
+        <View
+            android:id="@+id/vGameDetailNinth"
+            style="@style/VerticalDivider"
+            android:layout_below="@id/vGameDetailEighth" />
+
+        <View
+            android:id="@+id/vGameDetailTenth"
+            style="@style/VerticalDivider"
+            android:layout_below="@id/vGameDetailNinth" />
 
         <ProgressBar
             android:id="@+id/pbGame"

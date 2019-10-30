@@ -39,6 +39,7 @@ data class Player(
     val permanent_buffs: List<PermanentBuff>,
     val personaname: String,
     val player_slot: Int,
+    val purchase: Purchase,
     val rank_tier: Int,
     val total_gold: Int,
     val tower_damage: Int,
@@ -48,4 +49,12 @@ data class Player(
 data class PermanentBuff(
     val permanent_buff: Int,
     val stack_count: Int
+)
+
+data class Purchase(
+    val ward_observer: Int?,
+    val ward_sentry: Int?,
+    val dust: Int?,
+    val smoke_of_deceit: Int?,
+    val gem: Int?
 )

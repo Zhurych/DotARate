@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="com.ez.dotarate.constants.NumbersConstantsKt" />
+
         <import type="com.ez.dotarate.adapters.BindingAdapter" />
 
         <variable
@@ -12,7 +14,7 @@
             type="com.ez.dotarate.database.Game" />
     </data>
 
-    <com.ez.dotarate.view.layouts.RecyclerViewItemLayout
+    <com.ez.dotarate.model.layouts.RecyclerViewItemLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
@@ -43,6 +45,7 @@
                 android:textColor="@color/colorGreen"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                app:from="@{NumbersConstantsKt.GAMES_FRAGMENT_ID}"
                 app:heroName="@{game.hero_id}"
                 tools:text="Outworld Devourer" />
 
@@ -123,5 +126,5 @@
 
         </LinearLayout>
 
-    </com.ez.dotarate.view.layouts.RecyclerViewItemLayout>
+    </com.ez.dotarate.model.layouts.RecyclerViewItemLayout>
 </layout>

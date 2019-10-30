@@ -2,6 +2,17 @@ package com.ez.dotarate.constants
 
 const val CONVERTER_NUMBER = 76561197960265728
 
+// Side ID
+const val HIDE_NONE = 0
+const val HIDE_START = 1
+const val HIDE_TOP = 2
+const val HIDE_END = 3
+const val HIDE_BOTTOM = 4
+
+// ID
+const val GAMES_FRAGMENT_ID = 0
+const val GAME_FRAGMENT_DETAIL_ID = 1
+
 // KDA
 const val KILLS_ID = 0
 const val DEATHS_ID = 1
@@ -192,7 +203,7 @@ const val DIVINE_3 = 73
 const val DIVINE_4 = 74
 const val DIVINE_5 = 75
 
-const val IMMORTAL = 8
+const val IMMORTAL = 80
 
 // Item ID
 const val BLINK_DAGGER = 1

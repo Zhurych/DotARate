@@ -22,24 +22,26 @@
     <style name="CategorySide">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingStart">6dp</item>
+        <item name="android:paddingStart">2dp</item>
+        <item name="android:paddingBottom">2.5dp</item>
     </style>
 
     <style name="Side">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/gameScreenSideHeight</item>
         <item name="android:textSize">@dimen/gameScreenSideTextSize</item>
+        <item name="android:paddingStart">2dp</item>
     </style>
 
     <style name="Score">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/colorText</item>
     </style>
 
-    <style name="Score.CategoryKDA" >
+    <style name="Score.CategoryKDA">
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:textColor">@color/colorTextDark</item>
     </style>
@@ -47,7 +49,7 @@
     <style name="ScoreValue">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:paddingStart">4dp</item>
         <item name="android:textColor">@color/colorText</item>
         <item name="android:textStyle">bold</item>
@@ -69,7 +71,8 @@
     <style name="PlayerHeroImage">
         <item name="android:layout_width">@dimen/gameScreenHeroImageWidth</item>
         <item name="android:layout_height">@dimen/gameScreenHeroImageHeight</item>
-        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingStart">8dp</item>
     </style>
 
     <style name="PlayerCDA">
@@ -153,6 +156,14 @@
     <style name="PlayerSupportItemsRelativeLayout">
         <item name="android:layout_width">60dp</item>
         <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="VerticalDivider">
+        <item name="android:layout_width">0.1dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@color/whiteLight</item>
+        <item name="android:layout_marginStart">87.5dp</item>
+        <item name="android:layout_marginTop">4dp</item>
     </style>
 
 </resources>

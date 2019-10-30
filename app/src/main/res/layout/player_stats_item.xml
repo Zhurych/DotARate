@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="com.ez.dotarate.constants.NumbersConstantsKt" />
+
         <import type="android.view.View" />
 
         <variable
@@ -20,12 +22,9 @@
         android:orientation="horizontal">
 
         <!--Player-->
-        <RelativeLayout
+        <com.ez.dotarate.model.layouts.PlayerItemLayout
             android:layout_width="200dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/player_rectangle"
             tools:ignore="ContentDescription,RtlSymmetry">
 
             <LinearLayout
@@ -39,10 +38,10 @@
                     android:layout_height="26dp"
                     android:gravity="center_vertical"
                     android:paddingStart="12dp"
-                    android:text="@{player.personaname}"
                     android:textColor="@color/colorText"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    app:playerName="@{player.personaname}"
                     tools:text="Петяджойстик3000  " />
 
                 <LinearLayout
@@ -71,6 +70,7 @@
                         android:paddingStart="4dp"
                         android:textAllCaps="true"
                         android:textColor="@color/colorTextDark"
+                        app:from="@{NumbersConstantsKt.GAME_FRAGMENT_DETAIL_ID}"
                         app:heroName="@{player.hero_id}"
                         tools:text="MIRANA" />
 
@@ -87,23 +87,21 @@
                 android:layout_marginEnd="4dp"
                 app:rankTier="@{player.rank_tier}"
                 tools:src="@drawable/divine_3" />
-
-
-        </RelativeLayout>
+        </com.ez.dotarate.model.layouts.PlayerItemLayout>
 
         <!--KDA/ITEMS-->
-        <LinearLayout
+        <com.ez.dotarate.model.layouts.PlayerStatsItemLayout
             android:id="@+id/first_linear_layout_field"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
+            android:layout_marginStart="16dp"
             tools:ignore="ContentDescription,RtlSymmetry">
 
             <LinearLayout
                 android:layout_width="140dp"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingStart="16dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/player_kills_text_view"
@@ -128,7 +126,7 @@
 
             </LinearLayout>
 
-            <FrameLayout
+            <RelativeLayout
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp">
@@ -137,12 +135,12 @@
                     android:id="@+id/player_net_worth_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:textColor="@color/colorRed"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/colorGold"
                     android:textSize="18sp"
                     app:largeNumbers="@{player.total_gold}"
                     tools:text="14 771" />
-            </FrameLayout>
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/first_slot_image_view"
@@ -210,7 +208,9 @@
 
                 <TextView
                     android:id="@+id/first_buff_text_view"
-                    style="@style/BuffCount" />
+                    style="@style/BuffCount"
+                    app:buffCount="@{player.permanent_buffs}"
+                    app:position="@{0}" />
 
             </RelativeLayout>
 
@@ -226,7 +226,9 @@
 
                 <TextView
                     android:id="@+id/second_buff_text_view"
-                    style="@style/BuffCount" />
+                    style="@style/BuffCount"
+                    app:buffCount="@{player.permanent_buffs}"
+                    app:position="@{1}" />
 
             </RelativeLayout>
 
@@ -244,7 +246,9 @@
 
                 <TextView
                     android:id="@+id/third_buff_text_view"
-                    style="@style/BuffCount" />
+                    style="@style/BuffCount"
+                    app:buffCount="@{player.permanent_buffs}"
+                    app:position="@{2}" />
 
             </RelativeLayout>
 
@@ -262,7 +266,9 @@
 
                 <TextView
                     android:id="@+id/fourth_buff_text_view"
-                    style="@style/BuffCount" />
+                    style="@style/BuffCount"
+                    app:buffCount="@{player.permanent_buffs}"
+                    app:position="@{3}" />
 
             </RelativeLayout>
 
@@ -278,7 +284,9 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:textColor="@color/colorTextDark"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    app:denies="@{player.denies}"
+                    app:lastHits="@{player.last_hits}" />
             </LinearLayout>
 
             <RelativeLayout
@@ -289,7 +297,8 @@
                 <TextView
                     android:id="@+id/gpm_text_view"
                     style="@style/PlayerValues"
-                    android:textColor="@color/colorGold" />
+                    android:textColor="@color/colorGold"
+                    app:largeNumbers="@{player.gold_per_min}" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -299,7 +308,8 @@
 
                 <TextView
                     android:id="@+id/xpm_text_view"
-                    style="@style/PlayerValues" />
+                    style="@style/PlayerValues"
+                    app:largeNumbers="@{player.xp_per_min}" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -310,12 +320,13 @@
                 <TextView
                     android:id="@+id/heal_text_view"
                     style="@style/PlayerValues"
-                    android:paddingEnd="16dp" />
+                    android:paddingEnd="16dp"
+                    app:largeNumbers="@{player.hero_healing}" />
             </RelativeLayout>
-        </LinearLayout>
+        </com.ez.dotarate.model.layouts.PlayerStatsItemLayout>
 
         <!--Damage-->
-        <LinearLayout
+        <com.ez.dotarate.model.layouts.PlayerStatsItemLayout
             android:layout_width="160dp"
             android:layout_height="match_parent"
             android:layout_marginStart="14dp"
@@ -327,7 +338,8 @@
 
                 <TextView
                     android:id="@+id/hero_damage_text_view"
-                    style="@style/PlayerValues" />
+                    style="@style/PlayerValues"
+                    app:largeNumbers="@{player.hero_damage}" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -338,12 +350,13 @@
                 <TextView
                     android:id="@+id/tower_damage_text_view"
                     style="@style/PlayerValues"
-                    android:layout_marginStart="16dp" />
+                    android:layout_marginStart="16dp"
+                    app:largeNumbers="@{player.tower_damage}" />
             </RelativeLayout>
-        </LinearLayout>
+        </com.ez.dotarate.model.layouts.PlayerStatsItemLayout>
 
         <!--Support Contribution-->
-        <LinearLayout
+        <com.ez.dotarate.model.layouts.PlayerStatsItemLayout
             android:id="@+id/root_support_item_layout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -389,7 +402,8 @@
 
             <RelativeLayout
                 android:id="@+id/fourth_support_item_layout"
-                style="@style/PlayerSupportItemsRelativeLayout">
+                style="@style/PlayerSupportItemsRelativeLayout"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/fourth_support_item_icon_image_view"
@@ -403,7 +417,8 @@
 
             <RelativeLayout
                 android:id="@+id/fifth_support_item_layout"
-                style="@style/PlayerSupportItemsRelativeLayout">
+                style="@style/PlayerSupportItemsRelativeLayout"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/fifth_support_item_icon_image_view"
@@ -430,6 +445,6 @@
                     android:paddingEnd="16dp"
                     android:textColor="@color/colorGold" />
             </RelativeLayout>
-        </LinearLayout>
+        </com.ez.dotarate.model.layouts.PlayerStatsItemLayout>
     </LinearLayout>
 </layout>

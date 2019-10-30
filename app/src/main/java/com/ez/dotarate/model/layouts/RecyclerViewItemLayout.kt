@@ -1,4 +1,4 @@
-package com.ez.dotarate.view.layouts
+package com.ez.dotarate.model.layouts
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,7 +6,9 @@ import android.view.Gravity
 import android.widget.LinearLayout
 import androidx.annotation.Nullable
 import com.ez.dotarate.R
-import com.ez.dotarate.model.ViewUtils.generateBackgroundWithShadow
+import com.ez.dotarate.ViewUtils.generateBackgroundWithShadow
+import com.ez.dotarate.constants.HIDE_END
+import com.ez.dotarate.constants.HIDE_NONE
 
 
 class RecyclerViewItemLayout : LinearLayout {
@@ -29,7 +31,7 @@ class RecyclerViewItemLayout : LinearLayout {
     private fun initBackground() {
         background = generateBackgroundWithShadow(
             this, R.color.white_tran,
-            R.dimen.radiusCorner, R.color.colorShadow, R.dimen.elevation, Gravity.CENTER
+            R.dimen.radiusCorner, R.color.colorShadow, R.dimen.elevation, Gravity.BOTTOM, HIDE_NONE
         )
     }
 }

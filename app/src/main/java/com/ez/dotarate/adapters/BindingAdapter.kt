@@ -13,6 +13,7 @@ import com.ez.dotarate.R
 import com.ez.dotarate.constants.*
 import com.ez.dotarate.database.Game
 import com.ez.dotarate.model.PermanentBuff
+import com.ez.dotarate.model.Purchase
 import com.squareup.picasso.Picasso
 import java.util.*
 import kotlin.math.roundToInt
@@ -160,11 +161,32 @@ object BindingAdapter {
     }
 
     /**
+     * Determines Player Name
+     */
+    @BindingAdapter("playerName")
+    @JvmStatic
+    fun playerName(view: TextView, playerName: String?) {
+
+        val context = App.applicationContext()
+
+        if (playerName != null) {
+            when {
+                playerName.length in 12..15 -> view.textSize = 16F
+                playerName.length in 16..19 -> view.textSize = 14F
+                playerName.length in 20..29 -> view.textSize = 12F
+                playerName.length >= 30 -> view.textSize = 10F
+                else -> view.textSize = 18F
+            }
+            view.text = playerName
+        } else view.text = context.getString(R.string.anonym)
+    }
+
+    /**
      * Determines Hero Name
      */
-    @BindingAdapter("heroName")
+    @BindingAdapter("heroName", "from")
     @JvmStatic
-    fun findHeroName(view: TextView, heroID: Int) {
+    fun findHeroName(view: TextView, heroID: Int, fromId: Int) {
 
         val context = App.applicationContext()
 
@@ -291,8 +313,20 @@ object BindingAdapter {
             else -> heroName = context.getString(R.string.unknown_hero)
         }
 
-        if (heroName.length > 15) view.textSize = 14F
-        else view.textSize = 16F
+        when (fromId) {
+            GAMES_FRAGMENT_ID -> {
+                if (heroName.length > 15) view.textSize = 14F
+                else view.textSize = 16F
+            }
+            GAME_FRAGMENT_DETAIL_ID -> {
+                when {
+                    heroName.length in 12..15 -> view.textSize = 12F
+                    heroName.length in 16..21 -> view.textSize = 10F
+                    heroName.length >= 22 -> view.textSize = 8F
+                    else -> view.textSize = 14F
+                }
+            }
+        }
 
         view.text = heroName
     }
@@ -772,5 +806,28 @@ object BindingAdapter {
                 JINADA_BUFF -> view.setImageResource(R.drawable.jinada_icon)
             }
         }
+    }
+
+    /**
+     * Set Buff Count
+     */
+    @BindingAdapter("buffCount", "position")
+    @JvmStatic
+    fun buffCount(view: TextView, buffs: List<PermanentBuff>?, position: Int) {
+
+        if (buffs == null) return
+
+        if (position < buffs.size) {
+            view.text = buffs[position].stack_count.toString()
+        }
+    }
+
+    /**
+     * Set Last Hits and Denies
+     */
+    @BindingAdapter("lastHits", "denies")
+    @JvmStatic
+    fun lastHitsAndDenies(view: TextView, lastHits: Int, denies: Int) {
+        view.text = String.format("$lastHits / $denies")
     }
 }

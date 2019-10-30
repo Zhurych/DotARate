@@ -3,13 +3,19 @@ package com.ez.dotarate.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.collection.ArrayMap
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ez.dotarate.R
 import com.ez.dotarate.databinding.PlayerStatsItemBinding
 import com.ez.dotarate.model.Player
 
-class PlayerAdapter(private val listPlayers: ArrayList<Player>, private val maxCountBuff: Int) :
+
+class PlayerAdapter(
+    private val listPlayers: ArrayList<Player>,
+    private val maxCountBuff: Int,
+    private val maxCountSuppItems: Int
+) :
     RecyclerView.Adapter<PlayerAdapter.PlayerHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerHolder {
@@ -28,9 +34,9 @@ class PlayerAdapter(private val listPlayers: ArrayList<Player>, private val maxC
     override fun getItemCount() = listPlayers.size
 
     override fun onBindViewHolder(holder: PlayerHolder, position: Int) {
-        val gameDetail = listPlayers[position]
+        val player = listPlayers[position]
 
-        holder.bind(gameDetail)
+        holder.bind(player)
     }
 
     inner class PlayerHolder(private var binding: PlayerStatsItemBinding) :
@@ -40,7 +46,65 @@ class PlayerAdapter(private val listPlayers: ArrayList<Player>, private val maxC
             binding.player = player
 
             if (maxCountBuff == 3) binding.thirdBuffField.visibility = View.VISIBLE
-            else if (maxCountBuff == 4)  binding.fourthBuffField.visibility = View.VISIBLE
+            else if (maxCountBuff == 4) binding.fourthBuffField.visibility = View.VISIBLE
+
+            if (maxCountSuppItems == 4) binding.fourthSupportItemLayout.visibility = View.VISIBLE
+            else if (maxCountSuppItems == 5) binding.fifthSupportItemLayout.visibility =
+                View.VISIBLE
+
+            val purchase = player.purchase
+            val mapSupportItems: ArrayMap<String, Int> = ArrayMap()
+
+            @Suppress("SENSELESS_COMPARISON")
+            if (purchase != null) {
+                if (purchase.ward_observer != null) mapSupportItems["a"] =
+                    purchase.ward_observer
+                if (purchase.ward_sentry != null) mapSupportItems["aa"] =
+                    purchase.ward_sentry
+                if (purchase.dust != null) mapSupportItems["aaa"] = purchase.dust
+                if (purchase.smoke_of_deceit != null) mapSupportItems["aaaa"] =
+                    purchase.smoke_of_deceit
+                if (purchase.gem != null) mapSupportItems["aaaaa"] = purchase.gem
+            }
+
+            for (i in 0 until mapSupportItems.size) {
+                val key = mapSupportItems.keyAt(i)
+                var value = mapSupportItems.valueAt(i)
+
+                val drawable = when (key) {
+                    "a" -> R.drawable.observer_ward
+                    "aa" -> R.drawable.sentry_ward
+                    "aaa" -> {
+                        value /= 2
+                        R.drawable.dust_of_appearance
+                    }
+                    "aaaa" -> R.drawable.smoke_of_deceit
+                    else -> R.drawable.gem_of_true_sight
+                }
+
+                when (i) {
+                    0 -> {
+                        binding.firstSupportItemIconImageView.setImageResource(drawable)
+                        binding.firstSupportItemCountTextView.text = value.toString()
+                    }
+                    1 -> {
+                        binding.secondSupportItemIconImageView.setImageResource(drawable)
+                        binding.secondSupportItemCountTextView.text = value.toString()
+                    }
+                    2 -> {
+                        binding.thirdSupportItemIconImageView.setImageResource(drawable)
+                        binding.thirdSupportItemCountTextView.text = value.toString()
+                    }
+                    3 -> {
+                        binding.fourthSupportItemIconImageView.setImageResource(drawable)
+                        binding.fourthSupportItemCountTextView.text = value.toString()
+                    }
+                    4 -> {
+                        binding.fifthSupportItemIconImageView.setImageResource(drawable)
+                        binding.fifthSupportItemCountTextView.text = value.toString()
+                    }
+                }
+            }
 
             // Используется для того, что бы биндинг выполинлся как можно скорее
             binding.executePendingBindings()
