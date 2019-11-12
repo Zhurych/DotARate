@@ -8,7 +8,8 @@ data class GameDetail(
     val players: List<Player>,
     val radiant_score: Int,
     val radiant_win: Boolean,
-    val start_time: Int
+    val start_time: Int,
+    val region: Int
 )
 
 data class Player(

@@ -12,6 +12,10 @@
         <variable
             name="player"
             type="com.ez.dotarate.model.Player" />
+        
+        <variable
+            name="suppGold"
+            type="Integer" />
 
     </data>
 
@@ -19,6 +23,7 @@
         android:id="@+id/rootView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/playerStatsScreenHeight"
+        android:layout_marginEnd="16dp"
         android:orientation="horizontal">
 
         <!--Player-->
@@ -327,10 +332,12 @@
 
         <!--Damage-->
         <com.ez.dotarate.model.layouts.PlayerStatsItemLayout
-            android:layout_width="160dp"
+            android:layout_width="176dp"
             android:layout_height="match_parent"
             android:layout_marginStart="14dp"
-            android:orientation="horizontal">
+            android:paddingEnd="16dp"
+            android:orientation="horizontal"
+            tools:ignore="RtlSymmetry">
 
             <RelativeLayout
                 android:layout_width="65dp"
@@ -371,6 +378,7 @@
                     style="@style/SupportItem" />
 
                 <TextView
+                    android:visibility="invisible"
                     android:id="@+id/first_support_item_count_text_view"
                     style="@style/PlayerHeroesKilledCount" />
 
@@ -383,6 +391,7 @@
                     style="@style/SupportItem" />
 
                 <TextView
+                    android:visibility="invisible"
                     android:id="@+id/second_support_item_count_text_view"
                     style="@style/PlayerHeroesKilledCount" />
 
@@ -395,6 +404,7 @@
                     style="@style/SupportItem" />
 
                 <TextView
+                    android:visibility="invisible"
                     android:id="@+id/third_support_item_count_text_view"
                     style="@style/PlayerHeroesKilledCount" />
 
@@ -411,6 +421,7 @@
 
                 <TextView
                     android:id="@+id/fourth_support_item_count_text_view"
+                    android:visibility="invisible"
                     style="@style/PlayerHeroesKilledCount" />
 
             </RelativeLayout>
@@ -426,6 +437,7 @@
 
                 <TextView
                     android:id="@+id/fifth_support_item_count_text_view"
+                    android:visibility="invisible"
                     style="@style/PlayerHeroesKilledCount" />
 
             </RelativeLayout>
@@ -441,6 +453,7 @@
                     style="@style/PlayerValues"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:largeNumbers="@{suppGold}"
                     android:layout_alignParentEnd="true"
                     android:paddingEnd="16dp"
                     android:textColor="@color/colorGold" />

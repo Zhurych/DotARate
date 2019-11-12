@@ -29,7 +29,7 @@ constructor(
             try {
                 val response = repository.getGameDetail(id)
 
-                Log.d("MyLogs", "УСПЕШЕЫЙ ЗАПРОС = ${response.body()}")
+                //Log.d("MyLogs", "УСПЕШЕЫЙ ЗАПРОС = ${response.body()}")
                 if (response.isSuccessful) {
                     liveGame.postValue(response.body())
                 } else {

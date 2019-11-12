@@ -12,8 +12,9 @@ import com.ez.dotarate.viewModel.MphViewModel
 class MphFragment : BaseFragment<MphViewModel, FragmentMphBinding>() {
     override fun layout() = R.layout.fragment_mph
 
-    override fun afterCreateView(view: View) {
-
+    override fun afterCreateView(view: View, savedInstanceState: Bundle?) {
+        activity?.setTitle(R.string.mph_screen_title)
+        Log.d("MyLogs", "MphFragment. AfterCreateView")
     }
 
     override fun onStart() {

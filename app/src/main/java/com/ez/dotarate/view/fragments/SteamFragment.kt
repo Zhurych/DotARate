@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -37,7 +38,7 @@ class SteamFragment : BaseFragment<SteamViewModel, FragmentSteamBinding>() {
 
     override fun layout() = R.layout.fragment_steam
 
-    override fun afterCreateView(view: View) {
+    override fun afterCreateView(view: View, savedInstanceState: Bundle?) {
 
         val window = activity?.window
 

@@ -46,6 +46,11 @@
         <item name="android:textColor">@color/colorTextDark</item>
     </style>
 
+    <style name="Score.CategoryKDALand">
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:textColor">@color/colorTextDark</item>
+    </style>
+
     <style name="ScoreValue">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -111,11 +116,11 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentEnd">true</item>
         <item name="android:layout_alignParentBottom">true</item>
-        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>
         <item name="android:paddingBottom">8dp</item>
         <item name="android:paddingEnd">4dp</item>
-        <item name="android:shadowColor">@color/colorPlayer</item>
+        <item name="android:shadowColor">@color/colorShadow</item>
         <item name="android:shadowDx">1</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">2</item>
@@ -128,18 +133,6 @@
         <item name="android:textSize">16sp</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:textColor">@color/colorTextDark</item>
-    </style>
-
-    <style name="PlayerHeroesKilledRelativeLayout">
-        <item name="android:layout_width">56dp</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:paddingLeft">14dp</item>
-    </style>
-
-    <style name="PlayerHeroesKilledIcon">
-        <item name="android:layout_width">34dp</item>
-        <item name="android:layout_height">34dp</item>
-        <item name="android:layout_centerVertical">true</item>
     </style>
 
     <style name="PlayerHeroesKilledCount">
@@ -164,6 +157,10 @@
         <item name="android:background">@color/whiteLight</item>
         <item name="android:layout_marginStart">87.5dp</item>
         <item name="android:layout_marginTop">4dp</item>
+    </style>
+
+    <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">20sp</item>
     </style>
 
 </resources>

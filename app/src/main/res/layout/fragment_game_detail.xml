@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -17,14 +18,70 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="54dp">
+        android:layout_height="match_parent">
+
+        <!--ToolBar-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height"
+            android:orientation="horizontal"
+            android:visibility="@{vm.isLoaded() ? View.VISIBLE : View.INVISIBLE}">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:gravity="bottom|center_horizontal"
+                android:paddingBottom="6dp"
+                android:textColor="@color/colorDarkGreen"
+                android:textSize="16sp"
+                app:region="@{gameDetail.region}"
+                tools:text="Europe West" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center_horizontal"
+                    android:textAllCaps="true"
+                    android:textSize="16sp"
+                    app:winner="@{gameDetail.radiant_win}"
+                    tools:text="Radiant Victory" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/colorDarkGreen"
+                    android:textStyle="bold"
+                    app:duration="@{gameDetail.duration}"
+                    tools:text="38:16" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:gravity="bottom|center_horizontal"
+                android:paddingBottom="6dp"
+                android:textColor="@color/colorDarkGreen"
+                android:textSize="16sp"
+                app:mode="@{gameDetail.game_mode}"
+                tools:text="All Pick" />
+        </LinearLayout>
 
         <HorizontalScrollView
             android:id="@+id/hsvGameDetail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toEndOf="@+id/linear_layout_players"
+            android:layout_marginTop="54dp"
             android:scrollbars="none">
 
             <LinearLayout
@@ -81,13 +138,13 @@
                         android:text="@string/backpack" />
 
                     <TextView
+                        android:id="@+id/tvGameDetailBuffsRadiant"
                         style="@style/Score.CategoryKDA"
                         android:paddingStart="116dp"
                         android:paddingEnd="82dp"
                         android:text="@string/buffs" />
 
                     <TextView
-                        android:id="@+id/last_hits_and_denied_radiant_text_view"
                         style="@style/Score.CategoryKDA"
                         android:text="@string/last_hits_and_denied" />
 
@@ -117,7 +174,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
-                            android:paddingStart="26dp"
+                            android:paddingStart="38dp"
                             android:text="@string/damage_dealt"
                             android:textAllCaps="true"
                             android:textColor="@color/colorTextDark"
@@ -131,13 +188,13 @@
                             <TextView
                                 style="@style/Score.CategoryKDA"
                                 android:layout_marginTop="0dp"
-                                android:paddingStart="8dp"
+                                android:paddingStart="12dp"
                                 android:text="@string/hero" />
 
                             <TextView
                                 style="@style/Score.CategoryKDA"
                                 android:layout_marginTop="0dp"
-                                android:paddingStart="20dp"
+                                android:paddingStart="32dp"
                                 android:text="@string/building" />
 
                         </LinearLayout>
@@ -149,10 +206,10 @@
                         android:text="@string/support_contribution" />
 
                     <ImageView
-                        android:id="@+id/radiant_supp_items_gold"
+                        android:id="@+id/ivGameDetailSuppGoldRadiant"
                         style="@style/Score.CategoryKDA"
                         android:layout_marginTop="23dp"
-                        android:paddingStart="126dp"
+                        android:paddingStart="65dp"
                         android:src="@drawable/gold_coin" />
 
                 </LinearLayout>
@@ -214,13 +271,13 @@
                         android:text="@string/backpack" />
 
                     <TextView
+                        android:id="@+id/tvGameDetailBuffsDire"
                         style="@style/Score.CategoryKDA"
                         android:paddingStart="116dp"
                         android:paddingEnd="82dp"
                         android:text="@string/buffs" />
 
                     <TextView
-                        android:id="@+id/last_hits_and_denied_dire_text_view"
                         style="@style/Score.CategoryKDA"
                         android:text="@string/last_hits_and_denied" />
 
@@ -250,7 +307,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
-                            android:paddingStart="26dp"
+                            android:paddingStart="38dp"
                             android:text="@string/damage_dealt"
                             android:textAllCaps="true"
                             android:textColor="@color/colorTextDark"
@@ -264,13 +321,13 @@
                             <TextView
                                 style="@style/Score.CategoryKDA"
                                 android:layout_marginTop="0dp"
-                                android:paddingStart="8dp"
+                                android:paddingStart="12dp"
                                 android:text="@string/hero" />
 
                             <TextView
                                 style="@style/Score.CategoryKDA"
                                 android:layout_marginTop="0dp"
-                                android:paddingStart="20dp"
+                                android:paddingStart="32dp"
                                 android:text="@string/building" />
 
                         </LinearLayout>
@@ -282,10 +339,10 @@
                         android:text="@string/support_contribution" />
 
                     <ImageView
-                        android:id="@+id/dire_supp_items_gold"
+                        android:id="@+id/ivGameDetailSuppGoldDire"
                         style="@style/Score.CategoryKDA"
                         android:layout_marginTop="23dp"
-                        android:paddingStart="126dp"
+                        android:paddingStart="65dp"
                         android:src="@drawable/gold_coin" />
 
                 </LinearLayout>
@@ -307,7 +364,7 @@
             android:layout_width="@dimen/gameScreenPlayersWidth"
             android:layout_height="match_parent"
             android:layout_marginStart="7dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="56dp"
             android:layout_marginBottom="12dp"
             android:orientation="vertical"
             android:visibility="@{vm.isLoaded() ? View.VISIBLE : View.INVISIBLE}">
@@ -450,7 +507,7 @@
         <View
             android:id="@+id/vGameDetailFirst"
             style="@style/VerticalDivider"
-            android:layout_marginTop="52dp" />
+            android:layout_marginTop="106dp" />
 
         <View
             android:id="@+id/vGameDetailSecond"

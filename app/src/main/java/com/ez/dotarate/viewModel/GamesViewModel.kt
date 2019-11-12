@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -23,6 +24,8 @@ constructor(
 ) : AndroidViewModel(application) {
 
     val isGamesEmpty = ObservableBoolean(false)
+
+    val isLoaded = MutableLiveData<Boolean>()
 
     var liveGame: LiveData<PagedList<Game>>
 
@@ -45,14 +48,17 @@ constructor(
                     repository.getMatches(id32)
                 }
                 if (response.isSuccessful) {
-                    Log.d("MyLogs", "ЗАПРОС ПРОШЁЛ УСПЕШНО. ЗНАЧЕНИЕ ОТВЕТА = ${response.body()}")
+                    isLoaded.postValue(true)
+                    //Log.d("MyLogs", "ЗАПРОС ПРОШЁЛ УСПЕШНО. ЗНАЧЕНИЕ ОТВЕТА = ${response.body()}")
                     val isAccesInsert = repository.saveGames(response.body()!!)
-                    Log.d("MyLogs", "СКОЛЬКО ВСТАВЛЕНО ЗАПИСЕЙ В БАЗУ ДАННЫХ = $isAccesInsert")
+                    //Log.d("MyLogs", "СКОЛЬКО ВСТАВЛЕНО ЗАПИСЕЙ В БАЗУ ДАННЫХ = $isAccesInsert")
                 } else {
+                    isLoaded.postValue(true)
                     Log.d("MyLogs", "ОШИБКА ПРИ ЗАПРОСЕ. ИМЯ ОШИБКИ= ${response.errorBody()}")
                     Log.d("MyLogs", "ОШИБКА ПРИ ЗАПРОСЕ. КОД ОШИБКИ= ${response.code()}")
                 }
             } catch (e: UnknownHostException) {
+                isLoaded.postValue(true)
                 Log.d("MyLogs", "НЕТ ИНТЕРНЕТА = $e")// Получаем при Авиа - режиме
             }
         }

@@ -18,7 +18,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
 
     override fun layout() = R.layout.fragment_login
 
-    override fun afterCreateView(view: View) {
+    override fun afterCreateView(view: View, savedInstanceState: Bundle?) {
 
         val window = activity?.window
 

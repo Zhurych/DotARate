@@ -18,8 +18,10 @@
     <dimen name="gameScreenSideTextSize">20sp</dimen>
     <dimen name="gameScreenHeroImageWidth">81dp</dimen>
     <dimen name="gameScreenHeroImageHeight">52dp</dimen>
-
-    <!--Player Stats Item-->
+    <dimen name="gameScreenThirdBuffPaddingSize">128dp</dimen>
+    <dimen name="gameScreenFourthBuffPaddingSize">174dp</dimen>
+    <dimen name="gameScreenFourthSuppItemPaddingSize">124dp</dimen>
+    <dimen name="gameScreenFifthSuppItemPaddingSize">184dp</dimen>
     <dimen name="playerStatsScreenHeight">52dp</dimen>
     <dimen name="playerStatsScreenRadiusCorner">0dp</dimen>
     <dimen name="playerStatsScreenElevation">1.5dp</dimen>

@@ -13,7 +13,6 @@ import com.ez.dotarate.R
 import com.ez.dotarate.constants.*
 import com.ez.dotarate.database.Game
 import com.ez.dotarate.model.PermanentBuff
-import com.ez.dotarate.model.Purchase
 import com.squareup.picasso.Picasso
 import java.util.*
 import kotlin.math.roundToInt
@@ -30,6 +29,60 @@ object BindingAdapter {
             Picasso.get().load(url).placeholder(errorImage).error(
                 errorImage
             ).into(view)
+    }
+
+    /**
+     * Set Region
+     */
+    @BindingAdapter("region")
+    @JvmStatic
+    fun setRegion(view: TextView, region: Int) {
+
+        val context = App.applicationContext()
+
+        when (region) {
+            EUROPE_WEST -> view.text = context.getString(R.string.europeWest)
+            RUSSIA -> view.text = context.getString(R.string.russia)
+            EUROPE_EAST -> view.text = context.getString(R.string.europeEast)
+        }
+    }
+
+    /**
+     * Set Winner
+     */
+    @BindingAdapter("winner")
+    @JvmStatic
+    fun setWinner(view: TextView, radiantWin: Boolean) {
+
+        val context = App.applicationContext()
+
+        if (radiantWin) {
+            view.setTextColor(context.getColor(R.color.colorRadiant))
+            view.text = context.getString(R.string.gameScreenRadiantVictory)
+        } else {
+            view.setTextColor(context.getColor(R.color.colorDire))
+            view.text = context.getString(R.string.gameScreenDireVictory)
+        }
+    }
+
+    /**
+     * Set Duration
+     */
+    @BindingAdapter("duration")
+    @JvmStatic
+    fun setDuration(view: TextView, duration: Int) {
+
+        val minutes = duration / 60
+
+        val seconds = duration % 60
+
+        val sb = StringBuilder()
+        sb.append(minutes).append(":")
+
+        if (seconds < 10) sb.append("0$seconds")
+        else sb.append(seconds)
+
+        view.text = sb.toString()
     }
 
     /**
@@ -334,11 +387,11 @@ object BindingAdapter {
     /**
      * Return Game Date String
      */
+    @BindingAdapter("gameDate")
     @JvmStatic
-    fun getTimeForGame(startTime: Long): String {
+    fun getTimeForGame(view: TextView, startTime: Long) {
 
         val context = App.applicationContext()
-        val result: String
 
         // Текущая дата
         val currentDate = Date()
@@ -358,19 +411,17 @@ object BindingAdapter {
         when {
             hours < 1 -> {
                 minutes = differenceTime.toInt() / 60
-                result = if (minutes == 1) context.getString(R.string.minute)
+                view.text = if (minutes == 1) context.getString(R.string.minute)
                 else String.format(context.getString(R.string.minutes), minutes)
             }
-            hours == 1 -> result = context.getString(R.string.hour)
-            hours < 24 -> result = String.format(context.getString(R.string.hours), hours)
-            days == 1 -> result = context.getString(R.string.day)
-            days < 31 -> result = String.format(context.getString(R.string.days), days)
-            months == 1 -> result = context.getString(R.string.month)
-            months < 12 -> result = String.format(context.getString(R.string.months), months)
-            else -> result = context.getString(R.string.year)
+            hours == 1 -> view.text = context.getString(R.string.hour)
+            hours < 24 -> view.text = String.format(context.getString(R.string.hours), hours)
+            days == 1 -> view.text = context.getString(R.string.day)
+            days < 31 -> view.text = String.format(context.getString(R.string.days), days)
+            months == 1 -> view.text = context.getString(R.string.month)
+            months < 12 -> view.text = String.format(context.getString(R.string.months), months)
+            else -> view.text = context.getString(R.string.year)
         }
-
-        return result
     }
 
     /**
@@ -414,43 +465,47 @@ object BindingAdapter {
     /**
      * Determines ranked or not ranked
      */
+    @BindingAdapter("rank")
     @JvmStatic
-    fun rankedOrNot(lobbyType: Int): String {
+    fun rankedOrNot(view: TextView, lobbyType: Int) {
         val context = App.applicationContext()
 
-        return if (lobbyType == RANKED) context.getString(R.string.ranked)
-        else context.getString(R.string.normal)
+        return if (lobbyType == RANKED) view.text = context.getString(R.string.ranked)
+        else view.text = context.getString(R.string.normal)
     }
 
     /**
      * Determines Game Mode
      */
+    @BindingAdapter("mode")
     @JvmStatic
-    fun gameMode(mode: Int): String {
+    fun gameMode(view: TextView, mode: Int) {
+
         val context = App.applicationContext()
 
-        return when (mode) {
-            ALL_PICK, ALL_DRAFT -> context.getString(R.string.all_pick)
-            SINGLE_DRAFT -> context.getString(R.string.single_draft)
-            CAPTAINS_MODE -> context.getString(R.string.captains_mode)
-            ALL_RANDOM -> context.getString(R.string.all_random)
-            RANDOM_DRAFT -> context.getString(R.string.random_draft)
-            else -> context.getString(R.string.unknown_mode)
+        when (mode) {
+            ALL_PICK, ALL_DRAFT -> view.text = context.getString(R.string.all_pick)
+            SINGLE_DRAFT -> view.text = context.getString(R.string.single_draft)
+            CAPTAINS_MODE -> view.text = context.getString(R.string.captains_mode)
+            ALL_RANDOM -> view.text = context.getString(R.string.all_random)
+            RANDOM_DRAFT -> view.text = context.getString(R.string.random_draft)
+            else -> view.text = context.getString(R.string.unknown_mode)
         }
     }
 
     /**
      * Determines Skill Bracket
      */
+    @BindingAdapter("skill")
     @JvmStatic
-    fun skillPlayer(skill: Int): String {
+    fun skillPlayer(view: TextView, skill: Int) {
         val context = App.applicationContext()
 
         return when (skill) {
-            NORMALL_SKILL -> context.getString(R.string.normal_skill)
-            HIGH_SKILL -> context.getString(R.string.high_skill)
-            VERY_HIGH_SKILL -> context.getString(R.string.very_high_skill)
-            else -> context.getString(R.string.unknown_skill)
+            NORMALL_SKILL -> view.text = context.getString(R.string.normal_skill)
+            HIGH_SKILL -> view.text = context.getString(R.string.high_skill)
+            VERY_HIGH_SKILL -> view.text = context.getString(R.string.very_high_skill)
+            else -> view.text = context.getString(R.string.unknown_skill)
         }
     }
 
@@ -818,7 +873,11 @@ object BindingAdapter {
         if (buffs == null) return
 
         if (position < buffs.size) {
-            view.text = buffs[position].stack_count.toString()
+            when (buffs[position].permanent_buff) {
+                MOON_SHARD_BUFF, AGHANIM_SCEPTER_BUFF -> {
+                }
+                else -> view.text = buffs[position].stack_count.toString()
+            }
         }
     }
 

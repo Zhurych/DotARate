@@ -53,7 +53,7 @@
                 android:id="@+id/time_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{BindingAdapter.getTimeForGame(game.start_time)}"
+                app:gameDate="@{game.start_time}"
                 android:textColor="@color/colorDarkGreen"
                 tools:text="16 hours ago" />
 
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:paddingTop="4dp"
-                android:text="@{BindingAdapter.rankedOrNot(game.lobby_type)}"
+                app:rank="@{game.lobby_type}"
                 android:textColor="@color/colorGreen"
                 android:textSize="11sp"
                 tools:ignore="SmallSp"
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:paddingTop="8dp"
-                android:text="@{BindingAdapter.gameMode(game.game_mode)}"
+                app:mode="@{game.game_mode}"
                 android:textColor="@color/colorGreen"
                 android:textSize="14sp"
                 tools:text="Single Draft" />
@@ -118,13 +118,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:paddingTop="4dp"
-                android:text="@{BindingAdapter.skillPlayer(game.skill)}"
+                app:skill="@{game.skill}"
                 android:textColor="@color/colorGreen"
                 android:textSize="11sp"
                 tools:ignore="SmallSp"
                 tools:text="Very High Skill" />
-
         </LinearLayout>
-
     </com.ez.dotarate.model.layouts.RecyclerViewItemLayout>
 </layout>

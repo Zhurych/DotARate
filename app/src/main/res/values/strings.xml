@@ -264,7 +264,14 @@
     <string name="profile_screen_title">Settings</string>
     <string name="profile_screen_dialog_logout">Log out of DotA Rate?</string>
 
+    <!--Game Screen-->
+    <string name="gameScreenRadiantVictory">Radiant victory</string>
+    <string name="gameScreenDireVictory">Dire victory</string>
+
     <!--General-->
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="europeWest">Europe West</string>
+    <string name="europeEast">Europe East</string>
+    <string name="russia">Russia</string>
 </resources>

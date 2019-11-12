@@ -43,7 +43,10 @@ abstract class BaseFragment<VM : ViewModel, VB : ViewDataBinding> : DaggerFragme
             }
         }
 
-    protected abstract fun afterCreateView(view: View)
+    protected abstract fun afterCreateView(
+        view: View,
+        savedInstanceState: Bundle?
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,7 +63,7 @@ abstract class BaseFragment<VM : ViewModel, VB : ViewDataBinding> : DaggerFragme
 
         vb = DataBindingUtil.bind(view)!!
 
-        afterCreateView(view)
+        afterCreateView(view, savedInstanceState)
         return view
     }
 

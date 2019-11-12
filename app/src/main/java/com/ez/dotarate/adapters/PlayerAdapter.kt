@@ -67,44 +67,67 @@ class PlayerAdapter(
                 if (purchase.gem != null) mapSupportItems["aaaaa"] = purchase.gem
             }
 
+            var item = 0
+
             for (i in 0 until mapSupportItems.size) {
                 val key = mapSupportItems.keyAt(i)
                 var value = mapSupportItems.valueAt(i)
 
                 val drawable = when (key) {
-                    "a" -> R.drawable.observer_ward
-                    "aa" -> R.drawable.sentry_ward
+                    "a" -> {
+                        item += value * 50
+                        R.drawable.observer_ward
+                    }
+                    "aa" -> {
+                        item += value * 75
+                        R.drawable.sentry_ward
+                    }
                     "aaa" -> {
                         value /= 2
+                        item += value * 180
                         R.drawable.dust_of_appearance
                     }
-                    "aaaa" -> R.drawable.smoke_of_deceit
-                    else -> R.drawable.gem_of_true_sight
+                    "aaaa" -> {
+                        item += value * 80
+                        R.drawable.smoke_of_deceit
+                    }
+                    else -> {
+                        item += value * 900
+                        R.drawable.gem_of_true_sight
+                    }
                 }
 
                 when (i) {
                     0 -> {
                         binding.firstSupportItemIconImageView.setImageResource(drawable)
                         binding.firstSupportItemCountTextView.text = value.toString()
+                        binding.firstSupportItemCountTextView.visibility = View.VISIBLE
                     }
                     1 -> {
                         binding.secondSupportItemIconImageView.setImageResource(drawable)
                         binding.secondSupportItemCountTextView.text = value.toString()
+                        binding.secondSupportItemCountTextView.visibility = View.VISIBLE
                     }
                     2 -> {
                         binding.thirdSupportItemIconImageView.setImageResource(drawable)
                         binding.thirdSupportItemCountTextView.text = value.toString()
+                        binding.thirdSupportItemCountTextView.visibility = View.VISIBLE
                     }
                     3 -> {
                         binding.fourthSupportItemIconImageView.setImageResource(drawable)
                         binding.fourthSupportItemCountTextView.text = value.toString()
+                        binding.fourthSupportItemCountTextView.visibility = View.VISIBLE
                     }
                     4 -> {
                         binding.fifthSupportItemIconImageView.setImageResource(drawable)
                         binding.fifthSupportItemCountTextView.text = value.toString()
+                        binding.fifthSupportItemCountTextView.visibility = View.VISIBLE
                     }
                 }
             }
+
+
+            binding.suppGold = item
 
             // Используется для того, что бы биндинг выполинлся как можно скорее
             binding.executePendingBindings()

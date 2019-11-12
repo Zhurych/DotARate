@@ -22,6 +22,7 @@
             android:background="@color/white_tran"
             android:minHeight="?attr/actionBarSize"
             app:layout_constraintTop_toTopOf="parent"
+            app:titleTextAppearance="@style/ToolbarTitle"
             app:titleTextColor="@color/colorGreen" />
 
         <View
@@ -31,19 +32,11 @@
             app:layout_constraintTop_toBottomOf="@id/fpToolbar" />
 
         <!---Nav Host Fragment-->
-        <FrameLayout
-            android:layout_width="match_parent"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/main_container"
             android:layout_height="match_parent"
-            android:layout_above="@id/bottom_navigation">
-
-            <fragment
-                android:id="@+id/main_nav_host_fragment"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:navGraph="@navigation/main_graph" />
-
-        </FrameLayout>
+            android:layout_width="match_parent"
+            android:layout_above="@id/bottom_navigation" />
 
         <View
             android:layout_width="match_parent"

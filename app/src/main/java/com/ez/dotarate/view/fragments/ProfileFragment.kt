@@ -24,7 +24,13 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
 
     override fun layout() = R.layout.fragment_profile
 
-    override fun afterCreateView(view: View) {
+    override fun afterCreateView(view: View, savedInstanceState: Bundle?) {
+        activity?.setTitle(R.string.profile_screen_title)
+
+        Log.d("MyLogs", "ProfileFragment. AfterCreateView")
+        Log.d("MyLogs", "ProfileFragment. Значение аватарки = ${vb.avatar}")
+        Log.d("MyLogs", "ProfileFragment. Значение имени = ${vb.name}")
+
         val id = activity!!.intent.getLongExtra(USER_ID_KEY, 0)
 
         // Говорим фрагменту, что ему нужно отобразить меню

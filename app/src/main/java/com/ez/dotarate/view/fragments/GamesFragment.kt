@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ez.dotarate.R
 import com.ez.dotarate.adapters.GamesAdapter
 import com.ez.dotarate.constants.CONVERTER_NUMBER
@@ -26,13 +27,25 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
     private val adapter = GamesAdapter()
 
     private lateinit var pagedList: PagedList<Game>
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun layout() = R.layout.fragment_games
 
-    override fun afterCreateView(view: View) {
+    override fun afterCreateView(view: View, savedInstanceState: Bundle?) {
         activity?.setTitle(R.string.games_screen_title)
 
+        Log.d("MyLogs", "GamesFragment. AfterCreateView")
+
         vb.adapter = adapter
+
+        val id32: Int =
+            (activity!!.intent!!.getLongExtra(USER_ID_KEY, 0) - CONVERTER_NUMBER).toInt()
+
+        swipeRefreshLayout = vb.srlGamesFragment
+        swipeRefreshLayout.setOnRefreshListener {
+            vm.getGames(id32)
+            Log.d("MyLogs", "ОБНОВЛЕНИЕ СТРАНИЦЫ")
+        }
 
         // Need to set LayoutManager
         val recyclerView = vb.rvGamesFragment
@@ -49,8 +62,17 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
 
                             val bundle = Bundle()
                             bundle.putLong(MATCH_ID_KEY, game!!.match_id)
-
-                            findNavController().navigate(R.id.action_gamesFragment_to_gameDetailFragment, bundle)
+                            if (findNavController().currentDestination?.id == R.id.gamesFragment) {
+                                Log.d("MyLogs", "games Fragment. КОНТРОЛЕР = ${findNavController()}")
+                                Log.d("MyLogs", "games Fragment. id ТЕКУЩЕГО ФРАГМЕНТА = ${findNavController().currentDestination?.id}")
+                                findNavController().navigate(
+                                    R.id.action_gamesFragment_to_gameDetailFragment,
+                                    bundle
+                                )
+                            } else {
+                                Log.d("MyLogs", "games Fragment. КОНТРОЛЕР = ${findNavController()}")
+                                Log.d("MyLogs", "games Fragment. id ТЕКУЩЕГО ФРАГМЕНТА = ${findNavController().currentDestination?.id}")
+                            }
                         } catch (e: NullPointerException) {
                             Toast.makeText(activity, "Пустые данные", Toast.LENGTH_SHORT).show()
                         }
@@ -62,18 +84,20 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
                 })
         )
 
-        val id32: Int =
-            (activity!!.intent!!.getLongExtra(USER_ID_KEY, 0) - CONVERTER_NUMBER).toInt()
         vm.getGames(id32)
         // LiveData<PagedList<Game>> subscriber
         vm.liveGame.observe(this, Observer {
-            Log.d("MyLogs", "ПОДПИСЫВАЕМСЯ НА БД GAMES. РАЗМЕР ДАННЫХ = ${it.size}")
+            // Log.d("MyLogs", "ПОДПИСЫВАЕМСЯ НА БД GAMES. РАЗМЕР ДАННЫХ = ${it.size}")
             if (it != null && it.size > 0) {
                 vm.isGamesEmpty.set(true)
                 pagedList = it
             }
             // Need to use submitList to set the PagedListAdapter value
             adapter.submitList(it)
+        })
+
+        vm.isLoaded.observe(this, Observer {
+            if (it) swipeRefreshLayout.isRefreshing = false
         })
     }
 

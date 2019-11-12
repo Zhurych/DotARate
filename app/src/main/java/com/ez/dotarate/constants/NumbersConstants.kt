@@ -2,6 +2,11 @@ package com.ez.dotarate.constants
 
 const val CONVERTER_NUMBER = 76561197960265728
 
+// Region ID
+const val EUROPE_WEST = 3
+const val RUSSIA = 8
+const val EUROPE_EAST = 9
+
 // Side ID
 const val HIDE_NONE = 0
 const val HIDE_START = 1
