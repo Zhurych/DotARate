@@ -1,5 +1,6 @@
 package com.ez.dotarate.model.repository
 
+import android.util.Log
 import androidx.paging.DataSource
 import com.ez.dotarate.database.AppDatabase
 import com.ez.dotarate.database.Game
@@ -24,13 +25,19 @@ constructor(@Named("OpenDota") private val api: ServerApi, private val db: AppDa
      * We don’t need to call enqueue() and implement callbacks anymore!
      * But notice, now our repo method is suspend too and returns a Response<ArrayList<Game>>.
      */
-    override suspend fun getMatches(id32: Int) = api.getGames(id32)
+    override suspend fun getMatches(id32: Int): Response<ArrayList<Game>> {
+        Log.d("MyLogs", "ПОШЁЛ ЗАПРОС")
+        return api.getGames(id32)
+    }
 
-    /**
-     * GET request.
-     * Receive detail Game
-     * We don’t need to call enqueue() and implement callbacks anymore!
-     * But notice, now our repo method is suspend too and returns a Response<GameDetail>.
-     */
-    override suspend fun getGameDetail(id: Long): Response<GameDetail> = api.getGameDetail(id)
+        /**
+         * GET request.
+         * Receive detail Game
+         * We don’t need to call enqueue() and implement callbacks anymore!
+         * But notice, now our repo method is suspend too and returns a Response<GameDetail>.
+         */
+        override suspend fun getGameDetail(id: Long): Response<GameDetail> {
+            Log.d("MyLogs", "ПОШЁЛ ЗАПРОС")
+            return api.getGameDetail(id)
+        }
 }

@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.ez.dotarate.Event
 import com.ez.dotarate.model.User
 import com.ez.dotarate.model.repository.UserRepositoryImpl
 import kotlinx.coroutines.Dispatchers.IO
@@ -33,7 +34,7 @@ constructor(
 //    }
 
     val data = MutableLiveData<User>()
-    val errorLiveData = MutableLiveData<String>()
+    val errorLiveData = MutableLiveData<Event<String>>()
 
     fun getUser(id: Long) {
         viewModelScope.launch(IO) {
@@ -44,17 +45,14 @@ constructor(
                     data.postValue(response.body())
 
                 } else {
-                    errorLiveData.postValue(response.errorBody().toString())
-                    Log.d("MyLogs", "ОШИБКА ПРИ ЗАПРОСЕ. ИМЯ ОШИБКИ= ${response.errorBody()}")
-                    Log.d("MyLogs", "ОШИБКА ПРИ ЗАПРОСЕ. КОД ОШИБКИ= ${response.code()}")
+                    errorLiveData.postValue(Event(response.errorBody().toString()))
                 }
             } catch (e: UnknownHostException) {
-                errorLiveData.postValue("Нет интернета")
-                Log.d("MyLogs", "НЕТ ИНТЕРНЕТА = $e")
+                errorLiveData.postValue(Event("ZALUPA"))
             } catch (e: TimeoutException) {
-                errorLiveData.postValue("Плохое соединение. Попробуйте позже")
+                errorLiveData.postValue(Event("Плохое соединение. Попробуйте позже"))
             } catch (e: SocketTimeoutException) {
-                errorLiveData.postValue("Плохое соединение. Попробуйте позже")
+                errorLiveData.postValue(Event("Плохое соединение. Попробуйте позже"))
             }
         }
     }

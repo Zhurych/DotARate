@@ -1,36 +1,48 @@
 package com.ez.dotarate.view.fragments
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ez.dotarate.DividerItemDecoration
-import com.ez.dotarate.R
+import com.ez.dotarate.*
 import com.ez.dotarate.adapters.PlayerAdapter
 import com.ez.dotarate.constants.MATCH_ID_KEY
 import com.ez.dotarate.databinding.FragmentGameDetailBinding
+import com.ez.dotarate.extensions.graphIdToTagMap
 import com.ez.dotarate.model.GameDetail
 import com.ez.dotarate.view.BaseFragment
-import com.ez.dotarate.view.activities.MainActivity
 import com.ez.dotarate.viewModel.GameDetailViewModel
 
 
-class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailBinding>() {
+class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailBinding>(),
+    IOnTouchEvent {
+
+    private var vScroll: VScroll? = null
+    private lateinit var hScroll: HScroll
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        vScroll?.onTouchListener(event!!)
+        hScroll.onTouchListener(event!!)
+
+        return true
+    }
+
     private lateinit var recyclerViewRadiant: RecyclerView
     private lateinit var recyclerViewDire: RecyclerView
-    private lateinit var parentActivity: MainActivity
 
     @Suppress("SENSELESS_COMPARISON")
     private val gameObserver = Observer<GameDetail> {
         var maxCountBuff = 0
         var maxSupportItems = 0
 
-        //Log.d("MyLogs", "ОТДЕЛЬНАЯ ИГРА. ПРИШЛИ ДАННЫЕ В ЛАЙВДАТА = $it")
         if (it != null) {
             vm.isLoaded.set(true)
 
@@ -147,35 +159,38 @@ class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailB
     override fun layout() = R.layout.fragment_game_detail
 
     override fun afterCreateView(view: View, savedInstanceState: Bundle?) {
-        if (savedInstanceState == null) {
-            val matchId = arguments!!.getLong(MATCH_ID_KEY)
-            Log.d("MyLogs", "GamesDetailFragment. AfterCreateView")
-            Log.d("MyLogs", "GamesDetailFragment. МАТЧ ID = $matchId")
 
-            activity!!.title = ""
+        val matchId = arguments!!.getLong(MATCH_ID_KEY)
+        Log.d("MyLogs", "GamesDetailFragment. AfterCreateView")
+        Log.d("MyLogs", "GamesDetailFragment. МАТЧ ID = $matchId")
 
-            vb.vm = vm
+        activity!!.title = ""
 
-            vm.getGameDetail(matchId)
+        vb.vm = vm
 
-            // Need to set LayoutManager
-            recyclerViewRadiant = vb.rvGameFragmentRadiant
-            recyclerViewRadiant.layoutManager = LinearLayoutManager(activity)
-            recyclerViewRadiant.addItemDecoration(DividerItemDecoration(activity!!))
+        if (savedInstanceState == null) vm.getGameDetail(matchId)
 
-            // Need to set LayoutManager
-            recyclerViewDire = vb.rvGameFragmentDire
-            recyclerViewDire.layoutManager = LinearLayoutManager(activity)
-            recyclerViewDire.addItemDecoration(DividerItemDecoration(activity!!))
-        }
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) vScroll =
+            vb.svGameDetail
+        hScroll = vb.hsvGameDetail
 
-        //parentActivity = activity as MainActivity
-        // parentActivity.active = this
+        // Need to set LayoutManager
+        recyclerViewRadiant = vb.rvGameFragmentRadiant
+        recyclerViewRadiant.layoutManager = LinearLayoutManager(activity)
+        recyclerViewRadiant.addItemDecoration(DividerItemDecoration(activity!!))
+
+        // Need to set LayoutManager
+        recyclerViewDire = vb.rvGameFragmentDire
+        recyclerViewDire.layoutManager = LinearLayoutManager(activity)
+        recyclerViewDire.addItemDecoration(DividerItemDecoration(activity!!))
 
         vm.liveGame.observe(this, gameObserver)
 
         vm.errorLiveData.observe(this, Observer {
-            Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
+            //Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
+            val navHostFragment =
+                activity!!.supportFragmentManager.findFragmentByTag(graphIdToTagMap.valueAt(0)) as NavHostFragment
+            navHostFragment.navController.popBackStack()
         })
     }
 

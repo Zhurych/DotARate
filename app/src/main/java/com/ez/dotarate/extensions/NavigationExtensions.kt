@@ -29,10 +29,12 @@ import com.ez.dotarate.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 
+
 // Map of tags
 // Ключ - id графа
 // Значение - тэг фрагмента по типу: "bottomNavigation#$index"
 val graphIdToTagMap = SparseArray<String>()
+
 
 /**
  * Manages the various graphs needed for a [BottomNavigationView].
@@ -44,11 +46,9 @@ fun BottomNavigationView.setupWithNavController(
     fragmentManager: FragmentManager,
     containerId: Int,
     intent: Intent,
-    backStack: Stack<NavHostFragment>
-): MutableLiveData<NavController> {
-
-    // Result. Mutable live data with the selected controlled
-    var selectedNavController = MutableLiveData<NavController>()
+    backStack: Stack<String>,
+    liveNavController: MutableLiveData<NavController>
+) {
 
     // First create a NavHostFragment for each NavGraph ID
     // Сначала создайте NavHostFragment для каждого NavGraph ID
@@ -65,8 +65,6 @@ fun BottomNavigationView.setupWithNavController(
 
         // Obtain its id
         val graphId = navHostFragment.navController.graph.id
-        Log.d("MyLogs", "РАСШИРЕННАЯ ФУНКЦИЯ. ЗНАЧЕНИЕ ПЕРЕМЕННОЙ navGraphId = $navGraphId")
-        Log.d("MyLogs", "РАСШИРЕННАЯ ФУНКЦИЯ. ЗНАЧЕНИЕ ПЕРЕМЕННОЙ graphId = $graphId")
 
         // Save to the map
         graphIdToTagMap[graphId] = fragmentTag
@@ -75,7 +73,7 @@ fun BottomNavigationView.setupWithNavController(
         // Присоединить или отсоединить nav host fragment в зависимости от того, выбран ли он.
         if (this.selectedItemId == graphId) {
             // Update livedata with the selected graph
-            selectedNavController.value = navHostFragment.navController
+            liveNavController.value = navHostFragment.navController
             attachNavHostFragment(fragmentManager, navHostFragment, index == 0, backStack)
         } else {
             detachNavHostFragment(fragmentManager, navHostFragment)
@@ -101,9 +99,6 @@ fun BottomNavigationView.setupWithNavController(
             val selectedFragment = fragmentManager.findFragmentByTag(newlySelectedItemTag)
                     as NavHostFragment
 
-            // Добавляем вкладку в стек или обновляем ее
-            pushOnTopBackStack(selectedFragment, backStack)
-
             fragmentManager.beginTransaction()
                 .setCustomAnimations(
                     R.anim.nav_default_enter_anim,
@@ -111,23 +106,26 @@ fun BottomNavigationView.setupWithNavController(
                     R.anim.nav_default_pop_enter_anim,
                     R.anim.nav_default_pop_exit_anim
                 )
-                .attach(selectedFragment)
+                .show(selectedFragment)
                 .setPrimaryNavigationFragment(selectedFragment)
                 .apply {
                     // Detach all other Fragments
                     graphIdToTagMap.forEach { _, fragmentTagIter ->
                         if (fragmentTagIter != newlySelectedItemTag) {
-                            detach(fragmentManager.findFragmentByTag(selectedItemTag)!!)
+                            hide(fragmentManager.findFragmentByTag(selectedItemTag)!!)
                         }
                     }
                 }
                 .setReorderingAllowed(true)
                 .commit()
 
+            // Добавляем вкладку в стек или обновляем ее
+            pushOnTopBackStack(newlySelectedItemTag, backStack)
+
             if (selectedItemTag != newlySelectedItemTag) {
 
                 selectedItemTag = newlySelectedItemTag
-                selectedNavController.value = selectedFragment.navController
+                liveNavController.value = selectedFragment.navController
                 true
             } else {
                 false
@@ -140,8 +138,6 @@ fun BottomNavigationView.setupWithNavController(
 
     // Handle deep link
     setupDeepLinks(navGraphIds, fragmentManager, containerId, intent)
-
-    return selectedNavController
 }
 
 private fun BottomNavigationView.setupDeepLinks(
@@ -190,7 +186,7 @@ private fun detachNavHostFragment(
     navHostFragment: NavHostFragment
 ) {
     fragmentManager.beginTransaction()
-        .detach(navHostFragment)
+        .hide(navHostFragment)
         .commitNow()
 }
 
@@ -198,19 +194,20 @@ private fun attachNavHostFragment(
     fragmentManager: FragmentManager,
     navHostFragment: NavHostFragment,
     isPrimaryNavFragment: Boolean,
-    backStack: Stack<NavHostFragment>
+    backStack: Stack<String>
 ) {
     fragmentManager.beginTransaction()
-        .attach(navHostFragment)
+        .show(navHostFragment)
         .apply {
             if (isPrimaryNavFragment) {
-                backStack.clear()
-                backStack.add(navHostFragment)
+                pushOnTopBackStack(
+                    graphIdToTagMap[navHostFragment.navController.graph.id],
+                    backStack
+                )
                 setPrimaryNavigationFragment(navHostFragment)
             }
         }
         .commitNow()
-
 }
 
 private fun obtainNavHostFragment(
@@ -234,25 +231,28 @@ private fun obtainNavHostFragment(
 private fun getFragmentTag(index: Int) = "bottomNavigation#$index"
 
 private fun pushOnTopBackStack(
-    navHostFragment: NavHostFragment,
-    backStack: Stack<NavHostFragment>
+    navHostFragmentTag: String,
+    backStack: Stack<String>
 ) {
-    if (backStack.contains(navHostFragment)) {
-        backStack.remove(navHostFragment)
-        backStack.push(navHostFragment)
-    } else backStack.push(navHostFragment)
-
-    Log.d("MyLogs", "МОЙ СТЕК. ИЗМЕНЕНИЕ СТЕКА.")
-    Log.d("MyLogs", "МОЙ СТЕК. РАЗМЕР = ${backStack.size}")
+    if (backStack.contains(navHostFragmentTag)) {
+        backStack.remove(navHostFragmentTag)
+        backStack.push(navHostFragmentTag)
+    } else backStack.push(navHostFragmentTag)
 }
 
 fun popMyBackStack(
     fragmentManager: FragmentManager,
-    backStack: Stack<NavHostFragment>,
+    backStack: Stack<String>,
     bottomNavigationView: BottomNavigationView
 ): NavController {
-    val popHostFragment = backStack.pop()
-    val previousHostFragment = backStack.peek()
+    val popHostFragmentTag = backStack.pop()
+    backStack.remove(popHostFragmentTag)
+    val popHostFragment = fragmentManager.findFragmentByTag(popHostFragmentTag) as NavHostFragment
+
+    val previousHostFragmentTag = backStack.peek()
+    val previousHostFragment =
+        fragmentManager.findFragmentByTag(previousHostFragmentTag) as NavHostFragment
+
     bottomNavigationView.selectedItemId = previousHostFragment.navController.graph.id
 
     fragmentManager.beginTransaction()
@@ -262,9 +262,9 @@ fun popMyBackStack(
             R.anim.nav_default_pop_enter_anim,
             R.anim.nav_default_pop_exit_anim
         )
-        .attach(previousHostFragment)
+        .show(previousHostFragment)
         .setPrimaryNavigationFragment(previousHostFragment)
-        .detach(popHostFragment)
+        .hide(popHostFragment)
         .setReorderingAllowed(true)
         .commit()
 

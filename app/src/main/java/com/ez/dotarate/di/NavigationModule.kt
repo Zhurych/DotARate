@@ -1,5 +1,6 @@
 package com.ez.dotarate.di
 
+import android.util.ArrayMap
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -13,7 +14,7 @@ class NavigationModule {
 
     @Provides
     @Singleton
-    internal fun provideStack() = Stack<NavHostFragment>()
+    internal fun provideStack() = Stack<String>()
 
     @Provides
     @Singleton

@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ez.dotarate.model.GameDetail
@@ -34,12 +35,14 @@ constructor(
                     liveGame.postValue(response.body())
                 } else {
                     errorLiveData.postValue(response.errorBody().toString())
-                    Log.d("MyLogs", "ОШИБКА ПРИ ЗАПРОСЕ. ИМЯ ОШИБКИ= ${response.errorBody()}")
-                    Log.d("MyLogs", "ОШИБКА ПРИ ЗАПРОСЕ. КОД ОШИБКИ= ${response.code()}")
                 }
             } catch (e: UnknownHostException) {
                 errorLiveData.postValue("Нет интернета")
-                Log.d("MyLogs", "НЕТ ИНТЕРНЕТА = $e")
+            } catch (e: SocketTimeoutException) {
+                // Возникает при плохом соединении с интернетом.
+                // Когда заканчивается время (timeout) для запроса к серверу.
+                // Timeout устанавливается при настройке запроса
+                errorLiveData.postValue("Плохое качество соединения с интернетом. Попробуйте позже")
             }
         }
     }

@@ -13,11 +13,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.ez.dotarate.R
+import com.ez.dotarate.adapters.DemoViewPagerAdapter
 import com.ez.dotarate.constants.USER_ID_KEY
 import com.ez.dotarate.databinding.FragmentProfileBinding
 import com.ez.dotarate.view.BaseFragment
 import com.ez.dotarate.view.activities.StartActivity
 import com.ez.dotarate.viewModel.ProfileViewModel
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>() {
@@ -26,23 +30,47 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
 
     override fun afterCreateView(view: View, savedInstanceState: Bundle?) {
         activity?.setTitle(R.string.profile_screen_title)
-
-        Log.d("MyLogs", "ProfileFragment. AfterCreateView")
-        Log.d("MyLogs", "ProfileFragment. Значение аватарки = ${vb.avatar}")
-        Log.d("MyLogs", "ProfileFragment. Значение имени = ${vb.name}")
+        Log.d("MyLogs", "ProfileFragment. CreateView")
 
         val id = activity!!.intent.getLongExtra(USER_ID_KEY, 0)
 
         // Говорим фрагменту, что ему нужно отобразить меню
         setHasOptionsMenu(true)
 
-        vm.getUser(id)
+        if (savedInstanceState == null) {
+            vm.getUser(id)
+        }
+
         vm.data.observe(this, Observer {
             vb.user = it
         })
-        vm.errorLiveData.observe(this, Observer {
-            Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
-        })
+
+        vb.viewpager.adapter = DemoViewPagerAdapter()
+//        TabLayoutMediator(tabs, viewpager, object : TabLayoutMediator.OnConfigureTabCallback {
+//            override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
+//                // Styling each tab here
+//                tab.setText("Tab $position")
+//            }
+//        }).attach()
+
+
+        Log.d("MyLogs", "")
+        TabLayoutMediator(vb.tabs, vb.viewpager,
+            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                when (position) {
+                    0 -> { tab.text = "1"}
+                    1 -> { tab.text = "TAB TWO"}
+                    2 -> { tab.text = "TAB 3"}
+                }
+            }).attach()
+
+//        vm.errorLiveData.observe(this, Observer {
+//            Log.d("MyLogs", "ProfileFragment. live Data с ошибкой")
+//            it.getContentIfNotHandled()?.let { its ->
+//                // Only proceed if the event has never been handled
+//                Toast.makeText(activity, its, Toast.LENGTH_SHORT).show()
+//            }
+//        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -88,7 +116,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("MyLogs", "ProfileFragment. onCreate")
+        Log.d("MyLogs", "ProfileFragment. onCreate.    ---    bundle = $savedInstanceState")
     }
 
     override fun onAttach(context: Context) {
@@ -114,5 +142,10 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
     override fun onDestroy() {
         super.onDestroy()
         Log.d("MyLogs", "ProfileFragment. onDestroy")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d("MyLogs", "ProfileFragment. onSaveInstanceState")
     }
 }

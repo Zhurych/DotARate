@@ -84,10 +84,10 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
                 })
         )
 
-        vm.getGames(id32)
+        if (savedInstanceState == null) vm.getGames(id32)
+
         // LiveData<PagedList<Game>> subscriber
         vm.liveGame.observe(this, Observer {
-            // Log.d("MyLogs", "ПОДПИСЫВАЕМСЯ НА БД GAMES. РАЗМЕР ДАННЫХ = ${it.size}")
             if (it != null && it.size > 0) {
                 vm.isGamesEmpty.set(true)
                 pagedList = it
@@ -96,9 +96,17 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
             adapter.submitList(it)
         })
 
+        vm.errorLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { its ->
+                // Only proceed if the event has never been handled
+                Toast.makeText(activity, its, Toast.LENGTH_SHORT).show()
+            }
+        })
+
         vm.isLoaded.observe(this, Observer {
             if (it) swipeRefreshLayout.isRefreshing = false
         })
+
     }
 
     override fun onStart() {

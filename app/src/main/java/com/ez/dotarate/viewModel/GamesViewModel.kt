@@ -9,11 +9,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.ez.dotarate.Event
 import com.ez.dotarate.database.Game
 import com.ez.dotarate.model.repository.OpenDotaRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import javax.inject.Inject
 
@@ -26,6 +28,7 @@ constructor(
     val isGamesEmpty = ObservableBoolean(false)
 
     val isLoaded = MutableLiveData<Boolean>()
+    val errorLiveData = MutableLiveData<Event<String>>()
 
     var liveGame: LiveData<PagedList<Game>>
 
@@ -49,17 +52,15 @@ constructor(
                 }
                 if (response.isSuccessful) {
                     isLoaded.postValue(true)
-                    //Log.d("MyLogs", "ЗАПРОС ПРОШЁЛ УСПЕШНО. ЗНАЧЕНИЕ ОТВЕТА = ${response.body()}")
-                    val isAccesInsert = repository.saveGames(response.body()!!)
-                    //Log.d("MyLogs", "СКОЛЬКО ВСТАВЛЕНО ЗАПИСЕЙ В БАЗУ ДАННЫХ = $isAccesInsert")
                 } else {
                     isLoaded.postValue(true)
-                    Log.d("MyLogs", "ОШИБКА ПРИ ЗАПРОСЕ. ИМЯ ОШИБКИ= ${response.errorBody()}")
-                    Log.d("MyLogs", "ОШИБКА ПРИ ЗАПРОСЕ. КОД ОШИБКИ= ${response.code()}")
                 }
             } catch (e: UnknownHostException) {
                 isLoaded.postValue(true)
-                Log.d("MyLogs", "НЕТ ИНТЕРНЕТА = $e")// Получаем при Авиа - режиме
+                errorLiveData.value = Event("Отсутствует интернет соединение")
+            } catch (e: SocketTimeoutException) {
+                isLoaded.postValue(true)
+                errorLiveData.value = Event("Плохое соединение. Попробуйте позже")
             }
         }
     }
