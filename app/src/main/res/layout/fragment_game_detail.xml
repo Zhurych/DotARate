@@ -76,7 +76,7 @@
                 tools:text="All Pick" />
         </LinearLayout>
 
-        <com.ez.dotarate.HScroll
+        <com.ez.dotarate.customClasses.HScroll
             android:id="@+id/hsvGameDetail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -214,13 +214,13 @@
 
                 </LinearLayout>
 
-                <com.ez.dotarate.MyRecyclerView
+                <com.ez.dotarate.customClasses.MyRecyclerView
                     android:id="@+id/rvGameFragmentRadiant"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/gameScreenRecyclerViewHeight"
                     android:layout_marginTop="2dp">
 
-                </com.ez.dotarate.MyRecyclerView>
+                </com.ez.dotarate.customClasses.MyRecyclerView>
 
                 <!--Dire tabs-->
                 <LinearLayout
@@ -347,17 +347,17 @@
 
                 </LinearLayout>
 
-                <com.ez.dotarate.MyRecyclerView
+                <com.ez.dotarate.customClasses.MyRecyclerView
                     android:id="@+id/rvGameFragmentDire"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/gameScreenRecyclerViewHeight"
                     android:layout_marginTop="2dp">
 
-                </com.ez.dotarate.MyRecyclerView>
+                </com.ez.dotarate.customClasses.MyRecyclerView>
 
             </LinearLayout>
 
-        </com.ez.dotarate.HScroll>
+        </com.ez.dotarate.customClasses.HScroll>
 
         <LinearLayout
             android:id="@+id/linear_layout_players"

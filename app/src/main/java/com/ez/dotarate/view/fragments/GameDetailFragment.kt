@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
@@ -15,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ez.dotarate.*
 import com.ez.dotarate.adapters.PlayerAdapter
 import com.ez.dotarate.constants.MATCH_ID_KEY
+import com.ez.dotarate.customClasses.DividerItemDecoration
+import com.ez.dotarate.customClasses.HScroll
+import com.ez.dotarate.customClasses.VScroll
 import com.ez.dotarate.databinding.FragmentGameDetailBinding
 import com.ez.dotarate.extensions.graphIdToTagMap
 import com.ez.dotarate.model.GameDetail
@@ -177,12 +179,20 @@ class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailB
         // Need to set LayoutManager
         recyclerViewRadiant = vb.rvGameFragmentRadiant
         recyclerViewRadiant.layoutManager = LinearLayoutManager(activity)
-        recyclerViewRadiant.addItemDecoration(DividerItemDecoration(activity!!))
+        recyclerViewRadiant.addItemDecoration(
+            DividerItemDecoration(
+                activity!!
+            )
+        )
 
         // Need to set LayoutManager
         recyclerViewDire = vb.rvGameFragmentDire
         recyclerViewDire.layoutManager = LinearLayoutManager(activity)
-        recyclerViewDire.addItemDecoration(DividerItemDecoration(activity!!))
+        recyclerViewDire.addItemDecoration(
+            DividerItemDecoration(
+                activity!!
+            )
+        )
 
         vm.liveGame.observe(this, gameObserver)
 

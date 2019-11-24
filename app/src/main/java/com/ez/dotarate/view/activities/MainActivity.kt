@@ -97,7 +97,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
      */
     private fun setupBottomNavigationBar() {
 
-        val navGraphIds = listOf(R.navigation.games, R.navigation.mph, R.navigation.profile)
+        val navGraphIds = listOf(R.navigation.first, R.navigation.mph, R.navigation.profile)
 
         // Setup the bottom navigation view with a list of navigation graphs
         mBottomNavigationView.setupWithNavController(

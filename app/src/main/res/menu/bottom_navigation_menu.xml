@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/games"
-        android:icon="@drawable/bnv_games_icon_selector"
+        android:id="@+id/first"
+        android:icon="@drawable/vp_games_icon_selector"
         android:title="" />
 
     <item
         android:id="@+id/mph"
-        android:icon="@drawable/bnv_mph_icon_selector"
+        android:icon="@drawable/vp_mph_icon_selector"
         android:title="@string/mph" />
 
     <item

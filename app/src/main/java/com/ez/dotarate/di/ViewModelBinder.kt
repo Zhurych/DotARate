@@ -56,4 +56,9 @@ abstract class ViewModelBinder {
     @IntoMap
     @ViewModelKey(GameDetailViewModel::class)
     protected abstract fun gameDetailViewModel(viewModel: GameDetailViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FirstFragViewModel::class)
+    protected abstract fun firstFragViewModel(viewModel: FirstFragViewModel): ViewModel
 }

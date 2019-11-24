@@ -5,7 +5,7 @@
     <dimen name="action_button_padding">6dp</dimen>
 
     <!--Profile screen-->
-    <dimen name="profileScreenImageSize">128dp</dimen>
+    <dimen name="profileScreenImageSize">90dp</dimen>
 
     <!--Games Item-->
     <dimen name="radiusCorner">4dp</dimen>

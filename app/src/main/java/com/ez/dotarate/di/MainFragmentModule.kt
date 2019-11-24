@@ -1,9 +1,6 @@
 package com.ez.dotarate.di
 
-import com.ez.dotarate.view.fragments.GameDetailFragment
-import com.ez.dotarate.view.fragments.GamesFragment
-import com.ez.dotarate.view.fragments.MphFragment
-import com.ez.dotarate.view.fragments.ProfileFragment
+import com.ez.dotarate.view.fragments.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -25,4 +22,7 @@ abstract class MainFragmentModule {
 
     @ContributesAndroidInjector
     internal abstract fun contributeGamesDetailFragment(): GameDetailFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun contributeFirstFragment(): FirstFragment
 }

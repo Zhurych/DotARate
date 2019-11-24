@@ -3,6 +3,7 @@ package com.ez.dotarate.model.repository
 import com.ez.dotarate.database.UserId
 import com.ez.dotarate.database.UserIdDao
 import com.ez.dotarate.model.User
+import com.ez.dotarate.model.WinsAndLosses
 import retrofit2.Response
 
 interface UserRepository {
@@ -13,4 +14,5 @@ interface UserRepository {
 
     // Network
     suspend fun getUser(id: Long): Response<User>
+    suspend fun getWinsAndLosses(id: Long): Response<WinsAndLosses>
 }

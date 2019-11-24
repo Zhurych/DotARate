@@ -7,21 +7,21 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ez.dotarate.R
-import com.ez.dotarate.database.Game
-import com.ez.dotarate.databinding.GameListItemBinding
+import com.ez.dotarate.database.Hero
+import com.ez.dotarate.databinding.HeroRecyclerItemBinding
 
-class GamesAdapter : PagedListAdapter<Game, GamesAdapter.GamesHolder>(DIFF_CALLBACK) {
+class HeroesAdapter : PagedListAdapter<Hero, HeroesAdapter.HeroesHolder>(DIFF_CALLBACK) {
 
     companion object {
 
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Game>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Hero>() {
 
-            override fun areItemsTheSame(oldItem: Game, newItem: Game): Boolean {
+            override fun areItemsTheSame(oldItem: Hero, newItem: Hero): Boolean {
                 // The ID property identifies when items are the same.
-                return oldItem.match_id == newItem.match_id
+                return oldItem.hero_id == newItem.hero_id
             }
 
-            override fun areContentsTheSame(oldItem: Game, newItem: Game): Boolean {
+            override fun areContentsTheSame(oldItem: Hero, newItem: Hero): Boolean {
                 // Don't use the "==" operator here. Either implement and use .equals(),
                 // or write custom userLiveData comparison logic here.
                 return oldItem == newItem
@@ -29,31 +29,31 @@ class GamesAdapter : PagedListAdapter<Game, GamesAdapter.GamesHolder>(DIFF_CALLB
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GamesHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroesHolder {
         val inflater = LayoutInflater.from(parent.context)
 
-        val binding = DataBindingUtil.inflate<GameListItemBinding>(
+        val binding = DataBindingUtil.inflate<HeroRecyclerItemBinding>(
             inflater,
-            R.layout.game_list_item,
+            R.layout.hero_recycler_item,
             parent,
             false
         )
-        return GamesHolder(binding)
+        return HeroesHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: GamesHolder, position: Int) {
-        val game = getItem(position)
+    override fun onBindViewHolder(holder: HeroesHolder, position: Int) {
+        val hero = getItem(position)
 
-        // Note that "game" can be null if it's a placeholder.
-        if (game != null) holder.bind(game)
+        // Note that "hero" can be null if it's a placeholder.
+        if (hero != null) holder.bind(hero)
     }
 
-    inner class GamesHolder(private var binding: GameListItemBinding) :
+    inner class HeroesHolder(private var binding: HeroRecyclerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(game: Game) {
+        fun bind(hero: Hero) {
             // Установка биндинга (передача в него объекта game)
-            binding.game = game
+            binding.hero = hero
             // Используется для того, что бы биндинг выполинлся как можно скорее
             binding.executePendingBindings()
         }

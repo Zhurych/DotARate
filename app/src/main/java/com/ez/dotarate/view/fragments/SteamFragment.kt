@@ -51,7 +51,7 @@ class SteamFragment : BaseFragment<SteamViewModel, FragmentSteamBinding>() {
 
         window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window?.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        window?.statusBarColor = ContextCompat.getColor(activity!!, R.color.colorBlue)
+        window?.statusBarColor = ContextCompat.getColor(activity!!, R.color.colorBlueSteam)
 
         // Container(родитель) WebView
         val mCWebViewContainer = vb.wvContainer

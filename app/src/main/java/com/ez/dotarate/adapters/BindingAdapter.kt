@@ -12,7 +12,9 @@ import com.ez.dotarate.App
 import com.ez.dotarate.R
 import com.ez.dotarate.constants.*
 import com.ez.dotarate.database.Game
+import com.ez.dotarate.database.Hero
 import com.ez.dotarate.model.PermanentBuff
+import com.ez.dotarate.model.WinsAndLosses
 import com.squareup.picasso.Picasso
 import java.util.*
 import kotlin.math.roundToInt
@@ -888,5 +890,44 @@ object BindingAdapter {
     @JvmStatic
     fun lastHitsAndDenies(view: TextView, lastHits: Int, denies: Int) {
         view.text = String.format("$lastHits / $denies")
+    }
+
+    /**
+     * Determines Win Rate
+     */
+    @BindingAdapter("winRate")
+    @JvmStatic
+    fun winRate(view: TextView, winsAndLosses: WinsAndLosses?) {
+        if (winsAndLosses != null) {
+            val wins = winsAndLosses.win
+            val losses = winsAndLosses.lose
+
+            val winRate = (wins * 100.0) / (wins + losses)
+
+            val result = (winRate * 100.0).roundToInt() / 100.0
+
+            val sb = StringBuilder()
+
+            view.text = sb.append(result).append('%')
+        }
+    }
+
+    /**
+     * Determines Win Rate for hero_recycler_view
+     */
+    @BindingAdapter("heroWinRate")
+    @JvmStatic
+    fun heroWinRate(view: TextView, hero: Hero) {
+        val sb = StringBuilder()
+
+        if (hero.games != 0) {
+            val wr = (hero.win * 100.0) / hero.games
+
+            Log.d("MyLogs", "!!!!!!!!!!!!!!!!!!!!!!!     ИГР НА ГЕРОЕ = ${hero.games}")
+            Log.d("MyLogs", "!!!!!!!!!!!!!!!!!!!!!!!     ПОБЕД НА ГЕРОЕ = ${hero.win}")
+            val result = (wr * 100.0).roundToInt() / 100.0
+
+            view.text = sb.append(result).append('%')
+        } else view.text = sb.append('0').append('%')
     }
 }

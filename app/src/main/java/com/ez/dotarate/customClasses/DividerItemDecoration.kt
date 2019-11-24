@@ -1,13 +1,14 @@
-package com.ez.dotarate
+package com.ez.dotarate.customClasses
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import androidx.recyclerview.widget.RecyclerView
+import com.ez.dotarate.R
 
 
 class DividerItemDecoration(context: Context) : RecyclerView.ItemDecoration() {
-    private val mDivider: Drawable = context.resources.getDrawable(R.drawable.divider)
+    private val mDivider: Drawable = context.getDrawable(R.drawable.divider)!!
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val left = parent.paddingLeft

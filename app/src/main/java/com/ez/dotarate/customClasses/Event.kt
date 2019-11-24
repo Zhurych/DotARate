@@ -1,7 +1,7 @@
-package com.ez.dotarate
+package com.ez.dotarate.customClasses
 
 /**
- * Used as a wrapper for data that is exposed via a LiveData that represents an event.
+ * Used as a wrapper for userLiveData that is exposed via a LiveData that represents an event.
  */
 open class Event<out T>(private val content: T) {
 

@@ -1,13 +1,12 @@
-package com.ez.dotarate
+package com.ez.dotarate.customClasses
 
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
-import android.widget.ScrollView
+import androidx.recyclerview.widget.RecyclerView
 
-
-class VScroll : ScrollView {
+class MyRecyclerView : RecyclerView {
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
         context,
@@ -20,10 +19,13 @@ class VScroll : ScrollView {
     constructor(context: Context) : super(context)
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        Log.d("MyLogs", "RecyclerView. onTouchEvent")
         return false
     }
 
-    fun onTouchListener(event: MotionEvent) {
-        super.onTouchEvent(event)
-    }
+//    override fun onInterceptTouchEvent(e: MotionEvent?): Boolean {
+//        //return super.onInterceptTouchEvent(e)
+//        Log.d("MyLogs", "RecyclerView. onInterceptTouchEvent")
+//        return false
+//    }
 }

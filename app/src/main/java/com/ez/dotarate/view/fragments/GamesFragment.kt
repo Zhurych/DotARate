@@ -27,12 +27,11 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
     private val adapter = GamesAdapter()
 
     private lateinit var pagedList: PagedList<Game>
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    //private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun layout() = R.layout.fragment_games
 
     override fun afterCreateView(view: View, savedInstanceState: Bundle?) {
-        activity?.setTitle(R.string.games_screen_title)
 
         Log.d("MyLogs", "GamesFragment. AfterCreateView")
 
@@ -41,11 +40,11 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
         val id32: Int =
             (activity!!.intent!!.getLongExtra(USER_ID_KEY, 0) - CONVERTER_NUMBER).toInt()
 
-        swipeRefreshLayout = vb.srlGamesFragment
-        swipeRefreshLayout.setOnRefreshListener {
-            vm.getGames(id32)
-            Log.d("MyLogs", "ОБНОВЛЕНИЕ СТРАНИЦЫ")
-        }
+//        swipeRefreshLayout = vb.srlGamesFragment
+//        swipeRefreshLayout.setOnRefreshListener {
+//            vm.getGames(id32)
+//            Log.d("MyLogs", "ОБНОВЛЕНИЕ СТРАНИЦЫ")
+//        }
 
         // Need to set LayoutManager
         val recyclerView = vb.rvGamesFragment
@@ -88,9 +87,14 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
 
         // LiveData<PagedList<Game>> subscriber
         vm.liveGame.observe(this, Observer {
+            Log.d("MyLogs", "GamesFragment.  LiveData с PagedList")
             if (it != null && it.size > 0) {
+                Log.d("MyLogs", "GamesFragment. PagedList = $it")
                 vm.isGamesEmpty.set(true)
                 pagedList = it
+            } else {
+
+                Log.d("MyLogs", "GamesFragment. PagedList = $it")
             }
             // Need to use submitList to set the PagedListAdapter value
             adapter.submitList(it)
@@ -104,7 +108,7 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
         })
 
         vm.isLoaded.observe(this, Observer {
-            if (it) swipeRefreshLayout.isRefreshing = false
+           // if (it) swipeRefreshLayout.isRefreshing = false
         })
 
     }

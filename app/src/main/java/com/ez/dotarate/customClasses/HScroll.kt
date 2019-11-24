@@ -1,4 +1,4 @@
-package com.ez.dotarate
+package com.ez.dotarate.customClasses
 
 import android.content.Context
 import android.util.AttributeSet

@@ -246,7 +246,6 @@
     <string name="unknown_hero">Unknown Hero</string>
 
     <string name="backpack">Backpack</string>
-    <string name="winner">Winner</string>
 
     <!--Login Screen-->
     <string name="greeting">Welcome to DotA Rate</string>
@@ -259,10 +258,15 @@
 
     <!--MPH screen-->
     <string name="mph_screen_title">Heroes</string>
+    <string name="mph_screen_empty">No results</string>
 
     <!--Profile screen-->
     <string name="profile_screen_title">Settings</string>
     <string name="profile_screen_dialog_logout">Log out of DotA Rate?</string>
+    <string name="profile_screen_wins">Wins</string>
+    <string name="profile_screen_losses">Losses</string>
+    <string name="profile_screen_winrate">Winrate</string>
+    <string name="profile_screen_game">Game</string>
 
     <!--Game Screen-->
     <string name="gameScreenRadiantVictory">Radiant victory</string>

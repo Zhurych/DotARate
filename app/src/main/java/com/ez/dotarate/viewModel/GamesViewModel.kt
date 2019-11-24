@@ -1,7 +1,6 @@
 package com.ez.dotarate.viewModel
 
 import android.app.Application
-import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -9,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.ez.dotarate.Event
+import com.ez.dotarate.customClasses.Event
 import com.ez.dotarate.database.Game
 import com.ez.dotarate.model.repository.OpenDotaRepositoryImpl
 import kotlinx.coroutines.Dispatchers
@@ -36,11 +35,13 @@ constructor(
     // Он задает начальное значение для первоначальной подгрузки
     init {
         val config = PagedList.Config.Builder()
-            .setPageSize(20)
+            .setPageSize(12)
             .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(12)
+            .setPrefetchDistance(6)
             .build()
         liveGame =
-            LivePagedListBuilder<Int, Game>(repository.getGames(), config).setInitialLoadKey(15)
+            LivePagedListBuilder<Int, Game>(repository.getGames(), config)
                 .build()
     }
 
@@ -51,16 +52,19 @@ constructor(
                     repository.getMatches(id32)
                 }
                 if (response.isSuccessful) {
-                    isLoaded.postValue(true)
+                    response.body()?.let { repository.saveGames(it) }
+                    isLoaded.value = true
                 } else {
-                    isLoaded.postValue(true)
+                    isLoaded.value = true
                 }
             } catch (e: UnknownHostException) {
-                isLoaded.postValue(true)
-                errorLiveData.value = Event("Отсутствует интернет соединение")
+                isLoaded.value = true
+                errorLiveData.value =
+                    Event("Отсутствует интернет соединение")
             } catch (e: SocketTimeoutException) {
-                isLoaded.postValue(true)
-                errorLiveData.value = Event("Плохое соединение. Попробуйте позже")
+                isLoaded.value = true
+                errorLiveData.value =
+                    Event("Плохое соединение. Попробуйте позже")
             }
         }
     }
