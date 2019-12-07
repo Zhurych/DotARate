@@ -8,13 +8,17 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.databinding.ObservableBoolean
+import androidx.recyclerview.widget.RecyclerView
 import com.ez.dotarate.App
 import com.ez.dotarate.R
 import com.ez.dotarate.constants.*
 import com.ez.dotarate.database.Game
 import com.ez.dotarate.database.Hero
+import com.ez.dotarate.database.User
 import com.ez.dotarate.model.PermanentBuff
 import com.ez.dotarate.model.WinsAndLosses
+import com.ez.dotarate.viewModel.ProfileViewModel
 import com.squareup.picasso.Picasso
 import java.util.*
 import kotlin.math.roundToInt
@@ -897,10 +901,10 @@ object BindingAdapter {
      */
     @BindingAdapter("winRate")
     @JvmStatic
-    fun winRate(view: TextView, winsAndLosses: WinsAndLosses?) {
-        if (winsAndLosses != null) {
-            val wins = winsAndLosses.win
-            val losses = winsAndLosses.lose
+    fun winRate(view: TextView, user: User?) {
+        if (user != null) {
+            val wins = user.wins!!
+            val losses = user.losses!!
 
             val winRate = (wins * 100.0) / (wins + losses)
 
@@ -915,19 +919,36 @@ object BindingAdapter {
     /**
      * Determines Win Rate for hero_recycler_view
      */
+    @Suppress("IMPLICIT_CAST_TO_ANY")
     @BindingAdapter("heroWinRate")
     @JvmStatic
     fun heroWinRate(view: TextView, hero: Hero) {
         val sb = StringBuilder()
 
-        if (hero.games != 0) {
-            val wr = (hero.win * 100.0) / hero.games
+        val wins = hero.win
+        val games = hero.games
 
-            Log.d("MyLogs", "!!!!!!!!!!!!!!!!!!!!!!!     ИГР НА ГЕРОЕ = ${hero.games}")
-            Log.d("MyLogs", "!!!!!!!!!!!!!!!!!!!!!!!     ПОБЕД НА ГЕРОЕ = ${hero.win}")
-            val result = (wr * 100.0).roundToInt() / 100.0
+        if (games != 0) {
+            val wr = (wins * 100.0) / games
+
+            Log.d("MyLogs", "!!!!!!!!!!!!!!!!!!!!!!!     ИГР НА ГЕРОЕ = $games")
+            Log.d("MyLogs", "!!!!!!!!!!!!!!!!!!!!!!!     ПОБЕД НА ГЕРОЕ = $wins")
+            val wrToInt = (wr * 10).roundToInt()
+
+            val result = if (wrToInt % 10.0 == 0.0) (wrToInt / 10.0).toInt()
+            else wrToInt / 10.0
 
             view.text = sb.append(result).append('%')
         } else view.text = sb.append('0').append('%')
+    }
+
+    /**
+     * Sets Recycler View to the start
+     */
+    @BindingAdapter("scrollToStart")
+    @JvmStatic
+    fun scrollToStart(view: RecyclerView, isNeedPositionToStart: ObservableBoolean) {
+        Log.d("MyLogs", "ФУНКЦИЯ УСТАНОВКИ RECYCLER'A В НАЧАЛО")
+        if (isNeedPositionToStart.get()) view.scrollToPosition(0)
     }
 }

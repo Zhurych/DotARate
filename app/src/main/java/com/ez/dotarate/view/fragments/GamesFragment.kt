@@ -5,15 +5,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ez.dotarate.R
 import com.ez.dotarate.adapters.GamesAdapter
 import com.ez.dotarate.constants.CONVERTER_NUMBER
 import com.ez.dotarate.constants.MATCH_ID_KEY
+import com.ez.dotarate.constants.REFRESH_OBSERVABLE_BOOLEAN_KEY
 import com.ez.dotarate.constants.USER_ID_KEY
 import com.ez.dotarate.database.Game
 import com.ez.dotarate.databinding.FragmentGamesBinding
@@ -27,7 +28,6 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
     private val adapter = GamesAdapter()
 
     private lateinit var pagedList: PagedList<Game>
-    //private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun layout() = R.layout.fragment_games
 
@@ -36,20 +36,21 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
         Log.d("MyLogs", "GamesFragment. AfterCreateView")
 
         vb.adapter = adapter
+        vb.vm = vm
 
         val id32: Int =
             (activity!!.intent!!.getLongExtra(USER_ID_KEY, 0) - CONVERTER_NUMBER).toInt()
 
-//        swipeRefreshLayout = vb.srlGamesFragment
-//        swipeRefreshLayout.setOnRefreshListener {
-//            vm.getGames(id32)
-//            Log.d("MyLogs", "ОБНОВЛЕНИЕ СТРАНИЦЫ")
-//        }
+        val isNeedPositionToStart = arguments!!.getSerializable(REFRESH_OBSERVABLE_BOOLEAN_KEY) as ObservableBoolean
+
+        vb.isNeedPositionToStart = isNeedPositionToStart
 
         // Need to set LayoutManager
         val recyclerView = vb.rvGamesFragment
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        // Set touch listener
+        val linearLayoutManager = LinearLayoutManager(activity)
+        recyclerView.layoutManager = linearLayoutManager
+
+        // Set Touch Listener for RecyclerView
         recyclerView.addOnItemTouchListener(
             RecyclerTouchListener(
                 context!!,
@@ -61,11 +62,11 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
 
                             val bundle = Bundle()
                             bundle.putLong(MATCH_ID_KEY, game!!.match_id)
-                            if (findNavController().currentDestination?.id == R.id.gamesFragment) {
+                            if (findNavController().currentDestination?.id == R.id.profileFragment) {
                                 Log.d("MyLogs", "games Fragment. КОНТРОЛЕР = ${findNavController()}")
                                 Log.d("MyLogs", "games Fragment. id ТЕКУЩЕГО ФРАГМЕНТА = ${findNavController().currentDestination?.id}")
                                 findNavController().navigate(
-                                    R.id.action_gamesFragment_to_gameDetailFragment,
+                                    R.id.action_profileFragment_to_gameDetailFragment,
                                     bundle
                                 )
                             } else {
@@ -89,28 +90,25 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
         vm.liveGame.observe(this, Observer {
             Log.d("MyLogs", "GamesFragment.  LiveData с PagedList")
             if (it != null && it.size > 0) {
+                vm.isGamesEmpty.set(false)
                 Log.d("MyLogs", "GamesFragment. PagedList = $it")
-                vm.isGamesEmpty.set(true)
                 pagedList = it
             } else {
-
+                vm.isGamesEmpty.set(true)
                 Log.d("MyLogs", "GamesFragment. PagedList = $it")
             }
             // Need to use submitList to set the PagedListAdapter value
             adapter.submitList(it)
+            vm.isDataReceived.set(true)
+            Log.d("MyLogs", "MphFragment. AfterCreateView 4444444444444444")
         })
 
-        vm.errorLiveData.observe(this, Observer {
-            it.getContentIfNotHandled()?.let { its ->
-                // Only proceed if the event has never been handled
-                Toast.makeText(activity, its, Toast.LENGTH_SHORT).show()
-            }
-        })
-
-        vm.isLoaded.observe(this, Observer {
-           // if (it) swipeRefreshLayout.isRefreshing = false
-        })
-
+//        vm.errorLiveData.observe(this, Observer {
+//            it.getContentIfNotHandled()?.let { its ->
+//                // Only proceed if the event has never been handled
+//                Toast.makeText(activity, its, Toast.LENGTH_SHORT).show()
+//            }
+//        })
     }
 
     override fun onStart() {

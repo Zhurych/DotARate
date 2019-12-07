@@ -18,5 +18,5 @@ interface UserIdDao {
     suspend fun saveId(id: UserId)
 
     @Query("DELETE FROM userid")
-    suspend fun deleteUser()
+    suspend fun clearUserId()
 }

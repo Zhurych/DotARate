@@ -10,7 +10,7 @@ interface OpenDotaRepository {
     // Database
     suspend fun saveGames(listGames: ArrayList<Game>): List<Long>
     fun getGames(): DataSource.Factory<Int, Game>
-    suspend fun saveHeroes(listHeroes: ArrayList<Hero>)
+    suspend fun saveHeroes(listHeroes: ArrayList<Hero>): List<Long>
     fun getHeroes(): DataSource.Factory<Int, Hero>
 
     // Network

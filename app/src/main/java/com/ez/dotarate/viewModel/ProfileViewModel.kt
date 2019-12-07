@@ -1,11 +1,11 @@
 package com.ez.dotarate.viewModel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.databinding.ObservableBoolean
+import androidx.lifecycle.*
 import com.ez.dotarate.customClasses.Event
-import com.ez.dotarate.model.User
+import com.ez.dotarate.database.User
+import com.ez.dotarate.model.UserResponse
 import com.ez.dotarate.model.WinsAndLosses
 import com.ez.dotarate.model.repository.UserRepositoryImpl
 import kotlinx.coroutines.Dispatchers.IO
@@ -26,24 +26,30 @@ constructor(
      *  suspend functions like the one in our repository.
      * So let’s use that with the IO Dispatcher since we’re making a network call.
      * The building block will automatically switch to the UI thread to update LiveData value when needed.
-     * We don’t even need to make a method to get the
+     * We don’t even need to make a method to get the User ID Key
      */
-//    val userLiveData = liveData(Dispatchers.IO) {
-//        val user = repository.getUser(id)
-//        emit(user)
+//    val liveUser = liveData {
+//        emit(repository.getUser())
 //    }
 
-    val userLiveData = MutableLiveData<User>()
+    val liveUser = repository.getUser()
+
+    val isDataReceived = ObservableBoolean(false)
+    val isNeedPositionToStartGames = ObservableBoolean(false)
+    val isNeedPositionToStartMph = ObservableBoolean(false)
+
+    val userResponseLiveData = MutableLiveData<UserResponse>()
     val wlLiveData = MutableLiveData<WinsAndLosses>()
     val errorLiveData = MutableLiveData<Event<String>>()
+    val isNeedRefresh = MutableLiveData<Boolean>()
 
-    fun getUser(id: Long) {
+    fun getUserResponse(id: Long) {
         viewModelScope.launch(IO) {
             try {
-                val response = repository.getUser(id)
+                val response = repository.getUserResponse(id)
 
                 if (response.isSuccessful) {
-                    userLiveData.postValue(response.body())
+                    userResponseLiveData.postValue(response.body())
 
                 } else {
                     errorLiveData.postValue(Event(response.errorBody().toString()))
@@ -73,6 +79,12 @@ constructor(
             } catch (e: SocketTimeoutException) {
                 errorLiveData.postValue(Event("Плохое соединение. Попробуйте позже"))
             }
+        }
+    }
+
+    fun saveUser(user: User) {
+        viewModelScope.launch {
+            repository.saveUser(user)
         }
     }
 

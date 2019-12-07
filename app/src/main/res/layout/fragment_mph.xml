@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="adapter"
             type="com.ez.dotarate.adapters.HeroesAdapter" />
@@ -12,6 +14,13 @@
             name="vm"
             type="com.ez.dotarate.viewModel.MphViewModel" />
 
+        <variable
+            name="isNeedPositionToStart"
+            type="androidx.databinding.ObservableBoolean" />
+
+        <variable
+            name="isDataReceivedMph"
+            type="androidx.databinding.ObservableBoolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,10 +37,12 @@
             android:paddingTop="2dp"
             android:paddingEnd="16dp"
             android:paddingBottom="@dimen/bnv_height"
+            android:visibility="@{isDataReceivedMph ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:scrollToStart="@{isNeedPositionToStart}" />
 
         <TextView
             android:id="@+id/tvMphEmpty"
@@ -40,7 +51,17 @@
             android:text="@string/mph_screen_empty"
             android:textColor="@color/colorDarkGreen"
             android:textSize="24sp"
-            android:visibility="@{vm.isHeroesEmpty() ? View.VISIBLE : View.GONE}"
+            android:visibility="@{vm.isHeroesEmpty ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{isDataReceivedMph ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

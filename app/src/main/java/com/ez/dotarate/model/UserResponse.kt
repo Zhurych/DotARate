@@ -1,6 +1,6 @@
 package com.ez.dotarate.model
 
-data class User(
+data class UserResponse(
     val leaderboard_rank: Int?,
     val profile: Profile,
     val rank_tier: Int

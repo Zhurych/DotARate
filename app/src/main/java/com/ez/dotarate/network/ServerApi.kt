@@ -3,7 +3,7 @@ package com.ez.dotarate.network
 import com.ez.dotarate.database.Game
 import com.ez.dotarate.database.Hero
 import com.ez.dotarate.model.GameDetail
-import com.ez.dotarate.model.User
+import com.ez.dotarate.model.UserResponse
 import com.ez.dotarate.model.WinsAndLosses
 import retrofit2.Response
 import retrofit2.http.GET
@@ -16,7 +16,7 @@ import retrofit2.http.Path
  */
 interface ServerApi {
     @GET("api/players/{account_id}")
-    suspend fun getUser(@Path("account_id") id: Long): Response<User>
+    suspend fun getUser(@Path("account_id") id: Long): Response<UserResponse>
 
     @GET("api/players/{steamID32}/matches/?limit=100")
     suspend fun getGames(@Path("steamID32") id: Int): Response<ArrayList<Game>>

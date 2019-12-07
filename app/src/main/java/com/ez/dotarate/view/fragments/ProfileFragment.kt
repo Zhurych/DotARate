@@ -10,51 +10,96 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.get
 import androidx.lifecycle.Observer
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ez.dotarate.R
 import com.ez.dotarate.adapters.ViewPagerAdapter
 import com.ez.dotarate.constants.CONVERTER_NUMBER
 import com.ez.dotarate.constants.USER_ID_KEY
+import com.ez.dotarate.database.User
 import com.ez.dotarate.databinding.FragmentProfileBinding
 import com.ez.dotarate.view.BaseFragment
 import com.ez.dotarate.view.activities.StartActivity
 import com.ez.dotarate.viewModel.ProfileViewModel
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 
 class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>() {
+
+    private var mOldVerticalOffset = 0
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun layout() = R.layout.fragment_profile
 
     override fun afterCreateView(view: View, savedInstanceState: Bundle?) {
         Log.d("MyLogs", "ProfileFragment. CreateView")
 
-        val id = activity!!.intent.getLongExtra(USER_ID_KEY, 0) - CONVERTER_NUMBER
+        val id32 = activity!!.intent.getLongExtra(USER_ID_KEY, 0) - CONVERTER_NUMBER
 
         // Говорим фрагменту, что ему нужно отобразить меню
         setHasOptionsMenu(true)
 
+        vb.vm = vm
+
+        val user = User()
+        user.id = id32
+
+//        swipeRefreshLayout = vb.srlProfile
+//        swipeRefreshLayout.setOnRefreshListener {
+//            // TODO: REST запросы
+//            swipeRefreshLayout.isRefreshing = false
+//        }
+
+        vm.liveUser.observe(this, Observer {
+            Log.d("MyLogs", "ProfileFragment. liveUser.")
+            if (it != null) {
+                Log.d("MyLogs", "ProfileFragment. liveUser. УСТАНОВКА isDataReceived в true")
+                vm.isDataReceived.set(true)
+                vb.user = it
+            }
+        })
+
         if (savedInstanceState == null) {
-            vm.getUser(id)
-            vm.getWinsAndLosses(id)
+            vm.getUserResponse(id32)
+            vm.getWinsAndLosses(id32)
         }
 
-        vm.userLiveData.observe(this, Observer {
-            vb.user = it
-            //activity?.title = it.profile.personaname
+        vm.userResponseLiveData.observe(this, Observer {
+            Log.d("MyLogs", "ProfileFragment. userResponseLiveData.")
+            //vb.userResponse = it
+
+            user.name = it.profile.personaname
+            user.avatarUrl = it.profile.avatarfull
+            user.rankId = it.rank_tier
+
+            if (user.wins != null) vm.saveUser(user)
         })
 
         vm.wlLiveData.observe(this, Observer {
-            vb.winsAndLosses = it
+            Log.d("MyLogs", "ProfileFragment. wlLiveData.")
+            //vb.winsAndLosses = it
+
+            user.wins = it.win
+            user.losses = it.lose
+
+            if (user.avatarUrl != null) vm.saveUser(user)
         })
 
-        vb.vpContainer.adapter = ViewPagerAdapter(this, arrayListOf(GamesFragment(), MphFragment()))
+        vb.vpContainer.adapter =
+            ViewPagerAdapter(this, vm.isNeedPositionToStartGames, vm.isNeedPositionToStartMph)
+        Log.d("MyLogs", "****** ПЕРВОЕ VIEW во ViewPager = ${vb.vpContainer[0]}")
 
         TabLayoutMediator(vb.tabs, vb.vpContainer,
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                 when (position) {
-                    0 -> { tab.icon = context!!.getDrawable(R.drawable.vp_games_icon_selector)}
-                    1 -> { tab.icon = context!!.getDrawable(R.drawable.vp_mph_icon_selector)}
+                    0 -> {
+                        tab.icon = context!!.getDrawable(R.drawable.vp_games_icon_selector)
+                    }
+                    1 -> {
+                        tab.icon = context!!.getDrawable(R.drawable.vp_mph_icon_selector)
+                    }
                 }
             }).attach()
 
@@ -65,6 +110,23 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
 //                Toast.makeText(activity, its, Toast.LENGTH_SHORT).show()
 //            }
 //        })
+
+        val appBar = vb.ablProfile
+        appBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            if (verticalOffset == -491) {
+                vm.isNeedPositionToStartGames.set(false)
+                vm.isNeedPositionToStartMph.set(false)
+            }
+
+            if (verticalOffset > mOldVerticalOffset) {
+                if (vb.vpContainer.currentItem == 0) vm.isNeedPositionToStartMph.set(true)
+                else vm.isNeedPositionToStartGames.set(true)
+                mOldVerticalOffset = verticalOffset
+            } else {
+                mOldVerticalOffset = verticalOffset
+            }
+            Log.d("MyLogs", "**********  ЗНАЧЕНИЕ verticalOffset = $verticalOffset")
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

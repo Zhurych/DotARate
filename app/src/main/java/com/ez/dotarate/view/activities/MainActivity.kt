@@ -33,17 +33,23 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                     else -> title = ""
                 }
             }
-            graphIdToTagMap.keyAt(1) -> title = getString(R.string.mph_screen_title)
-            graphIdToTagMap.keyAt(2) -> title = getString(R.string.profile_screen_title)
+            graphIdToTagMap.keyAt(1) -> title = getString(R.string.search_screen_title)
+            graphIdToTagMap.keyAt(2) -> {
+                title = if (it.currentDestination!!.id == it.graph.startDestination) userName
+                else ""
+                Log.d("MyLogs", "MainActivity. User Name Live = ${vm.userNameLive.value}")
+            }
         }
     }
+
+    lateinit var userName: String
 
     override fun layout() = R.layout.activity_main
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        val navHostFragment = fm.findFragmentByTag(graphIdToTagMap.valueAt(0)) as NavHostFragment
+        val navHostFragmentProfile = fm.findFragmentByTag(graphIdToTagMap.valueAt(2)) as NavHostFragment
 
-        val fragment = navHostFragment.childFragmentManager.findFragmentById(R.id.main_container)
+        val fragment = navHostFragmentProfile.childFragmentManager.findFragmentById(R.id.main_container)
 
         (fragment as? IOnTouchEvent)?.onTouchEvent(event)
 
@@ -60,6 +66,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
         setSupportActionBar(vb.fpToolbar)
 
+        vm.userNameLive.observe(this, Observer { userName = it?.name ?: ""})
+
         vm.currentNavController.observe(this, navControllerObserver)
     }
 
@@ -72,6 +80,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
             // Если в стеке текущей "вкладки" есть несколько фрагментов - просто переходим вниз по стеку
             // Иначе переходим на предыдущую вкладку, если она есть в стеке вкладок
             currentNavController.popBackStack()
+            // Notify the LiveData<NavController> of a fragment change in order to change the title name
+            vm.currentNavController.value = currentNavController
         } else {
             // Если в стеке больше одной "вкладки", то переходим на предыдущую
             // Иначе закрываем текущую вкладку. Т.е. приложение закрывается
@@ -97,7 +107,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
      */
     private fun setupBottomNavigationBar() {
 
-        val navGraphIds = listOf(R.navigation.first, R.navigation.mph, R.navigation.profile)
+        val navGraphIds = listOf(R.navigation.first, R.navigation.search, R.navigation.profile)
 
         // Setup the bottom navigation view with a list of navigation graphs
         mBottomNavigationView.setupWithNavController(

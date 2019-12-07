@@ -25,8 +25,9 @@ constructor(
 ) : AndroidViewModel(application) {
 
     val isGamesEmpty = ObservableBoolean(false)
+    val isLoaded = ObservableBoolean(false)
+    val isDataReceived = ObservableBoolean(false)
 
-    val isLoaded = MutableLiveData<Boolean>()
     val errorLiveData = MutableLiveData<Event<String>>()
 
     var liveGame: LiveData<PagedList<Game>>
@@ -37,11 +38,11 @@ constructor(
         val config = PagedList.Config.Builder()
             .setPageSize(12)
             .setEnablePlaceholders(false)
-            .setInitialLoadSizeHint(12)
-            .setPrefetchDistance(6)
+            .setPrefetchDistance(10) // Количество до конца списка, при достижении которого происходит следующая подгрузка данных
             .build()
         liveGame =
             LivePagedListBuilder<Int, Game>(repository.getGames(), config)
+                //.setInitialLoadKey(36) // Устанавливает позицию, с которой будет показан список
                 .build()
     }
 
@@ -53,16 +54,16 @@ constructor(
                 }
                 if (response.isSuccessful) {
                     response.body()?.let { repository.saveGames(it) }
-                    isLoaded.value = true
+                    isLoaded.set(true)
                 } else {
-                    isLoaded.value = true
+                    isLoaded.set(true)
                 }
             } catch (e: UnknownHostException) {
-                isLoaded.value = true
+                isLoaded.set(true)
                 errorLiveData.value =
                     Event("Отсутствует интернет соединение")
             } catch (e: SocketTimeoutException) {
-                isLoaded.value = true
+                isLoaded.set(true)
                 errorLiveData.value =
                     Event("Плохое соединение. Попробуйте позже")
             }

@@ -28,9 +28,8 @@ constructor(@Named("OpenDota") private val api: ServerApi, private val db: AppDa
     /**
      * Database function
      */
-    override suspend fun saveHeroes(listHeroes: ArrayList<Hero>) {
-        db.heroDao().insertHeroes(listHeroes)
-    }
+    override suspend fun saveHeroes(listHeroes: ArrayList<Hero>) = db.heroDao().insertHeroes(listHeroes)
+
 
     /**
      * Database function

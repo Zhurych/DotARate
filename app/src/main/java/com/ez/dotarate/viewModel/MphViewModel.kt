@@ -1,6 +1,7 @@
 package com.ez.dotarate.viewModel
 
 import android.app.Application
+import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -22,6 +23,7 @@ constructor(
 ) : AndroidViewModel(application) {
 
     val isHeroesEmpty = ObservableBoolean(false)
+    val isDataReceivedMph = ObservableBoolean(false)
 
     val liveHeroes: LiveData<PagedList<Hero>>
 
@@ -31,8 +33,8 @@ constructor(
         val config = PagedList.Config.Builder()
             .setPageSize(12)
             .setEnablePlaceholders(false)
-            .setInitialLoadSizeHint(12)
-            .setPrefetchDistance(6)
+            .setInitialLoadSizeHint(36) // Количество первоначальной загрузки
+            .setPrefetchDistance(10) // Количество до конца списка, при достижении которого происходит следующая подгрузка данных
             .build()
         liveHeroes =
             LivePagedListBuilder<Int, Hero>(repository.getHeroes(), config)
@@ -44,8 +46,10 @@ constructor(
             try {
                 val response = repository.fetchHeroes(id32)
 
+                Log.d("MyLogs", "MphViewModel. ПОЛУЧЕННЫЕ ДАННЫЕ = ${response.body()}")
                 if (response.isSuccessful) {
-                    repository.saveHeroes(response.body()!!)
+                    val inserts = repository.saveHeroes(response.body()!!)
+                    Log.d("MyLogs", "MphViewModel. ВСТАВЛЕННЫЕ ЗАПИСИ = ${inserts.size}")
                 }
             } catch (e: UnknownHostException) {
 

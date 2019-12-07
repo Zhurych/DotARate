@@ -5,6 +5,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
 import com.ez.dotarate.adapters.GamesAdapter
+import com.ez.dotarate.model.GamesHolder
 
 class RecyclerTouchListener(
     context: Context,
@@ -39,7 +40,7 @@ class RecyclerTouchListener(
 
         val child = rv.findChildViewUnder(e.x, e.y)
         if (child != null && gestureDetector.onTouchEvent(e)) {
-            val holder = rv.getChildViewHolder(child) as GamesAdapter.GamesHolder
+            val holder = rv.getChildViewHolder(child) as GamesHolder
             clickListener!!.onClick(child, rv.getChildAdapterPosition(child))
         }
         return false

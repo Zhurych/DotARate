@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
@@ -21,6 +22,7 @@ import com.ez.dotarate.databinding.FragmentGameDetailBinding
 import com.ez.dotarate.extensions.graphIdToTagMap
 import com.ez.dotarate.model.GameDetail
 import com.ez.dotarate.view.BaseFragment
+import com.ez.dotarate.view.activities.MainActivity
 import com.ez.dotarate.viewModel.GameDetailViewModel
 
 
@@ -197,10 +199,11 @@ class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailB
         vm.liveGame.observe(this, gameObserver)
 
         vm.errorLiveData.observe(this, Observer {
-            //Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
-            val navHostFragment =
-                activity!!.supportFragmentManager.findFragmentByTag(graphIdToTagMap.valueAt(0)) as NavHostFragment
-            navHostFragment.navController.popBackStack()
+            Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
+            val navHostFragmentProfile =
+                activity!!.supportFragmentManager.findFragmentByTag(graphIdToTagMap.valueAt(2)) as NavHostFragment
+            navHostFragmentProfile.navController.popBackStack()
+            activity!!.title = (activity as MainActivity).userName
         })
     }
 

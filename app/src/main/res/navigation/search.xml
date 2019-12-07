@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/mph"
-    app:startDestination="@id/mphFragment">
-
+    app:startDestination="@id/firstFragment2">
     <fragment
-        android:id="@+id/mphFragment"
-        android:name="com.ez.dotarate.view.fragments.MphFragment"
-        android:label="MphFragment" />
+        android:id="@+id/firstFragment2"
+        android:name="com.ez.dotarate.view.fragments.FirstFragment"
+        android:label="FirstFragment" />
 </navigation>

@@ -5,13 +5,16 @@
 
     <data>
 
-        <variable
-            name="user"
-            type="com.ez.dotarate.model.User" />
+        <import type="android.view.View" />
 
         <variable
-            name="winsAndLosses"
-            type="com.ez.dotarate.model.WinsAndLosses" />
+            name="user"
+            type="com.ez.dotarate.database.User" />
+
+        <variable
+            name="vm"
+            type="com.ez.dotarate.viewModel.ProfileViewModel" />
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -20,8 +23,10 @@
         android:layout_marginTop="@dimen/toolbar_height">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/ablProfile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="@{vm.isDataReceived ? View.VISIBLE : View.INVISIBLE}">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -34,13 +39,13 @@
                     android:id="@+id/avatar"
                     android:layout_width="@dimen/profileScreenImageSize"
                     android:layout_height="@dimen/profileScreenImageSize"
-                    app:civ_border_color="@color/colorGreen"
                     android:layout_marginTop="16dp"
+                    app:civ_border_color="@color/colorGreen"
                     app:civ_border_width="2dp"
                     app:errorImage="@{@drawable/ic_empty_avatar}"
                     app:layout_constraintStart_toStartOf="@id/guidelineStart"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:url="@{user.profile.avatarfull}"
+                    app:url="@{user.avatarUrl}"
                     tools:src="@drawable/ic_empty_avatar" />
 
                 <TextView
@@ -59,7 +64,7 @@
                     android:id="@+id/winsCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(winsAndLosses.win)}"
+                    android:text="@{String.valueOf(user.wins)}"
                     android:textColor="@color/colorDarkGreen"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -83,7 +88,7 @@
                     android:id="@+id/lossesCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(winsAndLosses.lose)}"
+                    android:text="@{String.valueOf(user.losses)}"
                     android:textColor="@color/colorDarkGreen"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -113,7 +118,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/winRate"
                     app:layout_constraintStart_toStartOf="@+id/winRate"
                     app:layout_constraintTop_toBottomOf="@+id/winRate"
-                    app:winRate="@{winsAndLosses}"
+                    app:winRate="@{user}"
                     tools:text="52.74%" />
 
                 <ImageView
@@ -123,14 +128,14 @@
                     android:layout_marginTop="32dp"
                     app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:rankTier="@{user.rank_tier}"
+                    app:rankTier="@{user.rankId}"
                     tools:src="@drawable/divine_3" />
 
                 <ImageView
                     android:id="@+id/ivLive"
-                    android:layout_marginTop="16dp"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
+                    android:layout_marginTop="16dp"
                     android:src="@drawable/ic_live"
                     app:layout_constraintStart_toStartOf="@id/guidelineStart"
                     app:layout_constraintTop_toBottomOf="@id/avatar" />
@@ -142,7 +147,7 @@
                     android:text="@string/profile_screen_game"
                     android:textAllCaps="true"
                     android:textColor="@color/colorDarkGreen"
-                    android:textSize="22sp"
+                    android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="@+id/ivLive"
                     app:layout_constraintStart_toEndOf="@+id/ivLive"
                     app:layout_constraintTop_toTopOf="@+id/ivLive" />
@@ -175,23 +180,21 @@
                 app:tabIconTint="@color/tabs_icon_color_selector"
                 app:tabIndicator="@drawable/tab_indicator"
                 app:tabRippleColor="@null" />
-
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vpContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:visibility="@{vm.isDataReceived ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/vpContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_anchor="@id/tabs"
-                app:layout_anchorGravity="bottom"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-        </androidx.core.widget.NestedScrollView>
+        <ProgressBar
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="@{vm.isDataReceived ? View.GONE : View.VISIBLE}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 </layout>

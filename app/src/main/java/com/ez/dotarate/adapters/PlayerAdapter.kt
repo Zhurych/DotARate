@@ -1,8 +1,10 @@
 package com.ez.dotarate.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.collection.ArrayMap
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -126,8 +128,9 @@ class PlayerAdapter(
                 }
             }
 
-
             binding.suppGold = item
+
+            binding.tvPlayerName.setOnClickListener { Log.d("MyLogs", "НАЖАТИЕ НА ИМЯ ИГРОКА = ${player.personaname}") }
 
             // Используется для того, что бы биндинг выполинлся как можно скорее
             binding.executePendingBindings()

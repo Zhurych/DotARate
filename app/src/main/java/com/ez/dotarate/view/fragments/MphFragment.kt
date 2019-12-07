@@ -4,11 +4,14 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.databinding.Observable
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ez.dotarate.R
 import com.ez.dotarate.adapters.HeroesAdapter
 import com.ez.dotarate.constants.CONVERTER_NUMBER
+import com.ez.dotarate.constants.REFRESH_OBSERVABLE_BOOLEAN_KEY
 import com.ez.dotarate.constants.USER_ID_KEY
 import com.ez.dotarate.databinding.FragmentMphBinding
 import com.ez.dotarate.view.BaseFragment
@@ -25,7 +28,14 @@ class MphFragment : BaseFragment<MphViewModel, FragmentMphBinding>() {
         val id32: Int =
             (activity!!.intent!!.getLongExtra(USER_ID_KEY, 0) - CONVERTER_NUMBER).toInt()
 
+        val isNeedPositionToStart =
+            arguments!!.getSerializable(REFRESH_OBSERVABLE_BOOLEAN_KEY) as ObservableBoolean
+        vb.isNeedPositionToStart = isNeedPositionToStart
+
         vb.adapter = adapter
+        vb.isDataReceivedMph = vm.isDataReceivedMph
+
+        if (savedInstanceState == null) vm.getHeroes(id32)
 
         // Need to set LayoutManager
         val recyclerView = vb.rvMphFragment
@@ -33,13 +43,14 @@ class MphFragment : BaseFragment<MphViewModel, FragmentMphBinding>() {
 
         vm.liveHeroes.observe(this, Observer {
             if (it != null && it.size > 0) {
-                vm.isHeroesEmpty.set(true)
-            }
-
+                vm.isHeroesEmpty.set(false)
+            } else vm.isHeroesEmpty.set(true)
+            // Need to use submitList to set the PagedListAdapter value
             adapter.submitList(it)
-        })
 
-        vm.getHeroes(id32)
+            vm.isDataReceivedMph.set(true)
+            Log.d("MyLogs", "MphFragment. Observer change = ${vm.isDataReceivedMph.get()}")
+        })
     }
 
     override fun onStart() {

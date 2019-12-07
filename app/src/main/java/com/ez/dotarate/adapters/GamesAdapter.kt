@@ -1,16 +1,17 @@
 package com.ez.dotarate.adapters
 
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ez.dotarate.R
 import com.ez.dotarate.database.Game
-import com.ez.dotarate.databinding.GameListItemBinding
+import com.ez.dotarate.model.DownloadStateItemViewHolder
+import com.ez.dotarate.model.GamesHolder
+import com.ez.dotarate.model.repository.DownloadState
 
-class GamesAdapter : PagedListAdapter<Game, GamesAdapter.GamesHolder>(DIFF_CALLBACK) {
+class GamesAdapter : PagedListAdapter<Game, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
 
@@ -29,33 +30,83 @@ class GamesAdapter : PagedListAdapter<Game, GamesAdapter.GamesHolder>(DIFF_CALLB
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GamesHolder {
-        val inflater = LayoutInflater.from(parent.context)
+    private var downloadState: DownloadState? = null
 
-        val binding = DataBindingUtil.inflate<GameListItemBinding>(
-            inflater,
-            R.layout.game_list_item,
-            parent,
-            false
-        )
-        return GamesHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder{
+//        val inflater = LayoutInflater.from(parent.context)
+//
+//        val binding = DataBindingUtil.inflate<GameListItemBinding>(
+//            inflater,
+//            R.layout.game_list_item,
+//            parent,
+//            false
+//        )
+//        return GamesHolder(binding)
+
+        return when (viewType) {
+            R.layout.game_list_item -> {
+                Log.d("MyLogs", "АДАПТЕР. onCreateViewHolder ДЛЯ ИГРЫ")
+                GamesHolder.create(parent)
+            }
+            R.layout.download_state_item -> {
+                Log.d("MyLogs", "АДАПТЕР. onCreateViewHolder ДЛЯ ProgressBar'a")
+                DownloadStateItemViewHolder.create(parent)
+            }
+            else -> throw IllegalArgumentException("unknown view type $viewType")
+        }
     }
 
-    override fun onBindViewHolder(holder: GamesHolder, position: Int) {
-        val game = getItem(position)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (getItemViewType(position)) {
+            R.layout.game_list_item -> (holder as GamesHolder).bind(getItem(position))
+            R.layout.download_state_item -> (holder as DownloadStateItemViewHolder).bindTo(
+                downloadState)
+        }
 
-        // Note that "game" can be null if it's a placeholder.
-        if (game != null) holder.bind(game)
+//        val game = getItem(position)
+//
+//        // Note that "game" can be null if it's a placeholder.
+//        if (game != null) holder.bind(game)
     }
 
-    inner class GamesHolder(private var binding: GameListItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    private fun hasExtraRow() = downloadState != null && downloadState != DownloadState.LOADED
 
-        fun bind(game: Game) {
-            // Установка биндинга (передача в него объекта game)
-            binding.game = game
-            // Используется для того, что бы биндинг выполинлся как можно скорее
-            binding.executePendingBindings()
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>) {
+        if (payloads.isNotEmpty()) {
+
+        } else {
+            onBindViewHolder(holder, position)
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (hasExtraRow() && position == itemCount - 1) {
+            R.layout.download_state_item
+        } else {
+            R.layout.game_list_item
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return super.getItemCount() + if (hasExtraRow()) 1 else 0
+    }
+
+    fun setDownloadState(newDownloadState: DownloadState?) {
+        val previousState = this.downloadState
+        val hadExtraRow = hasExtraRow()
+        this.downloadState = newDownloadState
+        val hasExtraRow = hasExtraRow()
+        if (hadExtraRow != hasExtraRow) {
+            if (hadExtraRow) {
+                notifyItemRemoved(super.getItemCount())
+            } else {
+                notifyItemInserted(super.getItemCount())
+            }
+        } else if (hasExtraRow && previousState != newDownloadState) {
+            notifyItemChanged(itemCount - 1)
         }
     }
 }

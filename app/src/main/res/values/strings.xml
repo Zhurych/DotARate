@@ -256,6 +256,9 @@
     <string name="games_screen_title">Games</string>
     <string name="games_screen_empty">No games</string>
 
+    <!--Search screen-->
+    <string name="search_screen_title">Search</string>
+
     <!--MPH screen-->
     <string name="mph_screen_title">Heroes</string>
     <string name="mph_screen_empty">No results</string>

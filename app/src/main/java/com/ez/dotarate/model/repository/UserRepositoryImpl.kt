@@ -1,10 +1,13 @@
 package com.ez.dotarate.model.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import com.ez.dotarate.constants.STEAM_API_KEY
 import com.ez.dotarate.database.AppDatabase
+import com.ez.dotarate.database.User
 import com.ez.dotarate.database.UserId
-import com.ez.dotarate.model.User
+import com.ez.dotarate.database.UserName
+import com.ez.dotarate.model.UserResponse
 import com.ez.dotarate.model.WinsAndLosses
 import com.ez.dotarate.network.ServerApi
 import retrofit2.Response
@@ -28,22 +31,52 @@ constructor(
      */
     override suspend fun getUserId() = db.userIdDao().getId()
 
+    /**
+     * Room
+     */
     override suspend fun saveUserId(userId: UserId) {
         db.userIdDao().saveId(userId)
     }
 
+    /**
+     * Room
+     */
     override suspend fun logout() {
-        db.userIdDao().deleteUser()
+        db.userIdDao().clearUserId()
         db.gameDao().deleteGames()
+    }
+
+    /**
+     * Room
+     */
+    override suspend fun saveUser(user: User) {
+        Log.d("MyLogs", "СОХРАНЯЕМ ПОЛЬЗОВАТЕЛЯ В БД")
+        db.userDao().saveUser(user)
+    }
+
+    /**
+     * Room
+     */
+    override fun getUser(): LiveData<User> {
+        Log.d("MyLogs", "ПОЛУЧАЕМ ПОЛЬЗОВАТЕЛЯ ИЗ БД")
+        return db.userDao().getUser()
+    }
+
+    /**
+     * Room
+     */
+    override fun getUserName(): LiveData<UserName?> {
+        Log.d("MyLogs", "ПОЛУЧАЕМ ИМЯ ПОЛЬЗОВАТЕЛЯ ИЗ БД")
+        return db.userDao().getUserName()
     }
 
     /**
      * GET request.
      * Receive User Data
      * We don’t need to call enqueue() and implement callbacks anymore!
-     * But notice, now our repo method is suspend too and returns a Response<User> object.
+     * But notice, now our repo method is suspend too and returns a Response<UserResponse> object.
      */
-    override suspend fun getUser(id: Long): Response<User> {
+    override suspend fun getUserResponse(id: Long): Response<UserResponse> {
         Log.d("MyLogs", "ПОШЁЛ ЗАПРОС ПОЛЬЗОВАТЕЛЯ. ID = $id")
         return api.getUser(id)
     }

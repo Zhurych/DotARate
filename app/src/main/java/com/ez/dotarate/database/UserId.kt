@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
 * А поля таблицы будут созданы в соответствии с полями класса
 */
 @Entity
-class UserId internal constructor(
+data class UserId internal constructor(
     @field:PrimaryKey
     val id: Long
 )

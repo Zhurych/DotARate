@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/mph"
-        android:icon="@drawable/vp_mph_icon_selector"
+        android:icon="@drawable/bnv_search_icon_selector"
         android:title="@string/mph" />
 
     <item
