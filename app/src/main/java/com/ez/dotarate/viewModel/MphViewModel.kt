@@ -22,23 +22,27 @@ constructor(
     application: Application, private val repository: OpenDotaRepositoryImpl
 ) : AndroidViewModel(application) {
 
+    var id32: Int = 0
+    var isLocal = false
+
     val isHeroesEmpty = ObservableBoolean(false)
     val isDataReceivedMph = ObservableBoolean(false)
 
-    val liveHeroes: LiveData<PagedList<Hero>>
-
-    // У LivePagedListBuilder есть метод setInitialLoadKey.
-    // Он задает начальное значение для первоначальной подгрузки
-    init {
+    val liveHeroes: LiveData<PagedList<Hero>> by lazy {
         val config = PagedList.Config.Builder()
-            .setPageSize(12)
+            .setPageSize(16)
             .setEnablePlaceholders(false)
-            .setInitialLoadSizeHint(36) // Количество первоначальной загрузки
+            .setInitialLoadSizeHint(48) // Количество первоначальной загрузки
             .setPrefetchDistance(10) // Количество до конца списка, при достижении которого происходит следующая подгрузка данных
             .build()
-        liveHeroes =
-            LivePagedListBuilder<Int, Hero>(repository.getHeroes(), config)
-                .build()
+
+        LivePagedListBuilder<Int, Hero>(
+            repository.getHeroesDataSourceFactory(
+                isLocal = isLocal,
+                scope = viewModelScope,
+                id32 = id32
+            ), config
+        ).build()
     }
 
     fun getHeroes(id32: Int) {

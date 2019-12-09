@@ -9,24 +9,19 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ez.dotarate.R
 import com.ez.dotarate.adapters.HeroesAdapter
-import com.ez.dotarate.constants.CONVERTER_NUMBER
 import com.ez.dotarate.constants.REFRESH_OBSERVABLE_BOOLEAN_KEY
-import com.ez.dotarate.constants.USER_ID_KEY
 import com.ez.dotarate.databinding.FragmentMphBinding
 import com.ez.dotarate.view.BaseFragment
 import com.ez.dotarate.viewModel.MphViewModel
 
-class MphFragment : BaseFragment<MphViewModel, FragmentMphBinding>() {
+class MphSearchFragment(private val id32: Int) : BaseFragment<MphViewModel, FragmentMphBinding>() {
     private val adapter = HeroesAdapter()
 
     override fun layout() = R.layout.fragment_mph
 
     override fun afterCreateView(view: View, savedInstanceState: Bundle?) {
-        vm.isLocal = true
+        vm.isLocal = false
         Log.d("MyLogs", "MphFragment. AfterCreateView")
-
-        val id32: Int =
-            (activity!!.intent!!.getLongExtra(USER_ID_KEY, 0) - CONVERTER_NUMBER).toInt()
 
         val isNeedPositionToStart =
             arguments!!.getSerializable(REFRESH_OBSERVABLE_BOOLEAN_KEY) as ObservableBoolean
@@ -35,7 +30,7 @@ class MphFragment : BaseFragment<MphViewModel, FragmentMphBinding>() {
         vb.adapter = adapter
         vb.isDataReceivedMph = vm.isDataReceivedMph
 
-        if (savedInstanceState == null) vm.getHeroes(id32)
+        vm.id32 = id32
 
         // Need to set LayoutManager
         val recyclerView = vb.rvMphFragment

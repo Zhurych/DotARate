@@ -14,3 +14,7 @@ const val BASE_URL_OPENDOTA = "https://api.opendota.com/"
 const val USER_ID_KEY = "id"
 const val MATCH_ID_KEY = "match_id"
 const val REFRESH_OBSERVABLE_BOOLEAN_KEY = "refresh_key"
+
+const val PROFILE_FRAGMENT_LABEL = "ProfileFragment"
+const val GAME_DETAIL_FRAGMENT_LABEL = "GameDetailFragment"
+const val PROFILE_SEARCH_FRAGMENT_LABEL = "ProfileSearchFragment"

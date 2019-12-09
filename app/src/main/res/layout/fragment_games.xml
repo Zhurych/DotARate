@@ -17,6 +17,10 @@
         <variable
             name="isNeedPositionToStart"
             type="androidx.databinding.ObservableBoolean" />
+
+        <variable
+            name="isDataReceived"
+            type="androidx.databinding.ObservableBoolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,7 +37,7 @@
             android:paddingTop="2dp"
             android:paddingEnd="16dp"
             android:paddingBottom="@dimen/bnv_height"
-            android:visibility="@{vm.isDataReceived ? View.VISIBLE : View.GONE}"
+            android:visibility="@{isDataReceived ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +61,7 @@
             style="@style/Widget.AppCompat.ProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{vm.isDataReceived ? View.GONE : View.VISIBLE}"
+            android:visibility="@{isDataReceived ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

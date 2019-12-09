@@ -39,14 +39,14 @@ constructor(
     val isNeedPositionToStartMph = ObservableBoolean(false)
 
     val userResponseLiveData = MutableLiveData<UserResponse>()
-    val wlLiveData = MutableLiveData<WinsAndLosses>()
+    val liveWinsAndLosses = MutableLiveData<WinsAndLosses>()
     val errorLiveData = MutableLiveData<Event<String>>()
     val isNeedRefresh = MutableLiveData<Boolean>()
 
-    fun getUserResponse(id: Long) {
+    fun getUserResponse(id32: Int) {
         viewModelScope.launch(IO) {
             try {
-                val response = repository.getUserResponse(id)
+                val response = repository.getUserResponse(id32)
 
                 if (response.isSuccessful) {
                     userResponseLiveData.postValue(response.body())
@@ -64,13 +64,13 @@ constructor(
         }
     }
 
-    fun getWinsAndLosses(id: Long) {
+    fun getWinsAndLosses(id32: Int) {
         viewModelScope.launch(IO) {
             try {
-                val response = repository.getWinsAndLosses(id)
+                val response = repository.getWinsAndLosses(id32)
 
                 if (response.isSuccessful) {
-                    wlLiveData.postValue(response.body())
+                    liveWinsAndLosses.postValue(response.body())
                 } else {
                     errorLiveData.postValue(Event(response.errorBody().toString()))
                 }

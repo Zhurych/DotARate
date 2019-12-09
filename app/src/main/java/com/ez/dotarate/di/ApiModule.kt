@@ -19,12 +19,10 @@ import javax.inject.Singleton
 class ApiModule {
 
     @Provides
-    @Singleton
     internal fun provideUserRepository(@Named("OpenDota") api: ServerApi, db: AppDatabase) =
         UserRepositoryImpl(api, db)
 
     @Provides
-    @Singleton
     internal fun provideOpenDotaRepository(@Named("OpenDota") api: ServerApi, db: AppDatabase) =
         OpenDotaRepositoryImpl(api, db)
 

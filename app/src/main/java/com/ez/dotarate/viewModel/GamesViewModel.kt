@@ -1,6 +1,7 @@
 package com.ez.dotarate.viewModel
 
 import android.app.Application
+import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -24,26 +25,33 @@ constructor(
     application: Application, private val repository: OpenDotaRepositoryImpl
 ) : AndroidViewModel(application) {
 
+    var id32: Int = 0
+    var isLocal = false
+
     val isGamesEmpty = ObservableBoolean(false)
     val isLoaded = ObservableBoolean(false)
     val isDataReceived = ObservableBoolean(false)
 
     val errorLiveData = MutableLiveData<Event<String>>()
 
-    var liveGame: LiveData<PagedList<Game>>
-
-    // У LivePagedListBuilder есть метод setInitialLoadKey.
-    // Он задает начальное значение для первоначальной подгрузки
-    init {
+    val liveGame: LiveData<PagedList<Game>> by lazy {
         val config = PagedList.Config.Builder()
-            .setPageSize(12)
+            .setPageSize(16)
             .setEnablePlaceholders(false)
             .setPrefetchDistance(10) // Количество до конца списка, при достижении которого происходит следующая подгрузка данных
             .build()
-        liveGame =
-            LivePagedListBuilder<Int, Game>(repository.getGames(), config)
-                //.setInitialLoadKey(36) // Устанавливает позицию, с которой будет показан список
-                .build()
+
+        Log.d("MyLogs", "isLocal = $isLocal")
+
+        LivePagedListBuilder<Int, Game>(
+            repository.getGamesDataSourceFactory(
+                isLocal = isLocal,
+                scope = viewModelScope,
+                id32 = id32
+            ), config
+        )
+            //.setInitialLoadKey(36) // Устанавливает позицию, с которой будет показан список
+            .build()
     }
 
     fun getGames(id32: Int) {

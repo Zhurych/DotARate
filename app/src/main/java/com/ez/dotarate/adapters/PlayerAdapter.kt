@@ -1,5 +1,6 @@
 package com.ez.dotarate.adapters
 
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.collection.ArrayMap
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.ez.dotarate.R
+import com.ez.dotarate.constants.USER_ID_KEY
 import com.ez.dotarate.databinding.PlayerStatsItemBinding
 import com.ez.dotarate.model.Player
 
@@ -16,7 +19,8 @@ import com.ez.dotarate.model.Player
 class PlayerAdapter(
     private val listPlayers: ArrayList<Player>,
     private val maxCountBuff: Int,
-    private val maxCountSuppItems: Int
+    private val maxCountSuppItems: Int,
+    private val navController: NavController
 ) :
     RecyclerView.Adapter<PlayerAdapter.PlayerHolder>() {
 
@@ -130,7 +134,16 @@ class PlayerAdapter(
 
             binding.suppGold = item
 
-            binding.tvPlayerName.setOnClickListener { Log.d("MyLogs", "НАЖАТИЕ НА ИМЯ ИГРОКА = ${player.personaname}") }
+            binding.tvPlayerName.setOnClickListener {
+                Log.d("MyLogs", "НАЖАТИЕ НА ИМЯ ИГРОКА = ${player.personaname}")
+                val bundle = Bundle()
+                bundle.putInt(USER_ID_KEY, player.account_id)
+
+                navController.navigate(
+                    R.id.action_gameDetailFragment_to_profileSearchFragment,
+                    bundle
+                )
+            }
 
             // Используется для того, что бы биндинг выполинлся как можно скорее
             binding.executePendingBindings()

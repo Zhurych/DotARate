@@ -6,17 +6,61 @@ import com.ez.dotarate.database.AppDatabase
 import com.ez.dotarate.database.Game
 import com.ez.dotarate.database.Hero
 import com.ez.dotarate.model.GameDetail
+import com.ez.dotarate.model.GamesDataSource
+import com.ez.dotarate.model.HeroesDataSource
 import com.ez.dotarate.network.ServerApi
+import kotlinx.coroutines.CoroutineScope
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Named
 
 class OpenDotaRepositoryImpl @Inject
-constructor(@Named("OpenDota") private val api: ServerApi, private val db: AppDatabase) : OpenDotaRepository {
+constructor(@Named("OpenDota") private val api: ServerApi, private val db: AppDatabase) :
+    OpenDotaRepository {
+
+    private fun createRemoteGamesDataSource(
+        scope: CoroutineScope,
+        id32: Int
+    ): DataSource.Factory<Int, Game> {
+
+        return object : DataSource.Factory<Int, Game>() {
+            override fun create(): DataSource<Int, Game> {
+                return GamesDataSource(
+                    scope = scope,
+                    repository = this@OpenDotaRepositoryImpl,
+                    id32 = id32
+                )
+            }
+        }
+    }
+
+    private fun createRemoteHeroesDataSource(
+        scope: CoroutineScope,
+        id32: Int
+    ): DataSource.Factory<Int, Hero> {
+
+        return object : DataSource.Factory<Int, Hero>() {
+            override fun create(): DataSource<Int, Hero> {
+                return HeroesDataSource(
+                    scope = scope,
+                    repository = this@OpenDotaRepositoryImpl,
+                    id32 = id32
+                )
+            }
+        }
+    }
+
     /**
-     * Database function
+     * @return games DataSource.Factory
      */
-    override fun getGames(): DataSource.Factory<Int, Game> = db.gameDao().getGames()
+    override fun getGamesDataSourceFactory(
+        isLocal: Boolean,
+        scope: CoroutineScope,
+        id32: Int
+    ): DataSource.Factory<Int, Game> {
+        return if (isLocal) db.gameDao().getGames()
+        else createRemoteGamesDataSource(scope, id32)
+    }
 
     /**
      * Database function
@@ -28,13 +72,20 @@ constructor(@Named("OpenDota") private val api: ServerApi, private val db: AppDa
     /**
      * Database function
      */
-    override suspend fun saveHeroes(listHeroes: ArrayList<Hero>) = db.heroDao().insertHeroes(listHeroes)
-
+    override suspend fun saveHeroes(listHeroes: ArrayList<Hero>) =
+        db.heroDao().insertHeroes(listHeroes)
 
     /**
-     * Database function
+     * @return heroes DataSource.Factory
      */
-    override fun getHeroes(): DataSource.Factory<Int, Hero> = db.heroDao().getHeroes()
+    override fun getHeroesDataSourceFactory(
+        isLocal: Boolean,
+        scope: CoroutineScope,
+        id32: Int
+    ): DataSource.Factory<Int, Hero> {
+        return if (isLocal) db.heroDao().getHeroes()
+        else createRemoteHeroesDataSource(scope, id32)
+    }
 
     /**
      * GET request.
@@ -60,10 +111,24 @@ constructor(@Named("OpenDota") private val api: ServerApi, private val db: AppDa
 
     /**
      * GET request.
-     * Receive Heroes played
+     * Receive Heroes
      */
     override suspend fun fetchHeroes(id32: Int): Response<ArrayList<Hero>> {
         Log.d("MyLogs", "ПОШЁЛ ЗАПРОС НА ГЕРОЕВ")
-        return api.getHeroes(id32)
+        return api.fetchHeroes(id32)
+    }
+
+    /**
+     * GET request.
+     * Receive Game Response that contains 16 games
+     * @param loadPosition = позиция, с которой требуется загружать игры
+     */
+    override suspend fun fetchMatches(
+        id32: Int,
+        loadPosition: Int,
+        limitSize: Int
+    ): Response<ArrayList<Game>> {
+        Log.d("MyLogs", "ПОШЁЛ ЗАПРОС НА ПРОШЕДШИЕ ИГРЫ С ПОЗИЦИИ = $loadPosition")
+        return api.fetchGames(id = id32, loadPosition = loadPosition, limit = limitSize)
     }
 }

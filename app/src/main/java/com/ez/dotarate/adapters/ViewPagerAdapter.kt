@@ -11,6 +11,7 @@ import com.ez.dotarate.view.fragments.MphFragment
 
 
 class ViewPagerAdapter(
+    private val listOfFragments: ArrayList<Fragment>,
     fragmentActivity: Fragment,
     private val isNeedPositionToStartGames: ObservableBoolean,
     private val isNeedPositionToStartMph: ObservableBoolean
@@ -23,17 +24,17 @@ class ViewPagerAdapter(
         when (position) {
             0 -> {
                 bundle.putSerializable(REFRESH_OBSERVABLE_BOOLEAN_KEY, isNeedPositionToStartGames)
-                result = GamesFragment()
+                result = listOfFragments[0]
                 result.arguments = bundle
             }
             1 -> {
                 bundle.putSerializable(REFRESH_OBSERVABLE_BOOLEAN_KEY, isNeedPositionToStartMph)
-                result = MphFragment()
+                result = listOfFragments[1]
                 result.arguments = bundle
             }
             else -> {
                 bundle.putSerializable(REFRESH_OBSERVABLE_BOOLEAN_KEY, isNeedPositionToStartGames)
-                result = GamesFragment()
+                result = listOfFragments[0]
                 result.arguments = bundle
             }
         }
@@ -42,6 +43,6 @@ class ViewPagerAdapter(
     }
 
     override fun getItemCount(): Int {
-        return 2
+        return listOfFragments.size
     }
 }

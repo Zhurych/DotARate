@@ -61,4 +61,9 @@ abstract class ViewModelBinder {
     @IntoMap
     @ViewModelKey(FirstFragViewModel::class)
     protected abstract fun firstFragViewModel(viewModel: FirstFragViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileSearchViewModel::class)
+    protected abstract fun profileSearchViewModel(viewModel: ProfileSearchViewModel): ViewModel
 }

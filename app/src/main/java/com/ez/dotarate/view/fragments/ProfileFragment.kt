@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.get
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ez.dotarate.R
@@ -36,7 +37,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
     override fun afterCreateView(view: View, savedInstanceState: Bundle?) {
         Log.d("MyLogs", "ProfileFragment. CreateView")
 
-        val id32 = activity!!.intent.getLongExtra(USER_ID_KEY, 0) - CONVERTER_NUMBER
+        val id32 = (activity!!.intent.getLongExtra(USER_ID_KEY, 0) - CONVERTER_NUMBER).toInt()
 
         // Говорим фрагменту, что ему нужно отобразить меню
         setHasOptionsMenu(true)
@@ -77,7 +78,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
             if (user.wins != null) vm.saveUser(user)
         })
 
-        vm.wlLiveData.observe(this, Observer {
+        vm.liveWinsAndLosses.observe(this, Observer {
             Log.d("MyLogs", "ProfileFragment. wlLiveData.")
             //vb.winsAndLosses = it
 
@@ -87,8 +88,10 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
             if (user.avatarUrl != null) vm.saveUser(user)
         })
 
+        val listOfFragments: ArrayList<Fragment> = arrayListOf(GamesFragment(), MphFragment())
+
         vb.vpContainer.adapter =
-            ViewPagerAdapter(this, vm.isNeedPositionToStartGames, vm.isNeedPositionToStartMph)
+            ViewPagerAdapter(listOfFragments, this, vm.isNeedPositionToStartGames, vm.isNeedPositionToStartMph)
         Log.d("MyLogs", "****** ПЕРВОЕ VIEW во ViewPager = ${vb.vpContainer[0]}")
 
         TabLayoutMediator(vb.tabs, vb.vpContainer,

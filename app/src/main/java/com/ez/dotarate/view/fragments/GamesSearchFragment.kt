@@ -24,7 +24,7 @@ import com.ez.dotarate.view.BaseFragment
 import com.ez.dotarate.viewModel.GamesViewModel
 
 
-class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
+class GamesSearchFragment(private val id32: Int) : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
 
     private val adapter = GamesAdapter()
 
@@ -33,20 +33,18 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
     override fun layout() = R.layout.fragment_games
 
     override fun afterCreateView(view: View, savedInstanceState: Bundle?) {
-        vm.isLocal = true
+
+        Log.d("MyLogs", "GamesSearchFragment. AfterCreateView")
 
         val isNeedPositionToStart = arguments!!.getSerializable(REFRESH_OBSERVABLE_BOOLEAN_KEY) as ObservableBoolean
-
-        Log.d("MyLogs", "GamesFragment. AfterCreateView")
 
         vb.adapter = adapter
         vb.vm = vm
         vb.isNeedPositionToStart = isNeedPositionToStart
         vb.isDataReceived = vm.isDataReceived
 
-        val id32: Int =
-            (activity!!.intent!!.getLongExtra(USER_ID_KEY, 0) - CONVERTER_NUMBER).toInt()
         vm.id32 = id32
+        vm.isLocal = false
 
         // Need to set LayoutManager
         val recyclerView = vb.rvGamesFragment
@@ -66,15 +64,15 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
                             val bundle = Bundle()
                             bundle.putLong(MATCH_ID_KEY, game!!.match_id)
                             if (findNavController().currentDestination?.id == R.id.profileFragment) {
-                                Log.d("MyLogs", "games Fragment. КОНТРОЛЕР = ${findNavController()}")
-                                Log.d("MyLogs", "games Fragment. id ТЕКУЩЕГО ФРАГМЕНТА = ${findNavController().currentDestination?.id}")
+                                Log.d("MyLogs", "GamesSearchFragment. КОНТРОЛЕР = ${findNavController()}")
+                                Log.d("MyLogs", "GamesSearchFragment. id ТЕКУЩЕГО ФРАГМЕНТА = ${findNavController().currentDestination?.id}")
                                 findNavController().navigate(
                                     R.id.action_profileFragment_to_gameDetailFragment,
                                     bundle
                                 )
                             } else {
-                                Log.d("MyLogs", "games Fragment. КОНТРОЛЕР = ${findNavController()}")
-                                Log.d("MyLogs", "games Fragment. id ТЕКУЩЕГО ФРАГМЕНТА = ${findNavController().currentDestination?.id}")
+                                Log.d("MyLogs", "GamesSearchFragment. КОНТРОЛЕР = ${findNavController()}")
+                                Log.d("MyLogs", "GamesSearchFragment. id ТЕКУЩЕГО ФРАГМЕНТА = ${findNavController().currentDestination?.id}")
                             }
                         } catch (e: NullPointerException) {
                             Toast.makeText(activity, "Пустые данные", Toast.LENGTH_SHORT).show()
@@ -87,22 +85,21 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
                 })
         )
 
-        if (savedInstanceState == null) vm.getGames(id32)
-
         // LiveData<PagedList<Game>> subscriber
         vm.liveGame.observe(this, Observer {
-            Log.d("MyLogs", "GamesFragment.  LiveData с PagedList")
+            Log.d("MyLogs", "GamesSearchFragment.  LiveData с PagedList")
             if (it != null && it.size > 0) {
                 vm.isGamesEmpty.set(false)
-                Log.d("MyLogs", "GamesFragment. PagedList = $it")
+                Log.d("MyLogs", "GamesSearchFragment. PagedList = $it")
                 pagedList = it
             } else {
                 vm.isGamesEmpty.set(true)
-                Log.d("MyLogs", "GamesFragment. PagedList = $it")
+                Log.d("MyLogs", "GamesSearchFragment. PagedList = $it")
             }
             // Need to use submitList to set the PagedListAdapter value
             adapter.submitList(it)
             vm.isDataReceived.set(true)
+            Log.d("MyLogs", "GamesSearchFragment. ЗНАЧЕНИЕ isDataReceived = ${vm.isDataReceived.get()}")
         })
 
 //        vm.errorLiveData.observe(this, Observer {
@@ -115,41 +112,41 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
 
     override fun onStart() {
         super.onStart()
-        Log.d("MyLogs", "GamesFragment. onStart")
+        Log.d("MyLogs", "GamesSearchFragment. onStart")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("MyLogs", "GamesFragment. onResume")
+        Log.d("MyLogs", "GamesSearchFragment. onResume")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("MyLogs", "GamesFragment. onCreate")
+        Log.d("MyLogs", "GamesSearchFragment. onCreate")
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d("MyLogs", "GamesFragment. onAttach")
+        Log.d("MyLogs", "GamesSearchFragment. onAttach")
     }
 
     override fun onDetach() {
         super.onDetach()
-        Log.d("MyLogs", "GamesFragment. onDetach")
+        Log.d("MyLogs", "GamesSearchFragment. onDetach")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d("MyLogs", "GamesFragment. onPause")
+        Log.d("MyLogs", "GamesSearchFragment. onPause")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("MyLogs", "GamesFragment. onStop")
+        Log.d("MyLogs", "GamesSearchFragment. onStop")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("MyLogs", "GamesFragment. onDestroy")
+        Log.d("MyLogs", "GamesSearchFragment. onDestroy")
     }
 }

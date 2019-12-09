@@ -8,6 +8,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.ez.dotarate.IOnTouchEvent
 import com.ez.dotarate.R
+import com.ez.dotarate.constants.GAME_DETAIL_FRAGMENT_LABEL
+import com.ez.dotarate.constants.PROFILE_FRAGMENT_LABEL
+import com.ez.dotarate.constants.PROFILE_SEARCH_FRAGMENT_LABEL
 import com.ez.dotarate.databinding.ActivityMainBinding
 import com.ez.dotarate.extensions.graphIdToTagMap
 import com.ez.dotarate.extensions.popMyBackStack
@@ -35,14 +38,18 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
             }
             graphIdToTagMap.keyAt(1) -> title = getString(R.string.search_screen_title)
             graphIdToTagMap.keyAt(2) -> {
-                title = if (it.currentDestination!!.id == it.graph.startDestination) userName
-                else ""
-                Log.d("MyLogs", "MainActivity. User Name Live = ${vm.userNameLive.value}")
+                title = when (it.currentDestination!!.label) {
+                    PROFILE_FRAGMENT_LABEL -> userName
+                    GAME_DETAIL_FRAGMENT_LABEL -> ""
+                    PROFILE_SEARCH_FRAGMENT_LABEL -> searchUserName
+                    else -> userName
+                }
             }
         }
     }
 
     lateinit var userName: String
+    lateinit var searchUserName: String
 
     override fun layout() = R.layout.activity_main
 
@@ -67,6 +74,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         setSupportActionBar(vb.fpToolbar)
 
         vm.userNameLive.observe(this, Observer { userName = it?.name ?: ""})
+        vm.searchUserNameLive.observe(this, Observer { searchUserName = it})
 
         vm.currentNavController.observe(this, navControllerObserver)
     }

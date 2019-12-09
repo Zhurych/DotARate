@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ez.dotarate.*
@@ -81,7 +82,7 @@ class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailB
                     it.players[2],
                     it.players[3],
                     it.players[4]
-                ), maxCountBuff, maxSupportItems
+                ), maxCountBuff, maxSupportItems, findNavController()
             )
 
             recyclerViewDire.adapter = PlayerAdapter(
@@ -91,7 +92,7 @@ class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailB
                     it.players[7],
                     it.players[8],
                     it.players[9]
-                ), maxCountBuff, maxSupportItems
+                ), maxCountBuff, maxSupportItems, findNavController()
             )
         }
 
@@ -377,7 +378,7 @@ class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailB
 
     override fun onDestroy() {
         super.onDestroy()
-       // parentActivity.active = parentActivity.gamesFragment
+        // parentActivity.active = parentActivity.gamesFragment
         Log.d("MyLogs", "GamesDetailFragment. onDestroy")
     }
 }

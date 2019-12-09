@@ -14,5 +14,13 @@
     <fragment
         android:id="@+id/gameDetailFragment"
         android:name="com.ez.dotarate.view.fragments.GameDetailFragment"
-        android:label="GameDetailFragment" />
+        android:label="GameDetailFragment" >
+        <action
+            android:id="@+id/action_gameDetailFragment_to_profileSearchFragment"
+            app:destination="@id/profileSearchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileSearchFragment"
+        android:name="com.ez.dotarate.view.fragments.ProfileSearchFragment"
+        android:label="ProfileSearchFragment" />
 </navigation>
