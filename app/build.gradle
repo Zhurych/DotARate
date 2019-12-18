@@ -51,7 +51,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.1.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.1.0'
     // ViewModel and LiveData
-    def arch_version = '2.2.0-rc02'
+    def arch_version = '2.2.0-rc03'
     implementation "androidx.lifecycle:lifecycle-extensions:$arch_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$arch_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$arch_version"
@@ -90,5 +90,5 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$dagger2_version"
     // ViewPager2
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'androidx.fragment:fragment-ktx:1.2.0-rc02'
+    implementation 'androidx.fragment:fragment-ktx:1.2.0-rc03'
 }

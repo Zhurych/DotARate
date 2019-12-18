@@ -7,6 +7,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_back_button</item>
     </style>
 
     <style name="AppTheme.SplashTheme">
@@ -27,8 +28,8 @@
     </style>
 
     <style name="Side">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/gameScreenSideHeight</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/gameScreenSideTextSize</item>
         <item name="android:paddingStart">2dp</item>
     </style>
@@ -42,7 +43,6 @@
     </style>
 
     <style name="Score.CategoryKDA">
-        <item name="android:layout_marginTop">20dp</item>
         <item name="android:textColor">@color/colorTextDark</item>
     </style>
 
@@ -154,9 +154,8 @@
     <style name="VerticalDivider">
         <item name="android:layout_width">0.1dp</item>
         <item name="android:layout_height">48dp</item>
+        <item name="android:layout_marginTop">2dp</item>
         <item name="android:background">@color/whiteLight</item>
-        <item name="android:layout_marginStart">87.5dp</item>
-        <item name="android:layout_marginTop">4dp</item>
     </style>
 
     <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">

@@ -3,6 +3,7 @@ package com.ez.dotarate.view.activities
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
+import androidx.appcompat.app.ActionBar
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -26,23 +27,31 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
+    lateinit var mActionBar: ActionBar
     private val fm = supportFragmentManager
     private lateinit var mBottomNavigationView: BottomNavigationView
-    private val navControllerObserver = Observer<NavController> {
-        when (it.graph.id) {
-            graphIdToTagMap.keyAt(0) -> {
-                when (it.currentDestination!!.id) {
-                    it.graph.startDestination -> title = getString(R.string.games_screen_title)
-                    else -> title = ""
+    private val navControllerObserver by lazy {
+        Observer<NavController> {
+
+            when (it.graph.id) {
+                graphIdToTagMap.keyAt(0) -> {
+                    title = getString(R.string.games_screen_title)
                 }
-            }
-            graphIdToTagMap.keyAt(1) -> title = getString(R.string.search_screen_title)
-            graphIdToTagMap.keyAt(2) -> {
-                title = when (it.currentDestination!!.label) {
-                    PROFILE_FRAGMENT_LABEL -> userName
-                    GAME_DETAIL_FRAGMENT_LABEL -> ""
-                    PROFILE_SEARCH_FRAGMENT_LABEL -> searchUserName
-                    else -> userName
+                graphIdToTagMap.keyAt(1) -> {
+                    title = ""
+                    // TODO: сделать кнопку назад
+//                    actionBar?.setDisplayHomeAsUpEnabled(true)
+//                    actionBar?.setDisplayShowHomeEnabled(true)
+//                actionBar.setIcon(R.drawable.ic_search_title)
+                }
+                graphIdToTagMap.keyAt(2) -> {
+                    title = when (it.currentDestination!!.label) {
+                        PROFILE_FRAGMENT_LABEL -> userName
+                        GAME_DETAIL_FRAGMENT_LABEL -> ""
+                        PROFILE_SEARCH_FRAGMENT_LABEL -> searchUserName
+                        else -> userName
+                    }
+                    //actionBar!!.setDisplayShowHomeEnabled(false)
                 }
             }
         }
@@ -54,9 +63,11 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     override fun layout() = R.layout.activity_main
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        val navHostFragmentProfile = fm.findFragmentByTag(graphIdToTagMap.valueAt(2)) as NavHostFragment
+        val navHostFragmentProfile =
+            fm.findFragmentByTag(graphIdToTagMap.valueAt(2)) as NavHostFragment
 
-        val fragment = navHostFragmentProfile.childFragmentManager.findFragmentById(R.id.main_container)
+        val fragment =
+            navHostFragmentProfile.childFragmentManager.findFragmentById(R.id.main_container)
 
         (fragment as? IOnTouchEvent)?.onTouchEvent(event)
 
@@ -72,9 +83,10 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         } // Else, need to wait for onRestoreInstanceState
 
         setSupportActionBar(vb.fpToolbar)
+        mActionBar = supportActionBar!!
 
-        vm.userNameLive.observe(this, Observer { userName = it?.name ?: ""})
-        vm.searchUserNameLive.observe(this, Observer { searchUserName = it})
+        vm.userNameLive.observe(this, Observer { userName = it?.name ?: "" })
+        vm.searchUserNameLive.observe(this, Observer { searchUserName = it })
 
         vm.currentNavController.observe(this, navControllerObserver)
     }
@@ -94,7 +106,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
             // Если в стеке больше одной "вкладки", то переходим на предыдущую
             // Иначе закрываем текущую вкладку. Т.е. приложение закрывается
             if (vm.mBackStack.size > 1) {
-                vm.currentNavController.value = popMyBackStack(fm, vm.mBackStack, mBottomNavigationView)
+                vm.currentNavController.value =
+                    popMyBackStack(fm, vm.mBackStack, mBottomNavigationView)
             } else {
                 vm.mBackStack.pop()
                 super.onBackPressed()

@@ -63,11 +63,12 @@ class GamesSearchFragment(private val id32: Int) : BaseFragment<GamesViewModel, 
 
                             val bundle = Bundle()
                             bundle.putLong(MATCH_ID_KEY, game!!.match_id)
-                            if (findNavController().currentDestination?.id == R.id.profileFragment) {
+                            if (findNavController().currentDestination?.id == R.id.profileSearchFragment) {
+                                Log.d("MyLogs", "GamesSearchFragment. PagedList position $position = ${pagedList[position]}")
                                 Log.d("MyLogs", "GamesSearchFragment. КОНТРОЛЕР = ${findNavController()}")
                                 Log.d("MyLogs", "GamesSearchFragment. id ТЕКУЩЕГО ФРАГМЕНТА = ${findNavController().currentDestination?.id}")
                                 findNavController().navigate(
-                                    R.id.action_profileFragment_to_gameDetailFragment,
+                                    R.id.gameDetailFragment,
                                     bundle
                                 )
                             } else {
@@ -91,11 +92,11 @@ class GamesSearchFragment(private val id32: Int) : BaseFragment<GamesViewModel, 
             if (it != null && it.size > 0) {
                 vm.isGamesEmpty.set(false)
                 Log.d("MyLogs", "GamesSearchFragment. PagedList = $it")
-                pagedList = it
             } else {
                 vm.isGamesEmpty.set(true)
-                Log.d("MyLogs", "GamesSearchFragment. PagedList = $it")
+                Log.d("MyLogs", "GamesSearchFragment. PagedList ПУСТОЙ = $it")
             }
+            pagedList = it
             // Need to use submitList to set the PagedListAdapter value
             adapter.submitList(it)
             vm.isDataReceived.set(true)

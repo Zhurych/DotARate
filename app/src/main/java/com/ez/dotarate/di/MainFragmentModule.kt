@@ -34,4 +34,10 @@ abstract class MainFragmentModule {
 
     @ContributesAndroidInjector
     internal abstract fun contributeMphSearchFragment(): MphSearchFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun contributeSearchFragment(): SearchFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun contributeSearchUsersFragment(): SearchUsersFragment
 }

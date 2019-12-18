@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ivSearch"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_search_selected"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineToolbarFragmentSearch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSearch"
+            android:layout_width="0dp"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:layout_height="@dimen/toolbar_height"
+            android:text="@string/search_screen_title"
+            android:textColor="?android:textColorHint"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/guidelineToolbarFragmentSearch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/ivSearch"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineToolbarFragmentSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/toolbar_height" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

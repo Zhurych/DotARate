@@ -20,6 +20,7 @@ import com.ez.dotarate.customClasses.DividerItemDecoration
 import com.ez.dotarate.customClasses.HScroll
 import com.ez.dotarate.customClasses.VScroll
 import com.ez.dotarate.databinding.FragmentGameDetailBinding
+import com.ez.dotarate.databinding.NewFragmentGameDetailBinding
 import com.ez.dotarate.extensions.graphIdToTagMap
 import com.ez.dotarate.model.GameDetail
 import com.ez.dotarate.view.BaseFragment
@@ -27,7 +28,7 @@ import com.ez.dotarate.view.activities.MainActivity
 import com.ez.dotarate.viewModel.GameDetailViewModel
 
 
-class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailBinding>(),
+class GameDetailFragment : BaseFragment<GameDetailViewModel, NewFragmentGameDetailBinding>(),
     IOnTouchEvent {
 
     private var vScroll: VScroll? = null
@@ -98,13 +99,13 @@ class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailB
 
         when (maxCountBuff) {
             3 -> {
-                vb.tvGameDetailBuffsRadiant.setPadding(
+                vb.tvRadiantGameDetailBuffs.setPadding(
                     0,
                     0,
                     resources.getDimension(R.dimen.gameScreenThirdBuffPaddingSize).toInt(),
                     0
                 )
-                vb.tvGameDetailBuffsDire.setPadding(
+                vb.tvDireGameDetailBuffs.setPadding(
                     0,
                     0,
                     resources.getDimension(R.dimen.gameScreenThirdBuffPaddingSize).toInt(),
@@ -112,13 +113,13 @@ class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailB
                 )
             }
             4 -> {
-                vb.tvGameDetailBuffsRadiant.setPadding(
+                vb.tvRadiantGameDetailBuffs.setPadding(
                     0,
                     0,
                     resources.getDimension(R.dimen.gameScreenFourthBuffPaddingSize).toInt(),
                     0
                 )
-                vb.tvGameDetailBuffsDire.setPadding(
+                vb.tvDireGameDetailBuffs.setPadding(
                     0,
                     0,
                     resources.getDimension(R.dimen.gameScreenFourthBuffPaddingSize).toInt(),
@@ -130,13 +131,13 @@ class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailB
         when (maxSupportItems) {
             4 -> {
                 Log.d("MyLogs", "МАКСИМАЛЬНОЕ КОЛИЧЕСТВО SUP ITEMOV = $maxSupportItems")
-                vb.ivGameDetailSuppGoldRadiant.setPadding(
+                vb.ivRadiantGameDetailSuppGold.setPadding(
                     resources.getDimension(R.dimen.gameScreenFourthSuppItemPaddingSize).toInt(),
                     0,
                     0,
                     0
                 )
-                vb.ivGameDetailSuppGoldDire.setPadding(
+                vb.ivDireGameDetailSuppGold.setPadding(
                     resources.getDimension(R.dimen.gameScreenFourthSuppItemPaddingSize).toInt(),
                     0,
                     0,
@@ -145,13 +146,13 @@ class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailB
             }
             5 -> {
                 Log.d("MyLogs", "МАКСИМАЛЬНОЕ КОЛИЧЕСТВО SUP ITEMOV = $maxSupportItems")
-                vb.ivGameDetailSuppGoldRadiant.setPadding(
+                vb.ivRadiantGameDetailSuppGold.setPadding(
                     resources.getDimension(R.dimen.gameScreenFifthSuppItemPaddingSize).toInt(),
                     0,
                     0,
                     0
                 )
-                vb.ivGameDetailSuppGoldDire.setPadding(
+                vb.ivDireGameDetailSuppGold.setPadding(
                     resources.getDimension(R.dimen.gameScreenFifthSuppItemPaddingSize).toInt(),
                     0,
                     0,
@@ -161,7 +162,7 @@ class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailB
         }
     }
 
-    override fun layout() = R.layout.fragment_game_detail
+    override fun layout() = R.layout.new_fragment_game_detail
 
     override fun afterCreateView(view: View, savedInstanceState: Bundle?) {
 
@@ -175,12 +176,12 @@ class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailB
 
         if (savedInstanceState == null) vm.getGameDetail(matchId)
 
-        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) vScroll =
-            vb.svGameDetail
+//        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) vScroll =
+//            vb.svGameDetail
         hScroll = vb.hsvGameDetail
 
         // Need to set LayoutManager
-        recyclerViewRadiant = vb.rvGameFragmentRadiant
+        recyclerViewRadiant = vb.rvRadiantGameFragment
         recyclerViewRadiant.layoutManager = LinearLayoutManager(activity)
         recyclerViewRadiant.addItemDecoration(
             DividerItemDecoration(
@@ -189,7 +190,7 @@ class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailB
         )
 
         // Need to set LayoutManager
-        recyclerViewDire = vb.rvGameFragmentDire
+        recyclerViewDire = vb.rvDireGameFragment
         recyclerViewDire.layoutManager = LinearLayoutManager(activity)
         recyclerViewDire.addItemDecoration(
             DividerItemDecoration(

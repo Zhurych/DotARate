@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/mph"
-    app:startDestination="@id/firstFragment2">
+    app:startDestination="@id/searchFragment">
     <fragment
-        android:id="@+id/firstFragment2"
-        android:name="com.ez.dotarate.view.fragments.FirstFragment"
-        android:label="FirstFragment" />
+        android:id="@+id/searchFragment"
+        android:name="com.ez.dotarate.view.fragments.SearchFragment"
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_searchUsersFragment"
+            app:destination="@id/searchUsersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchUsersFragment"
+        android:name="com.ez.dotarate.view.fragments.SearchUsersFragment"
+        android:label="SearchUsersFragment" />
 </navigation>

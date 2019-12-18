@@ -66,4 +66,14 @@ abstract class ViewModelBinder {
     @IntoMap
     @ViewModelKey(ProfileSearchViewModel::class)
     protected abstract fun profileSearchViewModel(viewModel: ProfileSearchViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SearchViewModel::class)
+    protected abstract fun searchViewModel(viewModel: SearchViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SearchUsersViewModel::class)
+    protected abstract fun searchUsersViewModel(viewModel: SearchUsersViewModel): ViewModel
 }

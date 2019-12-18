@@ -49,9 +49,7 @@ constructor(
                 scope = viewModelScope,
                 id32 = id32
             ), config
-        )
-            //.setInitialLoadKey(36) // Устанавливает позицию, с которой будет показан список
-            .build()
+        ).build()
     }
 
     fun getGames(id32: Int) {

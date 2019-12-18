@@ -26,6 +26,7 @@ class GamesDataSource(
                 limitSize = params.requestedLoadSize
             )
             if (response.isSuccessful) {
+                Log.d("MyLogs", "GamesDataSource. Game Response = ${response.body()}")
                 response.body()?.let { callback.onResult(it, 0) }
             }
         }

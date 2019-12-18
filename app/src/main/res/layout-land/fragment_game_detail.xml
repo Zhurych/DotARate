@@ -63,7 +63,7 @@
                     tools:ignore="RtlSymmetry">
 
                     <TextView
-                        android:id="@+id/radiant_score_text_view"
+                        android:id="@+id/tvRadiantScoreValue"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.33"
@@ -85,7 +85,7 @@
                         tools:text="38:16" />
 
                     <TextView
-                        android:id="@+id/dire_score_text_view"
+                        android:id="@+id/tvDireScore"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.33"
@@ -376,31 +376,31 @@
                             android:textColor="@color/colorRadiant" />
 
                         <com.ez.dotarate.model.HeroImageView
-                            android:id="@+id/first_player_hero_image_view"
+                            android:id="@+id/ivFirstPlayerHero"
                             style="@style/PlayerHeroImage"
                             android:src="@{gameDetail.players[0].hero_id}"
                             tools:src="@drawable/mirana" />
 
                         <com.ez.dotarate.model.HeroImageView
-                            android:id="@+id/second_player_hero_image_view"
+                            android:id="@+id/ivSecondPlayerHero"
                             style="@style/PlayerHeroImage"
                             android:src="@{gameDetail.players[1].hero_id}"
                             tools:src="@drawable/meepo" />
 
                         <com.ez.dotarate.model.HeroImageView
-                            android:id="@+id/third_player_hero_image_view"
+                            android:id="@+id/ivThirdPlayerHero"
                             style="@style/PlayerHeroImage"
                             android:src="@{gameDetail.players[2].hero_id}"
                             tools:src="@drawable/ogre" />
 
                         <com.ez.dotarate.model.HeroImageView
-                            android:id="@+id/fourth_player_hero_image_view"
+                            android:id="@+id/ivFourthPlayerHero"
                             style="@style/PlayerHeroImage"
                             android:src="@{gameDetail.players[3].hero_id}"
                             tools:src="@drawable/grimstroke" />
 
                         <com.ez.dotarate.model.HeroImageView
-                            android:id="@+id/fifth_player_hero_image_view"
+                            android:id="@+id/ivFifthPlayerHero"
                             style="@style/PlayerHeroImage"
                             android:src="@{gameDetail.players[4].hero_id}"
                             tools:src="@drawable/wraith_king" />
@@ -424,31 +424,31 @@
                             android:textColor="@color/colorDire" />
 
                         <com.ez.dotarate.model.HeroImageView
-                            android:id="@+id/sixth_player_hero_image_view"
+                            android:id="@+id/ivSixthPlayerHero"
                             style="@style/PlayerHeroImage"
                             android:src="@{gameDetail.players[5].hero_id}"
                             tools:src="@drawable/crystal_maiden" />
 
                         <com.ez.dotarate.model.HeroImageView
-                            android:id="@+id/seventh_player_hero_image_view"
+                            android:id="@+id/ivSeventhPlayerHero"
                             style="@style/PlayerHeroImage"
                             android:src="@{gameDetail.players[6].hero_id}"
                             tools:src="@drawable/axe" />
 
                         <com.ez.dotarate.model.HeroImageView
-                            android:id="@+id/eighth_player_hero_image_view"
+                            android:id="@+id/ivEighthPlayerHero"
                             style="@style/PlayerHeroImage"
                             android:src="@{gameDetail.players[7].hero_id}"
                             tools:src="@drawable/rubick" />
 
                         <com.ez.dotarate.model.HeroImageView
-                            android:id="@+id/ninth_player_hero_image_view"
+                            android:id="@+id/ivNinthPlayerHero"
                             style="@style/PlayerHeroImage"
                             android:src="@{gameDetail.players[8].hero_id}"
                             tools:src="@drawable/bloodseeker" />
 
                         <com.ez.dotarate.model.HeroImageView
-                            android:id="@+id/tenth_player_hero_image_view"
+                            android:id="@+id/ivTenthPlayerHero"
                             style="@style/PlayerHeroImage"
                             android:src="@{gameDetail.players[9].hero_id}"
                             tools:src="@drawable/io" />
