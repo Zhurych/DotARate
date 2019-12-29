@@ -21,12 +21,15 @@ import com.ez.dotarate.databinding.FragmentGamesBinding
 import com.ez.dotarate.listeners.ClickListener
 import com.ez.dotarate.listeners.RecyclerTouchListener
 import com.ez.dotarate.view.BaseFragment
+import com.ez.dotarate.view.activities.MainActivity
 import com.ez.dotarate.viewModel.GamesViewModel
+import javax.inject.Inject
 
 
 class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
 
-    private val adapter = GamesAdapter()
+    @Inject
+    lateinit var adapter: GamesAdapter
 
     private lateinit var pagedList: PagedList<Game>
 
@@ -146,6 +149,11 @@ class GamesFragment : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
     override fun onStop() {
         super.onStop()
         Log.d("MyLogs", "GamesFragment. onStop")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("MyLogs", "GamesFragment. onDestroyView")
     }
 
     override fun onDestroy() {

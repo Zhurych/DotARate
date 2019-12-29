@@ -1,4 +1,4 @@
-package com.ez.dotarate.model
+package com.ez.dotarate.dataSource
 
 import android.util.Log
 import androidx.paging.PositionalDataSource
@@ -31,12 +31,6 @@ class HeroesDataSource(
      * Подгрузка новой порции данных
      */
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Hero>) {
-        Log.d("MyLogs", "HeroesDataSource. loadRange")
-//        scope.launch(IO) {
-//            val response = repository.fetchHeroes(id32 = id32)
-//            if (response.isSuccessful) {
-//                response.body()?.let { callback.onResult(it) }
-//            }
-//        }
+
     }
 }

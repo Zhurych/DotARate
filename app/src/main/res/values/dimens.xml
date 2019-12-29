@@ -26,4 +26,7 @@
     <dimen name="playerStatsScreenRadiusCorner">0dp</dimen>
     <dimen name="playerStatsScreenElevation">1.5dp</dimen>
 
+    <!--Search Screen-->
+    <dimen name="searchScreenelevation">1dp</dimen>
+
 </resources>

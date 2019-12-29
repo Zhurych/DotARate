@@ -17,9 +17,9 @@ import com.ez.dotarate.database.Game
 import com.ez.dotarate.database.Hero
 import com.ez.dotarate.database.User
 import com.ez.dotarate.model.PermanentBuff
-import com.ez.dotarate.model.WinsAndLosses
-import com.ez.dotarate.viewModel.ProfileViewModel
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -551,7 +551,14 @@ object BindingAdapter {
      */
     @BindingAdapter("rankTier")
     @JvmStatic
-    fun rankOfPlayer(view: ImageView, rankTier: Int) {
+    fun rankOfPlayer(view: ImageView, rankTier: Int?) {
+
+        if (rankTier == null || rankTier == 0){
+            view.visibility = View.GONE
+            return
+        } else {
+            view.visibility = View.VISIBLE
+        }
 
         when (rankTier) {
             HERALD_1 -> view.setImageResource(R.drawable.herald_1)
@@ -950,5 +957,53 @@ object BindingAdapter {
     fun scrollToStart(view: RecyclerView, isNeedPositionToStart: ObservableBoolean) {
         Log.d("MyLogs", "ФУНКЦИЯ УСТАНОВКИ RECYCLER'A В НАЧАЛО")
         if (isNeedPositionToStart.get()) view.scrollToPosition(0)
+    }
+
+    /**
+     * Sets last game time for players
+     */
+    @BindingAdapter("lastGameTime")
+    @JvmStatic
+    fun lastGameTime(view: TextView, lastGameTime: String?) {
+        if (lastGameTime == null) return
+
+        val context = App.applicationContext()
+
+        val subDate = lastGameTime.substringBefore("T")
+
+        val currentDate = Date()
+
+        val format = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val date = format.parse(subDate)
+
+        val lastGameTimeSeconds = date!!.time / 1000
+
+        // Количество секунд прошедших с 1 января 1970г
+        val currentTime = currentDate.time / 1000
+        // Разница в секундах между текущей датой и датой последней игры
+        val differenceTime = currentTime - lastGameTimeSeconds
+        // Количество часов прошедших после игры
+        val hours = differenceTime.toInt() / 3600
+        // Количество дней прошедших после игры
+        val days = differenceTime.toInt() / 3600 / 24
+        // Количество месяцев
+        val months = differenceTime.toInt() / 3600 / 24 / 30
+        // Количество минут прошедших после игры
+        val minutes: Int
+
+        when {
+            hours < 1 -> {
+                minutes = differenceTime.toInt() / 60
+                view.text = if (minutes == 1) context.getString(R.string.minute_search_users_screen)
+                else String.format(context.getString(R.string.minutes_search_users_screen), minutes)
+            }
+            hours == 1 -> view.text = context.getString(R.string.hour_search_users_screen)
+            hours < 24 -> view.text = String.format(context.getString(R.string.hours_search_users_screen), hours)
+            days == 1 -> view.text = context.getString(R.string.day_search_users_screen)
+            days < 31 -> view.text = String.format(context.getString(R.string.days_search_users_screen), days)
+            months == 1 -> view.text = context.getString(R.string.month_search_users_screen)
+            months < 12 -> view.text = String.format(context.getString(R.string.months_search_users_screen), months)
+            else -> view.text = context.getString(R.string.year_search_users_screen)
+        }
     }
 }

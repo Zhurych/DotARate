@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ez.dotarate.R
 import com.ez.dotarate.adapters.HeroesAdapter
 import com.ez.dotarate.constants.REFRESH_OBSERVABLE_BOOLEAN_KEY
+import com.ez.dotarate.constants.USER_ID_KEY
 import com.ez.dotarate.databinding.FragmentMphBinding
 import com.ez.dotarate.view.BaseFragment
 import com.ez.dotarate.viewModel.MphViewModel
 
-class MphSearchFragment(private val id32: Int) : BaseFragment<MphViewModel, FragmentMphBinding>() {
+class MphSearchFragment : BaseFragment<MphViewModel, FragmentMphBinding>() {
     private val adapter = HeroesAdapter()
 
     override fun layout() = R.layout.fragment_mph
@@ -23,6 +24,7 @@ class MphSearchFragment(private val id32: Int) : BaseFragment<MphViewModel, Frag
         vm.isLocal = false
         Log.d("MyLogs", "MphFragment. AfterCreateView")
 
+        val id32 = arguments!!.getInt(USER_ID_KEY)
         val isNeedPositionToStart =
             arguments!!.getSerializable(REFRESH_OBSERVABLE_BOOLEAN_KEY) as ObservableBoolean
 

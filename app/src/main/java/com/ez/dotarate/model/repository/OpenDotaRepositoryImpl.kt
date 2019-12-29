@@ -5,9 +5,10 @@ import androidx.paging.DataSource
 import com.ez.dotarate.database.AppDatabase
 import com.ez.dotarate.database.Game
 import com.ez.dotarate.database.Hero
+import com.ez.dotarate.database.SearchUser
 import com.ez.dotarate.model.GameDetail
-import com.ez.dotarate.model.GamesDataSource
-import com.ez.dotarate.model.HeroesDataSource
+import com.ez.dotarate.dataSource.GamesDataSource
+import com.ez.dotarate.dataSource.HeroesDataSource
 import com.ez.dotarate.network.ServerApi
 import kotlinx.coroutines.CoroutineScope
 import retrofit2.Response
@@ -76,6 +77,18 @@ constructor(@Named("OpenDota") private val api: ServerApi, private val db: AppDa
         db.heroDao().insertHeroes(listHeroes)
 
     /**
+     * Database function
+     */
+    override suspend fun insertSearchUsers(listSearchUsers: ArrayList<SearchUser>) =
+        db.searchUserDao().insertLastUsersAndDeleteRecent(listSearchUsers)
+
+    /**
+     * Database function
+     */
+    override fun getRecentSearchUsers() =
+        db.searchUserDao().getRecentSearchUsers()
+
+    /**
      * @return heroes DataSource.Factory
      */
     override fun getHeroesDataSourceFactory(
@@ -131,4 +144,17 @@ constructor(@Named("OpenDota") private val api: ServerApi, private val db: AppDa
         Log.d("MyLogs", "ПОШЁЛ ЗАПРОС НА ПРОШЕДШИЕ ИГРЫ С ПОЗИЦИИ = $loadPosition")
         return api.fetchGames(id = id32, loadPosition = loadPosition, limit = limitSize)
     }
+
+    /**
+     * GET request.
+     * Receive User by name Response
+     */
+    override suspend fun searchUsersByName(name: String): Response<ArrayList<SearchUser>> =
+        api.searchUsersByName(name)
+
+    /**
+     * GET request.
+     * Receive Top Players Response
+     */
+    override suspend fun getTopPlayers(): Response<ArrayList<SearchUser>> = api.getTopPlayers()
 }

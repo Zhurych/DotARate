@@ -4,49 +4,69 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ez.dotarate.R
+import com.ez.dotarate.adapters.TopPlayersAdapter
+import com.ez.dotarate.constants.SEARCH_TAB
+import com.ez.dotarate.constants.TAB_KEY
+import com.ez.dotarate.constants.USER_ID_KEY
 import com.ez.dotarate.databinding.FragmentSearchBinding
+import com.ez.dotarate.listeners.ClickListener
+import com.ez.dotarate.listeners.RecyclerTouchListener
 import com.ez.dotarate.view.BaseFragment
 import com.ez.dotarate.viewModel.SearchViewModel
 
 class SearchFragment : BaseFragment<SearchViewModel, FragmentSearchBinding>() {
 
+    lateinit var adapter: TopPlayersAdapter
+
     override fun layout() = R.layout.fragment_search
 
     override fun afterCreateView(view: View, savedInstanceState: Bundle?) {
+        Log.d("MyLogs", "SearchFragment. afterCreateView")
 
-        // Говорим фрагменту, что ему нужно отобразить меню
-        //setHasOptionsMenu(true)
+        val recyclerView = vb.rvFragmentSearch
+        recyclerView.layoutManager = LinearLayoutManager(activity)
 
-//        vb.searchEditText.setOnFocusChangeListener { v, hasFocus ->
-//            if (hasFocus) {
-//                Log.d("MyLogs", "ПОЛУЧЕН ФОКУС В SEARCH")
-//                //vb.ivSearch.visibility = View.INVISIBLE
-//                findNavController().navigate(R.id.searchUsersFragment)
-//            } else {
-//                //vb.ivSearch.visibility = View.VISIBLE
-//            }
-//        }
+        recyclerView.addOnItemTouchListener(
+            RecyclerTouchListener(context!!,
+                recyclerView,
+                object : ClickListener {
+                    override fun onClick(view: View, position: Int) {
+                        val currentUser = vm.liveTopPlayers.value!![position]
+
+                        val bundle = Bundle()
+                        bundle.putInt(USER_ID_KEY, currentUser.account_id)
+                        bundle.putString(TAB_KEY, SEARCH_TAB)
+
+                        findNavController().navigate(R.id.profileSearchFragment, bundle)
+                    }
+
+                    override fun onLongClick(view: View, position: Int) {
+
+                    }
+
+                })
+        )
 
         vb.tvSearch.setOnClickListener {
             findNavController().navigate(R.id.searchUsersFragment)
         }
-    }
 
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.search_menu, menu)
-//
-//        (menu.findItem(R.id.search).actionView as SearchView).apply {
-//            setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
-//            //isIconified = false
-//            //setPadding(0, 0, 0, 0)
-//
-//            //maxWidth = Int.MAX_VALUE
-//            queryHint = getString(R.string.search_screen_title)
-//        }
-//    }
+        if (!vm.isExistedFragment) {
+            Log.d("MyLogs", "SearchFragment. isExistedFragment = ${vm.isExistedFragment}")
+            vm.getTopPlayers()
+        }
+
+        vm.liveTopPlayers.observe(this, Observer {
+            adapter = TopPlayersAdapter(it)
+            vb.adapter = adapter
+        })
+
+        vm.isExistedFragment = true
+    }
 
     override fun onStart() {
         super.onStart()
@@ -85,6 +105,7 @@ class SearchFragment : BaseFragment<SearchViewModel, FragmentSearchBinding>() {
 
     override fun onDestroy() {
         super.onDestroy()
+        vm.isExistedFragment = false
         Log.d("MyLogs", "SearchFragment. onDestroy")
     }
 }

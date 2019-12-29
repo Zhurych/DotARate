@@ -1,5 +1,6 @@
 package com.ez.dotarate.view.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -7,6 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.ez.dotarate.R
 import com.ez.dotarate.adapters.ViewPagerAdapter
+import com.ez.dotarate.constants.PROFILE_TAB
+import com.ez.dotarate.constants.SEARCH_TAB
+import com.ez.dotarate.constants.TAB_KEY
 import com.ez.dotarate.constants.USER_ID_KEY
 import com.ez.dotarate.database.User
 import com.ez.dotarate.databinding.FragmentProfileSearchBinding
@@ -22,9 +26,13 @@ class ProfileSearchFragment : BaseFragment<ProfileSearchViewModel, FragmentProfi
     override fun layout() = R.layout.fragment_profile_search
 
     override fun afterCreateView(view: View, savedInstanceState: Bundle?) {
+        Log.d("MyLogs", "ProfileSearchFragment. AfterCreateView!!!!!!!!!!!")
+        // Enable back button
+        (activity as MainActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         vb.vm = vm
 
         val id32 = arguments!!.getInt(USER_ID_KEY)
+        val currentTab = arguments!!.getString(TAB_KEY)
 
         val user = User()
         user.id = id32
@@ -36,7 +44,11 @@ class ProfileSearchFragment : BaseFragment<ProfileSearchViewModel, FragmentProfi
 
         vm.liveUser.observe(this, Observer {
             activity!!.title = it.profile.personaname
-            (activity!! as MainActivity).searchUserName = it.profile.personaname
+            if (currentTab!! == SEARCH_TAB) {
+                (activity!! as MainActivity).searchFragmentUserName = it.profile.personaname
+            } else if (currentTab == PROFILE_TAB) {
+                (activity!! as MainActivity).profileFragmentUserName = it.profile.personaname
+            }
             user.name = it.profile.personaname
             user.avatarUrl = it.profile.avatarfull
             user.rankId = it.rank_tier
@@ -49,12 +61,20 @@ class ProfileSearchFragment : BaseFragment<ProfileSearchViewModel, FragmentProfi
             user.losses = it.lose
 
             if (user.rankId != null) vb.user = user
+            vm.isDataReceived.set(true)
         })
 
-        val listOfFragments: ArrayList<Fragment> = arrayListOf(GamesSearchFragment(id32), MphSearchFragment(id32))
+        val listOfFragments: ArrayList<Fragment> =
+            arrayListOf(GamesSearchFragment(), MphSearchFragment())
 
         vb.vpContainerProfileSearch.adapter =
-            ViewPagerAdapter(listOfFragments, this, vm.isNeedPositionToStartGames, vm.isNeedPositionToStartMph)
+            ViewPagerAdapter(
+                listOfFragments,
+                this,
+                vm.isNeedPositionToStartGames,
+                vm.isNeedPositionToStartMph,
+                id32
+            )
 
         TabLayoutMediator(vb.tabs, vb.vpContainerProfileSearch,
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
@@ -76,12 +96,59 @@ class ProfileSearchFragment : BaseFragment<ProfileSearchViewModel, FragmentProfi
             }
 
             mOldVerticalOffset = if (verticalOffset > mOldVerticalOffset) {
-                if (vb.vpContainerProfileSearch.currentItem == 0) vm.isNeedPositionToStartMph.set(true)
+                if (vb.vpContainerProfileSearch.currentItem == 0) vm.isNeedPositionToStartMph.set(
+                    true
+                )
                 else vm.isNeedPositionToStartGames.set(true)
                 verticalOffset
             } else {
                 verticalOffset
             }
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("MyLogs", "ProfileSearchFragment. onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("MyLogs", "ProfileSearchFragment. onResume")
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("MyLogs", "ProfileSearchFragment. onCreate")
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d("MyLogs", "ProfileSearchFragment. onAttach")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.d("MyLogs", "ProfileSearchFragment. onDetach")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("MyLogs", "ProfileSearchFragment. onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("MyLogs", "ProfileSearchFragment. onStop")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("MyLogs", "ProfileSearchFragment. onDestroyView")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("MyLogs", "ProfileSearchFragment. onDestroy")
     }
 }

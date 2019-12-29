@@ -1,4 +1,4 @@
-package com.ez.dotarate.model
+package com.ez.dotarate.dataSource
 
 import android.util.Log
 import androidx.paging.PositionalDataSource

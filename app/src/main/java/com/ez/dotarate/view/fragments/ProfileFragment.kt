@@ -30,7 +30,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>() {
 
     private var mOldVerticalOffset = 0
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun layout() = R.layout.fragment_profile
 
@@ -91,7 +90,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
         val listOfFragments: ArrayList<Fragment> = arrayListOf(GamesFragment(), MphFragment())
 
         vb.vpContainer.adapter =
-            ViewPagerAdapter(listOfFragments, this, vm.isNeedPositionToStartGames, vm.isNeedPositionToStartMph)
+            ViewPagerAdapter(listOfFragments, this, vm.isNeedPositionToStartGames, vm.isNeedPositionToStartMph, id32)
         Log.d("MyLogs", "****** ПЕРВОЕ VIEW во ViewPager = ${vb.vpContainer[0]}")
 
         TabLayoutMediator(vb.tabs, vb.vpContainer,

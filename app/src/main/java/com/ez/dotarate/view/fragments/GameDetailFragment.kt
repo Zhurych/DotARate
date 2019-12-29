@@ -13,14 +13,14 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ez.dotarate.*
+import com.ez.dotarate.IOnTouchEvent
+import com.ez.dotarate.R
 import com.ez.dotarate.adapters.PlayerAdapter
 import com.ez.dotarate.constants.MATCH_ID_KEY
 import com.ez.dotarate.customClasses.DividerItemDecoration
 import com.ez.dotarate.customClasses.HScroll
 import com.ez.dotarate.customClasses.VScroll
 import com.ez.dotarate.databinding.FragmentGameDetailBinding
-import com.ez.dotarate.databinding.NewFragmentGameDetailBinding
 import com.ez.dotarate.extensions.graphIdToTagMap
 import com.ez.dotarate.model.GameDetail
 import com.ez.dotarate.view.BaseFragment
@@ -28,7 +28,7 @@ import com.ez.dotarate.view.activities.MainActivity
 import com.ez.dotarate.viewModel.GameDetailViewModel
 
 
-class GameDetailFragment : BaseFragment<GameDetailViewModel, NewFragmentGameDetailBinding>(),
+class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailBinding>(),
     IOnTouchEvent {
 
     private var vScroll: VScroll? = null
@@ -162,22 +162,23 @@ class GameDetailFragment : BaseFragment<GameDetailViewModel, NewFragmentGameDeta
         }
     }
 
-    override fun layout() = R.layout.new_fragment_game_detail
+    override fun layout() = R.layout.fragment_game_detail
 
     override fun afterCreateView(view: View, savedInstanceState: Bundle?) {
-
+        // Disable back button
+        (activity as MainActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         val matchId = arguments!!.getLong(MATCH_ID_KEY)
         Log.d("MyLogs", "GamesDetailFragment. AfterCreateView")
         Log.d("MyLogs", "GamesDetailFragment. МАТЧ ID = $matchId")
 
-        activity!!.title = ""
+        activity?.title = ""
 
         vb.vm = vm
 
         if (savedInstanceState == null) vm.getGameDetail(matchId)
 
-//        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) vScroll =
-//            vb.svGameDetail
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) vScroll =
+            vb.vsvGameDetail
         hScroll = vb.hsvGameDetail
 
         // Need to set LayoutManager

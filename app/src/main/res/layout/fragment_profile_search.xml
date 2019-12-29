@@ -26,12 +26,12 @@
             android:id="@+id/ablProfileSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:visibility="@{vm.isDataReceived ? View.VISIBLE : View.INVISIBLE}">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="16dp"
                 app:layout_scrollFlags="scroll"
                 tools:ignore="RtlSymmetry">
 
@@ -52,10 +52,12 @@
                     android:id="@+id/wins"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
+                    android:layout_marginStart="48dp"
                     android:layout_marginTop="40dp"
+                    android:layout_marginEnd="20dp"
                     android:text="@string/profile_screen_wins"
                     android:textColor="@color/colorDarkGreen"
+                    app:layout_constraintEnd_toStartOf="@+id/losses"
                     app:layout_constraintStart_toEndOf="@+id/avatar"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Wins" />
@@ -78,8 +80,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="22dp"
+                    android:layout_marginEnd="21dp"
                     android:text="@string/profile_screen_losses"
                     android:textColor="@color/colorDarkGreen"
+                    app:layout_constraintEnd_toStartOf="@+id/winRate"
                     app:layout_constraintStart_toEndOf="@+id/wins"
                     app:layout_constraintTop_toTopOf="@+id/wins"
                     tools:text="Losses" />
@@ -102,8 +106,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="22dp"
+                    android:layout_marginEnd="48dp"
                     android:text="@string/profile_screen_winrate"
                     android:textColor="@color/colorDarkGreen"
+                    app:layout_constraintEnd_toStartOf="@+id/ivRank"
                     app:layout_constraintStart_toEndOf="@+id/losses"
                     app:layout_constraintTop_toTopOf="@+id/wins"
                     tools:text="Winrate" />
@@ -115,9 +121,9 @@
                     android:textColor="@color/colorGreen"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/winRate"
-                    app:layout_constraintStart_toStartOf="@+id/winRate"
-                    app:layout_constraintTop_toBottomOf="@+id/winRate"
+                    app:layout_constraintEnd_toEndOf="@id/winRate"
+                    app:layout_constraintStart_toStartOf="@id/winRate"
+                    app:layout_constraintTop_toBottomOf="@id/winRate"
                     app:winRate="@{user}"
                     tools:text="52.74%" />
 
@@ -125,9 +131,9 @@
                     android:id="@+id/ivRank"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:layout_marginTop="32dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/avatar"
                     app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/avatar"
                     app:rankTier="@{user.rankId}"
                     tools:src="@drawable/divine_3" />
 
@@ -137,6 +143,7 @@
                     android:layout_height="32dp"
                     android:layout_marginTop="16dp"
                     android:src="@drawable/ic_live"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="@id/guidelineStart"
                     app:layout_constraintTop_toBottomOf="@id/avatar" />
 
@@ -148,6 +155,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/colorDarkGreen"
                     android:textSize="20sp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/ivLive"
                     app:layout_constraintStart_toEndOf="@+id/ivLive"
                     app:layout_constraintTop_toTopOf="@+id/ivLive" />
@@ -186,7 +194,7 @@
             android:id="@+id/vpContainerProfileSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:visibility="@{vm.isDataReceived ? View.VISIBLE : View.INVISIBLE}"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <ProgressBar
@@ -194,7 +202,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-             />
+            android:visibility="@{vm.isDataReceived ? View.GONE : View.VISIBLE}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

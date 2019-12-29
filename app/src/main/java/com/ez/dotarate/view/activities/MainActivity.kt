@@ -1,17 +1,17 @@
 package com.ez.dotarate.view.activities
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.ActionBar
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.ez.dotarate.IOnTouchEvent
 import com.ez.dotarate.R
-import com.ez.dotarate.constants.GAME_DETAIL_FRAGMENT_LABEL
-import com.ez.dotarate.constants.PROFILE_FRAGMENT_LABEL
-import com.ez.dotarate.constants.PROFILE_SEARCH_FRAGMENT_LABEL
+import com.ez.dotarate.constants.*
 import com.ez.dotarate.databinding.ActivityMainBinding
 import com.ez.dotarate.extensions.graphIdToTagMap
 import com.ez.dotarate.extensions.popMyBackStack
@@ -32,33 +32,57 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     private lateinit var mBottomNavigationView: BottomNavigationView
     private val navControllerObserver by lazy {
         Observer<NavController> {
+            Log.d("MyLogs", "MainActivity. navControllerObserver!!!")
 
             when (it.graph.id) {
                 graphIdToTagMap.keyAt(0) -> {
                     title = getString(R.string.games_screen_title)
                 }
                 graphIdToTagMap.keyAt(1) -> {
-                    title = ""
-                    // TODO: сделать кнопку назад
-//                    actionBar?.setDisplayHomeAsUpEnabled(true)
-//                    actionBar?.setDisplayShowHomeEnabled(true)
-//                actionBar.setIcon(R.drawable.ic_search_title)
+                    when (it.currentDestination!!.label) {
+                        SEARCH_FRAGMENT_LABEL -> {
+                            title = ""
+                        }
+                        SEARCH_USERS_FRAGMENT_LABEL -> {
+                            title = ""
+                        }
+                        PROFILE_SEARCH_FRAGMENT_LABEL -> {
+                            title = searchFragmentUserName
+                            mActionBar.setDisplayHomeAsUpEnabled(true)
+                        }
+                        GAME_DETAIL_FRAGMENT_LABEL -> {
+                            title = ""
+                        }
+                        else -> title = ""
+                    }
                 }
                 graphIdToTagMap.keyAt(2) -> {
-                    title = when (it.currentDestination!!.label) {
-                        PROFILE_FRAGMENT_LABEL -> userName
-                        GAME_DETAIL_FRAGMENT_LABEL -> ""
-                        PROFILE_SEARCH_FRAGMENT_LABEL -> searchUserName
-                        else -> userName
+                    when (it.currentDestination!!.label) {
+                        PROFILE_FRAGMENT_LABEL -> {
+                            Log.d("MyLogs", "MainActivity. navControllerObserver. PROFILE_FRAGMENT_LABEL.")
+                            mActionBar.setDisplayHomeAsUpEnabled(false)
+                            title = userName
+                        }
+                        GAME_DETAIL_FRAGMENT_LABEL -> {
+                            Log.d("MyLogs", "MainActivity. navControllerObserver. GAME_DETAIL_FRAGMENT_LABEL.")
+                            mActionBar.setDisplayHomeAsUpEnabled(false)
+                            title = ""
+                        }
+                        PROFILE_SEARCH_FRAGMENT_LABEL -> {
+                            Log.d("MyLogs", "MainActivity. navControllerObserver. PROFILE_SEARCH_FRAGMENT_LABEL.")
+                            mActionBar.setDisplayHomeAsUpEnabled(true)
+                            title = profileFragmentUserName
+                        }
+                        else -> title = userName
                     }
-                    //actionBar!!.setDisplayShowHomeEnabled(false)
                 }
             }
         }
     }
 
     lateinit var userName: String
-    lateinit var searchUserName: String
+    lateinit var searchFragmentUserName: String
+    lateinit var profileFragmentUserName: String
 
     override fun layout() = R.layout.activity_main
 
@@ -86,13 +110,13 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         mActionBar = supportActionBar!!
 
         vm.userNameLive.observe(this, Observer { userName = it?.name ?: "" })
-        vm.searchUserNameLive.observe(this, Observer { searchUserName = it })
+        //vm.searchUserNameLive.observe(this, Observer { profileFragmentUserName = it })
 
         vm.currentNavController.observe(this, navControllerObserver)
     }
 
     override fun onBackPressed() {
-
+        Log.d("MyLogs", "MainActivity. onBackPressed")
         val currentNavController = vm.currentNavController.value as NavController
 
         // Если текущий фрагмент это не стартовый фрагмент в этой вкладке, то
@@ -142,7 +166,16 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        Log.d("MyLogs", "MainActivity. onSupportNavigateUp")
+        // Hide keyboard
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         return vm.currentNavController.value?.navigateUp() ?: false
+    }
+
+    internal fun notifyOfChangesLiveNavController() {
+        val currentNavController = vm.currentNavController.value as NavController
+        vm.currentNavController.value = currentNavController
     }
 
     override fun onStart() {

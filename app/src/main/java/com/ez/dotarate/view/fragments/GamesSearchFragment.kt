@@ -24,7 +24,8 @@ import com.ez.dotarate.view.BaseFragment
 import com.ez.dotarate.viewModel.GamesViewModel
 
 
-class GamesSearchFragment(private val id32: Int) : BaseFragment<GamesViewModel, FragmentGamesBinding>() {
+class GamesSearchFragment :
+    BaseFragment<GamesViewModel, FragmentGamesBinding>() {
 
     private val adapter = GamesAdapter()
 
@@ -36,7 +37,10 @@ class GamesSearchFragment(private val id32: Int) : BaseFragment<GamesViewModel, 
 
         Log.d("MyLogs", "GamesSearchFragment. AfterCreateView")
 
-        val isNeedPositionToStart = arguments!!.getSerializable(REFRESH_OBSERVABLE_BOOLEAN_KEY) as ObservableBoolean
+        val id32 = arguments!!.getInt(USER_ID_KEY)
+        Log.d("MyLogs", "GamesSearchFragment. id32 = $id32")
+        val isNeedPositionToStart =
+            arguments!!.getSerializable(REFRESH_OBSERVABLE_BOOLEAN_KEY) as ObservableBoolean
 
         vb.adapter = adapter
         vb.vm = vm
@@ -63,18 +67,12 @@ class GamesSearchFragment(private val id32: Int) : BaseFragment<GamesViewModel, 
 
                             val bundle = Bundle()
                             bundle.putLong(MATCH_ID_KEY, game!!.match_id)
-                            if (findNavController().currentDestination?.id == R.id.profileSearchFragment) {
-                                Log.d("MyLogs", "GamesSearchFragment. PagedList position $position = ${pagedList[position]}")
-                                Log.d("MyLogs", "GamesSearchFragment. КОНТРОЛЕР = ${findNavController()}")
-                                Log.d("MyLogs", "GamesSearchFragment. id ТЕКУЩЕГО ФРАГМЕНТА = ${findNavController().currentDestination?.id}")
-                                findNavController().navigate(
-                                    R.id.gameDetailFragment,
-                                    bundle
-                                )
-                            } else {
-                                Log.d("MyLogs", "GamesSearchFragment. КОНТРОЛЕР = ${findNavController()}")
-                                Log.d("MyLogs", "GamesSearchFragment. id ТЕКУЩЕГО ФРАГМЕНТА = ${findNavController().currentDestination?.id}")
-                            }
+
+                            findNavController().navigate(
+                                R.id.gameDetailFragment,
+                                bundle
+                            )
+
                         } catch (e: NullPointerException) {
                             Toast.makeText(activity, "Пустые данные", Toast.LENGTH_SHORT).show()
                         }
@@ -100,15 +98,22 @@ class GamesSearchFragment(private val id32: Int) : BaseFragment<GamesViewModel, 
             // Need to use submitList to set the PagedListAdapter value
             adapter.submitList(it)
             vm.isDataReceived.set(true)
-            Log.d("MyLogs", "GamesSearchFragment. ЗНАЧЕНИЕ isDataReceived = ${vm.isDataReceived.get()}")
+            // PagedList возвращает пустой список, поэтому добавляем этот Callback
+            it.addWeakCallback(null, object : PagedList.Callback() {
+                override fun onChanged(position: Int, count: Int) {}
+                override fun onInserted(position: Int, count: Int) {
+                    vm.isGamesEmpty.set(false)
+                }
+
+                override fun onRemoved(position: Int, count: Int) {}
+            })
+            Log.d(
+                "MyLogs",
+                "GamesSearchFragment. ЗНАЧЕНИЕ isDataReceived = ${vm.isDataReceived.get()}"
+            )
         })
 
-//        vm.errorLiveData.observe(this, Observer {
-//            it.getContentIfNotHandled()?.let { its ->
-//                // Only proceed if the event has never been handled
-//                Toast.makeText(activity, its, Toast.LENGTH_SHORT).show()
-//            }
-//        })
+
     }
 
     override fun onStart() {

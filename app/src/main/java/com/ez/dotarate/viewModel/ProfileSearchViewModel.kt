@@ -26,6 +26,7 @@ class ProfileSearchViewModel
     val liveUser = MutableLiveData<UserResponse>()
     val liveWinsAndLosses = MutableLiveData<WinsAndLosses>()
 
+    val isDataReceived = ObservableBoolean(false)
     val isNeedPositionToStartGames = ObservableBoolean(false)
     val isNeedPositionToStartMph = ObservableBoolean(false)
 

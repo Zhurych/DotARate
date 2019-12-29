@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="adapter"
+            type="com.ez.dotarate.adapters.SearchUsersAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +23,7 @@
             android:layout_marginTop="0.5dp"
             android:backgroundTint="@color/Transparent"
             android:hint="@string/search_screen_title"
+            android:imeOptions="actionDone"
             android:inputType="textFilter"
             app:layout_constraintBottom_toTopOf="@id/guidelineToolbarFragmentSearch"
             app:layout_constraintEnd_toEndOf="parent"
@@ -28,6 +33,16 @@
 
             <requestFocus />
         </com.ez.dotarate.customClasses.MySearchEditText>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFragmentSearch"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/bnv_height"
+            android:adapter="@{adapter}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guidelineToolbarFragmentSearch"
+            app:layout_constraintVertical_weight="1" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineToolbarFragmentSearch"

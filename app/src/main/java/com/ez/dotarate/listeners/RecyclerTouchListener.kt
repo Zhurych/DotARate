@@ -40,7 +40,7 @@ class RecyclerTouchListener(
 
         val child = rv.findChildViewUnder(e.x, e.y)
         if (child != null && gestureDetector.onTouchEvent(e)) {
-            val holder = rv.getChildViewHolder(child) as GamesHolder
+            //val holder = rv.getChildViewHolder(child) as GamesHolder
             clickListener!!.onClick(child, rv.getChildAdapterPosition(child))
         }
         return false

@@ -17,26 +17,4 @@ data class Hero(
     val games: Int,
     val last_played: Int,
     val win: Int
-) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Hero
-
-        if (hero_id != other.hero_id) return false
-        if (games != other.games) return false
-        if (last_played != other.last_played) return false
-        if (win != other.win) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = hero_id
-        result = 31 * result + games
-        result = 31 * result + last_played
-        result = 31 * result + win
-        return result
-    }
-}
+)

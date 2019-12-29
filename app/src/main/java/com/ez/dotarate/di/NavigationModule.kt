@@ -1,9 +1,7 @@
 package com.ez.dotarate.di
 
-import android.util.ArrayMap
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
 import dagger.Module
 import dagger.Provides
 import java.util.*

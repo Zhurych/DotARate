@@ -28,13 +28,52 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <com.ez.dotarate.model.layouts.MphTablesLayout
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvMphHero"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="0.64"
+                android:text="@string/mph_screen_hero"
+                android:textColor="@color/colorDarkGreen"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvMphPlayedGames"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:text="@string/mph_screen_played_games"
+                android:textColor="@color/colorDarkGreen"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvMphWinRate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="18dp"
+                android:layout_weight="0.2"
+                android:text="@string/mph_screen_win_rate"
+                android:textColor="@color/colorDarkGreen"
+                android:textSize="16sp" />
+        </com.ez.dotarate.model.layouts.MphTablesLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMphFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="28dp"
             android:adapter="@{adapter}"
             android:paddingStart="16dp"
-            android:paddingTop="2dp"
             android:paddingEnd="16dp"
             android:paddingBottom="@dimen/bnv_height"
             android:visibility="@{isDataReceivedMph ? View.VISIBLE : View.GONE}"

@@ -2,6 +2,7 @@ package com.ez.dotarate.network
 
 import com.ez.dotarate.database.Game
 import com.ez.dotarate.database.Hero
+import com.ez.dotarate.database.SearchUser
 import com.ez.dotarate.model.GameDetail
 import com.ez.dotarate.model.UserResponse
 import com.ez.dotarate.model.WinsAndLosses
@@ -37,4 +38,10 @@ interface ServerApi {
 
     @GET("api/players/{account_id}/heroes")
     suspend fun fetchHeroes(@Path("account_id") id: Int): Response<ArrayList<Hero>>
+
+    @GET("api/search")
+    suspend fun searchUsersByName(@Query("q") name: String): Response<ArrayList<SearchUser>>
+
+    @GET("api/proPlayers")
+    suspend fun getTopPlayers(): Response<ArrayList<SearchUser>>
 }
