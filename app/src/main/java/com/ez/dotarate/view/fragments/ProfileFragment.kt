@@ -13,7 +13,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ez.dotarate.R
 import com.ez.dotarate.adapters.ViewPagerAdapter
 import com.ez.dotarate.constants.CONVERTER_NUMBER

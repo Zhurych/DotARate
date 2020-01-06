@@ -38,13 +38,10 @@ class SearchUsersViewModel
     fun searchUsersByName(name: String) {
         viewModelScope.launch(IO) {
             try {
-                val response = repository.searchUsersByName(name)
-                if (response.isSuccessful) {
-                    val list = response.body()
-                    if (list != null) {
-                        repository.insertSearchUsers(list)
-                    }
-                    Log.d("MyLogs", "SearchUsersViewModel. РЕЗУЛЬТАТ ЗАПРОСА ПУСТ = $list")
+                val listSearchUsers = repository.searchUsersByName(name)
+                if (listSearchUsers.isNotEmpty()) {
+                    repository.insertSearchUsers(listSearchUsers)
+                    Log.d("MyLogs", "SearchUsersViewModel. РЕЗУЛЬТАТ ЗАПРОСА ПУСТ = $listSearchUsers")
                 }
             } catch (e: UnknownHostException) {
                 // Нет интернета

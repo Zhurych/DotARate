@@ -2,21 +2,20 @@ package com.ez.dotarate.model.repository
 
 import android.util.Log
 import androidx.paging.DataSource
+import com.ez.dotarate.dataSource.GamesDataSource
+import com.ez.dotarate.dataSource.HeroesDataSource
 import com.ez.dotarate.database.AppDatabase
 import com.ez.dotarate.database.Game
 import com.ez.dotarate.database.Hero
 import com.ez.dotarate.database.SearchUser
 import com.ez.dotarate.model.GameDetail
-import com.ez.dotarate.dataSource.GamesDataSource
-import com.ez.dotarate.dataSource.HeroesDataSource
 import com.ez.dotarate.network.ServerApi
 import kotlinx.coroutines.CoroutineScope
-import retrofit2.Response
 import javax.inject.Inject
-import javax.inject.Named
+
 
 class OpenDotaRepositoryImpl @Inject
-constructor(@Named("OpenDota") private val api: ServerApi, private val db: AppDatabase) :
+constructor(private val api: ServerApi, private val db: AppDatabase) :
     OpenDotaRepository {
 
     private fun createRemoteGamesDataSource(
@@ -106,9 +105,13 @@ constructor(@Named("OpenDota") private val api: ServerApi, private val db: AppDa
      * We don’t need to call enqueue() and implement callbacks anymore!
      * But notice, now our repo method is suspend too and returns a Response<ArrayList<Game>>.
      */
-    override suspend fun getMatches(id32: Int): Response<ArrayList<Game>> {
+    override suspend fun getMatches(id32: Int): ArrayList<Game> {
         Log.d("MyLogs", "ПОШЁЛ ЗАПРОС НА ПРОШЕДШИЕ ИГРЫ")
-        return api.getGames(id32)
+        val response = api.getGames(id32)
+
+        return if (response.isSuccessful) {
+            response.body() ?: ArrayList<Game>()
+        } else ArrayList<Game>()
     }
 
     /**
@@ -117,18 +120,26 @@ constructor(@Named("OpenDota") private val api: ServerApi, private val db: AppDa
      * We don’t need to call enqueue() and implement callbacks anymore!
      * But notice, now our repo method is suspend too and returns a Response<GameDetail>.
      */
-    override suspend fun getGameDetail(id: Long): Response<GameDetail> {
+    override suspend fun getGameDetail(id: Long): GameDetail? {
         Log.d("MyLogs", "ПОШЁЛ ЗАПРОС НА КОНКРЕТНУЮ ИГРУ")
-        return api.getGameDetail(id)
+        val response = api.getGameDetail(id)
+
+        return if (response.isSuccessful) {
+            response.body()
+        } else null
     }
 
     /**
      * GET request.
      * Receive Heroes
      */
-    override suspend fun fetchHeroes(id32: Int): Response<ArrayList<Hero>> {
+    override suspend fun fetchHeroes(id32: Int): ArrayList<Hero> {
         Log.d("MyLogs", "ПОШЁЛ ЗАПРОС НА ГЕРОЕВ")
-        return api.fetchHeroes(id32)
+        val response = api.fetchHeroes(id32)
+
+        return if (response.isSuccessful) {
+            response.body() ?: ArrayList<Hero>()
+        } else ArrayList<Hero>()
     }
 
     /**
@@ -140,21 +151,38 @@ constructor(@Named("OpenDota") private val api: ServerApi, private val db: AppDa
         id32: Int,
         loadPosition: Int,
         limitSize: Int
-    ): Response<ArrayList<Game>> {
+    ): ArrayList<Game> {
         Log.d("MyLogs", "ПОШЁЛ ЗАПРОС НА ПРОШЕДШИЕ ИГРЫ С ПОЗИЦИИ = $loadPosition")
-        return api.fetchGames(id = id32, loadPosition = loadPosition, limit = limitSize)
+        val response = api.fetchGames(id = id32, loadPosition = loadPosition, limit = limitSize)
+
+        return if (response.isSuccessful) {
+            response.body() ?: ArrayList<Game>()
+        } else ArrayList<Game>()
     }
 
     /**
      * GET request.
      * Receive User by name Response
      */
-    override suspend fun searchUsersByName(name: String): Response<ArrayList<SearchUser>> =
-        api.searchUsersByName(name)
+    override suspend fun searchUsersByName(name: String): ArrayList<SearchUser> {
+        Log.d("MyLogs", "ПОШЁЛ ЗАПРОС НА ИГРОКОВ ПО ИМЕНИ")
+        val response = api.searchUsersByName(name)
+
+        return if (response.isSuccessful) {
+            response.body() ?: ArrayList<SearchUser>()
+        } else ArrayList<SearchUser>()
+    }
 
     /**
      * GET request.
      * Receive Top Players Response
      */
-    override suspend fun getTopPlayers(): Response<ArrayList<SearchUser>> = api.getTopPlayers()
+    override suspend fun getTopPlayers(): ArrayList<SearchUser> {
+        Log.d("MyLogs", "ПОШЁЛ ЗАПРОС НА ТОПОВЫХ ИГРОКОВ")
+        val response = api.getTopPlayers()
+
+        return if (response.isSuccessful) {
+            response.body() ?: ArrayList<SearchUser>()
+        } else ArrayList<SearchUser>()
+    }
 }

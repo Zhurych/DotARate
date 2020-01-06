@@ -3,14 +3,8 @@ package com.ez.dotarate.viewModel
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.paging.DataSource
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
-import com.ez.dotarate.customClasses.Event
-import com.ez.dotarate.dataSource.TopPlayersDataSource
 import com.ez.dotarate.database.SearchUser
 import com.ez.dotarate.model.repository.OpenDotaRepositoryImpl
 import kotlinx.coroutines.Dispatchers.IO
@@ -30,11 +24,11 @@ class SearchViewModel
     fun getTopPlayers() {
         viewModelScope.launch(IO) {
             try {
-                val response = repository.getTopPlayers()
+                val listSearchUsers = repository.getTopPlayers()
 
-                Log.d("MyLogs", "SearchViewModel. РЕЗУЛЬТАТ ЗАПРОСА = ${response.body()}")
-                if (response.isSuccessful) {
-                    liveTopPlayers.postValue(response.body()!!)
+                Log.d("MyLogs", "SearchViewModel. РЕЗУЛЬТАТ ЗАПРОСА = $listSearchUsers")
+                if (listSearchUsers.isNotEmpty()) {
+                    liveTopPlayers.postValue(listSearchUsers)
                 }
             } catch (e: UnknownHostException) {
 

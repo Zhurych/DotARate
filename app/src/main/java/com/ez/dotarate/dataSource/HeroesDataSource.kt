@@ -20,9 +20,9 @@ class HeroesDataSource(
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Hero>) {
         Log.d("MyLogs", "HeroesDataSource. loadInitial")
         scope.launch(IO) {
-            val response = repository.fetchHeroes(id32 = id32)
-            if (response.isSuccessful) {
-                response.body()?.let { callback.onResult(it, 0) }
+            val listHeroes = repository.fetchHeroes(id32 = id32)
+            if (listHeroes.isNotEmpty()) {
+                callback.onResult(listHeroes, 0)
             }
         }
     }

@@ -22,10 +22,10 @@ interface OpenDotaRepository {
     fun getRecentSearchUsers(): DataSource.Factory<Int, SearchUser>
 
     // Network
-    suspend fun getMatches(id32: Int): Response<ArrayList<Game>>
-    suspend fun getGameDetail(id: Long): Response<GameDetail>
-    suspend fun fetchHeroes(id32: Int): Response<ArrayList<Hero>>
-    suspend fun fetchMatches(id32: Int, loadPosition: Int, limitSize:Int): Response<ArrayList<Game>>
-    suspend fun searchUsersByName(name: String): Response<ArrayList<SearchUser>>
-    suspend fun getTopPlayers(): Response<ArrayList<SearchUser>>
+    suspend fun getMatches(id32: Int): ArrayList<Game>
+    suspend fun getGameDetail(id: Long): GameDetail?
+    suspend fun fetchHeroes(id32: Int): ArrayList<Hero>
+    suspend fun fetchMatches(id32: Int, loadPosition: Int, limitSize:Int): ArrayList<Game>
+    suspend fun searchUsersByName(name: String): ArrayList<SearchUser>
+    suspend fun getTopPlayers(): ArrayList<SearchUser>
 }

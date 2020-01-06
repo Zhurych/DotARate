@@ -4,6 +4,7 @@ import com.ez.dotarate.constants.BASE_URL_OPENDOTA
 import com.ez.dotarate.constants.BASE_URL_STEAM
 import com.ez.dotarate.database.AppDatabase
 import com.ez.dotarate.model.repository.OpenDotaRepositoryImpl
+import com.ez.dotarate.model.repository.PandaScoreRepositoryImpl
 import com.ez.dotarate.model.repository.UserRepositoryImpl
 import com.ez.dotarate.network.ServerApi
 import dagger.Module
@@ -19,22 +20,16 @@ import javax.inject.Singleton
 class ApiModule {
 
     @Provides
-    internal fun provideUserRepository(@Named("OpenDota") api: ServerApi, db: AppDatabase) =
+    internal fun provideUserRepository(api: ServerApi, db: AppDatabase) =
         UserRepositoryImpl(api, db)
 
     @Provides
-    internal fun provideOpenDotaRepository(@Named("OpenDota") api: ServerApi, db: AppDatabase) =
+    internal fun provideOpenDotaRepository(api: ServerApi, db: AppDatabase) =
         OpenDotaRepositoryImpl(api, db)
 
-    @Named("Steam")
     @Provides
-    @Singleton
-    internal fun provideSteamApi(): ServerApi =
-        Retrofit.Builder().baseUrl(BASE_URL_STEAM)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build().create(ServerApi::class.java)
+    internal fun providePandaScoreRepository(api: ServerApi) = PandaScoreRepositoryImpl(api)
 
-    @Named("OpenDota")
     @Provides
     @Singleton
     internal fun provideOpendotaApi(client: OkHttpClient): ServerApi =

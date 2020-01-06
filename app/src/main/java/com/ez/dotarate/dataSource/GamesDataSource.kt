@@ -20,14 +20,14 @@ class GamesDataSource(
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Game>) {
         Log.d("MyLogs", "GamesDataSource. loadInitial")
         scope.launch(IO) {
-            val response = repository.fetchMatches(
+            val listGames = repository.fetchMatches(
                 id32 = id32,
                 loadPosition = params.requestedStartPosition,
                 limitSize = params.requestedLoadSize
             )
-            if (response.isSuccessful) {
-                Log.d("MyLogs", "GamesDataSource. Game Response = ${response.body()}")
-                response.body()?.let { callback.onResult(it, 0) }
+            if (listGames.isNotEmpty()) {
+                Log.d("MyLogs", "GamesDataSource. Game Response = $listGames")
+                callback.onResult(listGames, 0)
             }
         }
     }
@@ -38,14 +38,12 @@ class GamesDataSource(
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<Game>) {
         Log.d("MyLogs", "GamesDataSource. loadRange")
         scope.launch(IO) {
-            val response = repository.fetchMatches(
+            val listGames = repository.fetchMatches(
                 id32 = id32,
                 loadPosition = params.startPosition,
                 limitSize = params.loadSize
             )
-            if (response.isSuccessful) {
-                response.body()?.let { callback.onResult(it) }
-            }
+            if (listGames.isNotEmpty()) callback.onResult(listGames)
         }
     }
 }

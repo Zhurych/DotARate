@@ -10,6 +10,7 @@ const val BASE_URL_STEAM = "https://api.steampowered.com/"
  */
 const val BASE_URL_OPENDOTA = "https://api.opendota.com/"
 
+const val BASE_URL_PANDASCORE = "https://api.pandascore.co/"
 
 const val USER_ID_KEY = "id"
 const val MATCH_ID_KEY = "match_id"
@@ -20,9 +21,9 @@ const val GAME_DETAIL_FRAGMENT_LABEL = "GameDetailFragment"
 const val PROFILE_SEARCH_FRAGMENT_LABEL = "ProfileSearchFragment"
 const val SEARCH_FRAGMENT_LABEL = "SearchFragment"
 const val SEARCH_USERS_FRAGMENT_LABEL = "SearchUsersFragment"
+const val UPCOMING_GAMES_FRAGMENT_LABEL = "UpcomingGamesFragment"
 
 const val TAB_KEY = ""
-
 
 const val SEARCH_TAB = "SearchTab"
 const val PROFILE_TAB = "ProfileTab"

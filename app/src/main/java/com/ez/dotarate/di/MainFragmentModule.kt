@@ -24,7 +24,7 @@ abstract class MainFragmentModule {
     internal abstract fun contributeGamesDetailFragment(): GameDetailFragment
 
     @ContributesAndroidInjector
-    internal abstract fun contributeFirstFragment(): FirstFragment
+    internal abstract fun contributeFirstFragment(): UpcomingGamesFragment
 
     @ContributesAndroidInjector
     internal abstract fun contributeProfileSearchFragment(): ProfileSearchFragment

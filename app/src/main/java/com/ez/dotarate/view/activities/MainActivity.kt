@@ -36,7 +36,12 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
             when (it.graph.id) {
                 graphIdToTagMap.keyAt(0) -> {
-                    title = getString(R.string.games_screen_title)
+                    when (it.currentDestination!!.label) {
+                        UPCOMING_GAMES_FRAGMENT_LABEL -> {
+                            title = getString(R.string.upcoming_games_screen_title)
+                            mActionBar.setDisplayHomeAsUpEnabled(false)
+                        }
+                    }
                 }
                 graphIdToTagMap.keyAt(1) -> {
                     when (it.currentDestination!!.label) {
@@ -47,8 +52,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                             title = ""
                         }
                         PROFILE_SEARCH_FRAGMENT_LABEL -> {
-                            title = searchFragmentUserName
                             mActionBar.setDisplayHomeAsUpEnabled(true)
+                            title = searchFragmentUserName
                         }
                         GAME_DETAIL_FRAGMENT_LABEL -> {
                             title = ""
@@ -59,17 +64,14 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                 graphIdToTagMap.keyAt(2) -> {
                     when (it.currentDestination!!.label) {
                         PROFILE_FRAGMENT_LABEL -> {
-                            Log.d("MyLogs", "MainActivity. navControllerObserver. PROFILE_FRAGMENT_LABEL.")
                             mActionBar.setDisplayHomeAsUpEnabled(false)
                             title = userName
                         }
                         GAME_DETAIL_FRAGMENT_LABEL -> {
-                            Log.d("MyLogs", "MainActivity. navControllerObserver. GAME_DETAIL_FRAGMENT_LABEL.")
                             mActionBar.setDisplayHomeAsUpEnabled(false)
                             title = ""
                         }
                         PROFILE_SEARCH_FRAGMENT_LABEL -> {
-                            Log.d("MyLogs", "MainActivity. navControllerObserver. PROFILE_SEARCH_FRAGMENT_LABEL.")
                             mActionBar.setDisplayHomeAsUpEnabled(true)
                             title = profileFragmentUserName
                         }
@@ -148,11 +150,11 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     }
 
     /**
-     * Called on first creation and when restoring state.
+     * Called on tournaments creation and when restoring state.
      */
     private fun setupBottomNavigationBar() {
 
-        val navGraphIds = listOf(R.navigation.first, R.navigation.search, R.navigation.profile)
+        val navGraphIds = listOf(R.navigation.tournaments, R.navigation.search, R.navigation.profile)
 
         // Setup the bottom navigation view with a list of navigation graphs
         mBottomNavigationView.setupWithNavController(
@@ -171,11 +173,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         return vm.currentNavController.value?.navigateUp() ?: false
-    }
-
-    internal fun notifyOfChangesLiveNavController() {
-        val currentNavController = vm.currentNavController.value as NavController
-        vm.currentNavController.value = currentNavController
     }
 
     override fun onStart() {

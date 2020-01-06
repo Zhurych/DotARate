@@ -2,7 +2,9 @@ package com.ez.dotarate.viewModel
 
 import android.app.Application
 import androidx.databinding.ObservableBoolean
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.ez.dotarate.customClasses.Event
 import com.ez.dotarate.database.User
 import com.ez.dotarate.model.UserResponse
@@ -34,13 +36,13 @@ constructor(
     fun getUserResponse(id32: Int) {
         viewModelScope.launch(IO) {
             try {
-                val response = repository.getUserResponse(id32)
+                val userResponse = repository.getUserResponse(id32)
 
-                if (response.isSuccessful) {
-                    userResponseLiveData.postValue(response.body())
+                if (userResponse != null) {
+                    userResponseLiveData.postValue(userResponse)
 
                 } else {
-                    errorLiveData.postValue(Event(response.errorBody().toString()))
+                    errorLiveData.postValue(Event("Проблемы при попытке соединения"))
                 }
             } catch (e: UnknownHostException) {
                 errorLiveData.postValue(Event("Exception"))
@@ -55,12 +57,12 @@ constructor(
     fun getWinsAndLosses(id32: Int) {
         viewModelScope.launch(IO) {
             try {
-                val response = repository.getWinsAndLosses(id32)
+                val winsAndLosses = repository.getWinsAndLosses(id32)
 
-                if (response.isSuccessful) {
-                    liveWinsAndLosses.postValue(response.body())
+                if (winsAndLosses != null) {
+                    liveWinsAndLosses.postValue(winsAndLosses)
                 } else {
-                    errorLiveData.postValue(Event(response.errorBody().toString()))
+                    errorLiveData.postValue(Event("Проблемы при попытке соединения"))
                 }
             } catch (e: UnknownHostException) {
                 errorLiveData.postValue(Event("Exception"))

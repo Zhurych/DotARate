@@ -55,11 +55,11 @@ constructor(
     fun getGames(id32: Int) {
         viewModelScope.launch {
             try {
-                val response = withContext(Dispatchers.IO) {
+                val listGames = withContext(Dispatchers.IO) {
                     repository.getMatches(id32)
                 }
-                if (response.isSuccessful) {
-                    response.body()?.let { repository.saveGames(it) }
+                if (listGames.isNotEmpty()) {
+                    repository.saveGames(listGames)
                     isLoaded.set(true)
                 } else {
                     isLoaded.set(true)

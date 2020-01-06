@@ -4,6 +4,7 @@ import com.ez.dotarate.database.Game
 import com.ez.dotarate.database.Hero
 import com.ez.dotarate.database.SearchUser
 import com.ez.dotarate.model.GameDetail
+import com.ez.dotarate.model.UpcomingGame
 import com.ez.dotarate.model.UserResponse
 import com.ez.dotarate.model.WinsAndLosses
 import retrofit2.Response
@@ -44,4 +45,10 @@ interface ServerApi {
 
     @GET("api/proPlayers")
     suspend fun getTopPlayers(): Response<ArrayList<SearchUser>>
+
+    /**
+     * PandaScore
+     */
+    @GET("matches/upcoming/?token=")
+    suspend fun fetchUpcomingGames(): Response<ArrayList<UpcomingGame>>
 }

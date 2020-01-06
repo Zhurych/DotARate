@@ -18,6 +18,6 @@ interface UserRepository {
     fun getUserName(): LiveData<UserName?>
 
     // Network
-    suspend fun getUserResponse(id: Int): Response<UserResponse>
-    suspend fun getWinsAndLosses(id: Int): Response<WinsAndLosses>
+    suspend fun getUserResponse(id: Int): UserResponse?
+    suspend fun getWinsAndLosses(id: Int): WinsAndLosses?
 }

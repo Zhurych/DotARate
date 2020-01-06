@@ -186,7 +186,7 @@ class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailB
         recyclerViewRadiant.layoutManager = LinearLayoutManager(activity)
         recyclerViewRadiant.addItemDecoration(
             DividerItemDecoration(
-                activity!!
+                recyclerViewRadiant.context
             )
         )
 
@@ -195,7 +195,7 @@ class GameDetailFragment : BaseFragment<GameDetailViewModel, FragmentGameDetailB
         recyclerViewDire.layoutManager = LinearLayoutManager(activity)
         recyclerViewDire.addItemDecoration(
             DividerItemDecoration(
-                activity!!
+                recyclerViewDire.context
             )
         )
 

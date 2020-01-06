@@ -1,10 +1,8 @@
 package com.ez.dotarate.viewModel
 
 import android.app.Application
-import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ez.dotarate.model.GameDetail
@@ -28,13 +26,13 @@ constructor(
     fun getGameDetail(id: Long) {
         viewModelScope.launch(IO) {
             try {
-                val response = repository.getGameDetail(id)
+                val gameDetails = repository.getGameDetail(id)
 
                 //Log.d("MyLogs", "УСПЕШЕЫЙ ЗАПРОС = ${response.body()}")
-                if (response.isSuccessful) {
-                    liveGame.postValue(response.body())
+                if (gameDetails != null) {
+                    liveGame.postValue(gameDetails)
                 } else {
-                    errorLiveData.postValue(response.errorBody().toString())
+                    errorLiveData.postValue("Проблемы при попытке получить данные")
                 }
             } catch (e: UnknownHostException) {
                 errorLiveData.postValue("Нет интернета")

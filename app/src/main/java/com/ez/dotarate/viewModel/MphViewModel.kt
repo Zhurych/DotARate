@@ -48,11 +48,11 @@ constructor(
     fun getHeroes(id32: Int) {
         viewModelScope.launch(IO) {
             try {
-                val response = repository.fetchHeroes(id32)
+                val listHeroes = repository.fetchHeroes(id32)
 
-                Log.d("MyLogs", "MphViewModel. ПОЛУЧЕННЫЕ ДАННЫЕ = ${response.body()}")
-                if (response.isSuccessful) {
-                    val inserts = repository.saveHeroes(response.body()!!)
+                Log.d("MyLogs", "MphViewModel. ПОЛУЧЕННЫЕ ДАННЫЕ = ${listHeroes}")
+                if (listHeroes.isNotEmpty()) {
+                    val inserts = repository.saveHeroes(listHeroes)
                     Log.d("MyLogs", "MphViewModel. ВСТАВЛЕННЫЕ ЗАПИСИ = ${inserts.size}")
                 }
             } catch (e: UnknownHostException) {

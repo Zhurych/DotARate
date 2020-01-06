@@ -5,11 +5,8 @@ import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ez.dotarate.database.Game
-import com.ez.dotarate.database.Hero
 import com.ez.dotarate.model.UserResponse
 import com.ez.dotarate.model.WinsAndLosses
-import com.ez.dotarate.model.repository.OpenDotaRepositoryImpl
 import com.ez.dotarate.model.repository.UserRepositoryImpl
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -33,9 +30,9 @@ class ProfileSearchViewModel
     fun fetchUser(id32: Int) {
         viewModelScope.launch(IO) {
             try {
-                val response = userRepository.getUserResponse(id32)
-                if (response.isSuccessful) {
-                    liveUser.postValue(response.body())
+                val userResponse = userRepository.getUserResponse(id32)
+                if (userResponse != null) {
+                    liveUser.postValue(userResponse)
                 } else {
 
                 }
@@ -50,9 +47,9 @@ class ProfileSearchViewModel
     fun fetchWinsAndLosses(id32: Int) {
         viewModelScope.launch(IO) {
             try {
-                val response = userRepository.getWinsAndLosses(id32)
-                if (response.isSuccessful) {
-                    liveWinsAndLosses.postValue(response.body())
+                val winsAndLosses = userRepository.getWinsAndLosses(id32)
+                if (winsAndLosses != null) {
+                    liveWinsAndLosses.postValue(winsAndLosses)
                 } else {
 
                 }
