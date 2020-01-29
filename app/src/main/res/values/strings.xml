@@ -14,6 +14,8 @@
     <string name="day">a day ago</string>
     <string name="month">a month ago</string>
     <string name="year">a year ago</string>
+    <string name="two_years">2 years ago</string>
+    <string name="dont_play">no games</string>
     <string name="won_game">Won</string>
     <string name="lost_game">Lost</string>
     <string name="unknown_result">Unknown</string>
@@ -242,6 +244,8 @@
     <string name="dark_willow">Dark Willow</string>
     <string name="pangolier">Pangolier</string>
     <string name="grimstroke">Grimstroke</string>
+    <string name="void_spirit">Void Spirit</string>
+    <string name="snapfire">Snapfire</string>
     <string name="mars">Mars</string>
     <string name="unknown_hero">Unknown Hero</string>
 
@@ -297,5 +301,7 @@
     <string name="year_search_users_screen">Last game a year ago</string>
 
     <!--UpcomingGamesScreen-->
-    <string name="upcoming_games_screen_title">Tournaments</string>
+    <string name="upcoming_games_screen_title">Upcoming Games</string>
+    <string name="upcoming_games_screen_bo">Bo %d</string>
+    <string name="upcoming_games_screen_tbd">TBD</string>
 </resources>

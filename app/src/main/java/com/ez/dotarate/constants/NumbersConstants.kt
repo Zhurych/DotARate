@@ -163,6 +163,8 @@ const val MONKEY_KING = 114
 const val DARK_WILLOW = 119
 const val PANGOLIER = 120
 const val GRIMSTROKE = 121
+const val VOID_SPIRIT = 126
+const val SNAPFIRE = 128
 const val MARS = 129
 
 // rank_tier

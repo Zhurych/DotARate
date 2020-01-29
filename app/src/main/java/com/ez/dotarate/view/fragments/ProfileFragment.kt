@@ -72,6 +72,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
             user.name = it.profile.personaname
             user.avatarUrl = it.profile.avatarfull
             user.rankId = it.rank_tier
+            user.leaderboard_rank = it.leaderboard_rank
 
             if (user.wins != null) vm.saveUser(user)
         })
@@ -103,14 +104,6 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
                     }
                 }
             }).attach()
-
-//        vm.errorLiveData.observe(this, Observer {
-//            Log.d("MyLogs", "ProfileFragment. live Data с ошибкой")
-//            it.getContentIfNotHandled()?.let { its ->
-//                // Only proceed if the event has never been handled
-//                Toast.makeText(activity, its, Toast.LENGTH_SHORT).show()
-//            }
-//        })
 
         val appBar = vb.ablProfile
         appBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->

@@ -16,10 +16,10 @@ import com.ez.dotarate.constants.*
 import com.ez.dotarate.database.Game
 import com.ez.dotarate.database.Hero
 import com.ez.dotarate.database.User
+import com.ez.dotarate.model.Opponent
 import com.ez.dotarate.model.PermanentBuff
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -35,6 +35,141 @@ object BindingAdapter {
             Picasso.get().load(url).placeholder(errorImage).error(
                 errorImage
             ).into(view)
+    }
+
+    /**
+     * Load League Logo
+     */
+    @BindingAdapter("leagueLogo")
+    @JvmStatic
+    fun loadLeagueLogo(view: ImageView, url: String?) {
+        if (TextUtils.isEmpty(url)) {
+            view.setImageResource(R.drawable.ic_no_logo_league)
+        } else {
+            Picasso.get().load(url).into(view)
+        }
+    }
+
+    /**
+     * Load Team Logo
+     */
+    @BindingAdapter("teamLogo", "teamNumber")
+    @JvmStatic
+    fun loadTeamLogo(view: ImageView, listOpponents: ArrayList<Opponent>?, teamNumber: Int) {
+        Log.d(
+            "MyLogs",
+            "BindingAdapter. fun loadTeamLogo. listOpponents = $listOpponents. teamNumber = $teamNumber"
+        )
+        if (listOpponents.isNullOrEmpty()) {
+            view.setImageDrawable(null)
+            return
+        }
+
+        val url = when (listOpponents.size) {
+            1 -> {
+                if (teamNumber == 0) listOpponents[0].opponent.image_url
+                else ""
+            }
+            2 -> listOpponents[teamNumber].opponent.image_url
+            else -> ""
+        }
+
+        if (TextUtils.isEmpty(url)) {
+            view.setImageResource(R.drawable.ic_no_logo)
+        } else {
+            Picasso.get().load(url).into(view)
+        }
+    }
+
+    /**
+     * Set Team Name
+     */
+    @BindingAdapter("teamName", "teamNumber")
+    @JvmStatic
+    fun setTeamName(view: TextView, listOpponents: ArrayList<Opponent>?, teamNumber: Int) {
+        Log.d(
+            "MyLogs",
+            "BindingAdapter. fun loadTeamLogo. listOpponents = $listOpponents. teamNumber = $teamNumber"
+        )
+
+        val context = App.applicationContext()
+
+        if (listOpponents.isNullOrEmpty()) {
+            view.text = context.getString(R.string.upcoming_games_screen_tbd)
+            return
+        }
+
+        view.text = when (listOpponents.size) {
+            1 -> {
+                if (teamNumber == 0) {
+                    if (listOpponents[0].opponent.acronym != null) listOpponents[0].opponent.acronym
+                    else listOpponents[0].opponent.name
+                } else context.getString(R.string.upcoming_games_screen_tbd)
+            }
+            2 -> {
+                if (listOpponents[teamNumber].opponent.acronym != null) listOpponents[teamNumber].opponent.acronym
+                else listOpponents[teamNumber].opponent.name
+            }
+            else -> context.getString(R.string.upcoming_games_screen_tbd)
+        }
+    }
+
+    /**
+     * Set Game Date
+     */
+    @BindingAdapter("gameDate")
+    @JvmStatic
+    fun setGameDate(view: TextView, gameDate: String) {
+        val splitDate = gameDate.substringBefore("T").split("-")
+
+        val sb = StringBuilder()
+        for (i in splitDate.indices.reversed()) {
+            sb.append(splitDate[i])
+            if (i != 0) sb.append(".")
+        }
+
+        view.text = sb.toString()
+    }
+
+    /**
+     * Set Game Time
+     */
+    @BindingAdapter("gameTime")
+    @JvmStatic
+    fun setGameTime(view: TextView, gameTime: String) {
+        val formatToDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
+        formatToDate.timeZone = TimeZone.getTimeZone("UTC")
+        val date = formatToDate.parse(gameTime)
+
+        val formatFromDate = SimpleDateFormat("HH:mm", Locale.US)
+
+        view.text = formatFromDate.format(date!!)
+    }
+
+    /**
+     * Set Number of Games
+     */
+    @BindingAdapter("numberOfGames")
+    @JvmStatic
+    fun setNumberOfGames(view: TextView, numberOfGames: Int) {
+        val context = App.applicationContext()
+
+        view.text =
+            String.format(context.getString(R.string.upcoming_games_screen_bo), numberOfGames)
+    }
+
+    /**
+     * Set Leaderboard Rank
+     */
+    @BindingAdapter("leaderboardRank")
+    @JvmStatic
+    fun setLeaderboardRank(view: TextView, leaderboardRank: Int?) {
+        if (leaderboardRank == null) {
+            return
+
+        } else {
+            view.text = leaderboardRank.toString()
+        }
     }
 
     /**
@@ -215,6 +350,8 @@ object BindingAdapter {
             DARK_WILLOW -> view.setImageResource(R.drawable.dark_willow)
             PANGOLIER -> view.setImageResource(R.drawable.pango)
             GRIMSTROKE -> view.setImageResource(R.drawable.grimstroke)
+            VOID_SPIRIT -> view.setImageResource(R.drawable.void_spirit)
+            SNAPFIRE -> view.setImageResource(R.drawable.snapfire)
             MARS -> view.setImageResource(R.drawable.mars)
         }
     }
@@ -368,6 +505,8 @@ object BindingAdapter {
             DARK_WILLOW -> heroName = context.getString(R.string.dark_willow)
             PANGOLIER -> heroName = context.getString(R.string.pangolier)
             GRIMSTROKE -> heroName = context.getString(R.string.grimstroke)
+            VOID_SPIRIT -> heroName = context.getString(R.string.void_spirit)
+            SNAPFIRE -> heroName = context.getString(R.string.snapfire)
             MARS -> heroName = context.getString(R.string.mars)
             else -> heroName = context.getString(R.string.unknown_hero)
         }
@@ -399,6 +538,11 @@ object BindingAdapter {
 
         val context = App.applicationContext()
 
+        if (startTime == 0L) {
+            view.text = context.getString(R.string.dont_play)
+            return
+        }
+
         // Текущая дата
         val currentDate = Date()
         // Количество секунд прошедших с 1 января 1970г
@@ -426,7 +570,8 @@ object BindingAdapter {
             days < 31 -> view.text = String.format(context.getString(R.string.days), days)
             months == 1 -> view.text = context.getString(R.string.month)
             months < 12 -> view.text = String.format(context.getString(R.string.months), months)
-            else -> view.text = context.getString(R.string.year)
+            months < 24 -> view.text = String.format(context.getString(R.string.year), months)
+            else -> view.text = context.getString(R.string.two_years)
         }
     }
 
@@ -553,7 +698,7 @@ object BindingAdapter {
     @JvmStatic
     fun rankOfPlayer(view: ImageView, rankTier: Int?) {
 
-        if (rankTier == null || rankTier == 0){
+        if (rankTier == null || rankTier == 0) {
             view.visibility = View.GONE
             return
         } else {
@@ -998,11 +1143,14 @@ object BindingAdapter {
                 else String.format(context.getString(R.string.minutes_search_users_screen), minutes)
             }
             hours == 1 -> view.text = context.getString(R.string.hour_search_users_screen)
-            hours < 24 -> view.text = String.format(context.getString(R.string.hours_search_users_screen), hours)
+            hours < 24 -> view.text =
+                String.format(context.getString(R.string.hours_search_users_screen), hours)
             days == 1 -> view.text = context.getString(R.string.day_search_users_screen)
-            days < 31 -> view.text = String.format(context.getString(R.string.days_search_users_screen), days)
+            days < 31 -> view.text =
+                String.format(context.getString(R.string.days_search_users_screen), days)
             months == 1 -> view.text = context.getString(R.string.month_search_users_screen)
-            months < 12 -> view.text = String.format(context.getString(R.string.months_search_users_screen), months)
+            months < 12 -> view.text =
+                String.format(context.getString(R.string.months_search_users_screen), months)
             else -> view.text = context.getString(R.string.year_search_users_screen)
         }
     }

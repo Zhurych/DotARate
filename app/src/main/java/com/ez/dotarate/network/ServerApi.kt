@@ -7,6 +7,7 @@ import com.ez.dotarate.model.GameDetail
 import com.ez.dotarate.model.UpcomingGame
 import com.ez.dotarate.model.UserResponse
 import com.ez.dotarate.model.WinsAndLosses
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -49,6 +50,10 @@ interface ServerApi {
     /**
      * PandaScore
      */
-    @GET("matches/upcoming/?token=")
-    suspend fun fetchUpcomingGames(): Response<ArrayList<UpcomingGame>>
+    @GET("dota2/matches/upcoming")
+    fun fetchUpcomingGames(
+        @Query("token") token: String,
+        @Query("page") page: Int,
+        @Query("per_page") loadSize: Int
+    ): Call<ArrayList<UpcomingGame>>
 }

@@ -7,7 +7,6 @@ import android.widget.LinearLayout
 import androidx.annotation.Nullable
 import com.ez.dotarate.R
 import com.ez.dotarate.ViewUtils.generateBackgroundWithShadow
-import com.ez.dotarate.constants.HIDE_END
 import com.ez.dotarate.constants.HIDE_NONE
 
 

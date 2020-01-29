@@ -16,7 +16,8 @@ import javax.inject.Singleton
         ActivityModule::class,
         DatabaseModule::class,
         NavigationModule::class,
-        AdapterModule::class
+        AdapterModule::class,
+        ObservableFieldsModule::class
     ]
 )
 @Singleton

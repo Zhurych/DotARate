@@ -18,9 +18,10 @@ import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 
 
-class ProfileViewModel @Inject
-constructor(
-    application: Application, private val repository: UserRepositoryImpl
+class ProfileViewModel
+@Inject constructor(
+    application: Application,
+    private val repository: UserRepositoryImpl
 ) : AndroidViewModel(application) {
 
     val liveUser = repository.getUser()

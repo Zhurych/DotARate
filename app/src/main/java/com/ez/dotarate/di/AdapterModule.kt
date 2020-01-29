@@ -3,6 +3,7 @@ package com.ez.dotarate.di
 import com.ez.dotarate.adapters.GamesAdapter
 import com.ez.dotarate.adapters.SearchUsersAdapter
 import com.ez.dotarate.adapters.TopPlayersAdapter
+import com.ez.dotarate.adapters.UpcomingGamesAdapter
 import dagger.Module
 import dagger.Provides
 
@@ -14,4 +15,7 @@ class AdapterModule {
 
     @Provides
     internal fun provideSearchUsersAdapter() = SearchUsersAdapter()
+
+    @Provides
+    internal fun provideUpcomingGamesAdapter() = UpcomingGamesAdapter()
 }

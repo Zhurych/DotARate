@@ -15,7 +15,8 @@ import javax.inject.Inject
 
 class SearchViewModel
 @Inject constructor(
-    application: Application, private val repository: OpenDotaRepositoryImpl
+    application: Application,
+    private val repository: OpenDotaRepositoryImpl
 ) : AndroidViewModel(application) {
 
     var isExistedFragment = false

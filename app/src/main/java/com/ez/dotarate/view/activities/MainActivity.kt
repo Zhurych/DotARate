@@ -112,7 +112,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         mActionBar = supportActionBar!!
 
         vm.userNameLive.observe(this, Observer { userName = it?.name ?: "" })
-        //vm.searchUserNameLive.observe(this, Observer { profileFragmentUserName = it })
 
         vm.currentNavController.observe(this, navControllerObserver)
     }

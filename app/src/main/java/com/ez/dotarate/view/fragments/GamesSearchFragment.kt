@@ -98,14 +98,19 @@ class GamesSearchFragment :
             // Need to use submitList to set the PagedListAdapter value
             adapter.submitList(it)
             vm.isDataReceived.set(true)
-            // PagedList возвращает пустой список, поэтому добавляем этот Callback
+            // DataSource возвращает пустой список, поэтому добавляем этот Callback
             it.addWeakCallback(null, object : PagedList.Callback() {
-                override fun onChanged(position: Int, count: Int) {}
+                override fun onChanged(position: Int, count: Int) {
+                    Log.d("MyLogs", "GamesSearchFragment. onChanged")
+                }
                 override fun onInserted(position: Int, count: Int) {
+                    Log.d("MyLogs", "GamesSearchFragment. onInserted")
                     vm.isGamesEmpty.set(false)
                 }
 
-                override fun onRemoved(position: Int, count: Int) {}
+                override fun onRemoved(position: Int, count: Int) {
+                    Log.d("MyLogs", "GamesSearchFragment. onInserted")
+                }
             })
             Log.d(
                 "MyLogs",

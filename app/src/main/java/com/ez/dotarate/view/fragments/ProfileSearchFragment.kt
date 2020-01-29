@@ -52,6 +52,7 @@ class ProfileSearchFragment : BaseFragment<ProfileSearchViewModel, FragmentProfi
             user.name = it.profile.personaname
             user.avatarUrl = it.profile.avatarfull
             user.rankId = it.rank_tier
+            user.leaderboard_rank = it.leaderboard_rank
 
             if (user.losses != null) vb.user = user
         })

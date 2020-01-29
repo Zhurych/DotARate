@@ -17,9 +17,10 @@ import java.net.UnknownHostException
 import javax.inject.Inject
 
 
-class MphViewModel @Inject
-constructor(
-    application: Application, private val repository: OpenDotaRepositoryImpl
+class MphViewModel
+@Inject constructor(
+    application: Application,
+    private val repository: OpenDotaRepositoryImpl
 ) : AndroidViewModel(application) {
 
     var id32: Int = 0

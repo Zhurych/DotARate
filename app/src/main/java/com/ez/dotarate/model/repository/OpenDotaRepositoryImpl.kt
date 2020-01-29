@@ -12,11 +12,14 @@ import com.ez.dotarate.model.GameDetail
 import com.ez.dotarate.network.ServerApi
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
+import javax.inject.Named
 
 
-class OpenDotaRepositoryImpl @Inject
-constructor(private val api: ServerApi, private val db: AppDatabase) :
-    OpenDotaRepository {
+class OpenDotaRepositoryImpl
+@Inject constructor(
+    @Named("OpendotaApi") private val api: ServerApi,
+    private val db: AppDatabase
+) : OpenDotaRepository {
 
     private fun createRemoteGamesDataSource(
         scope: CoroutineScope,

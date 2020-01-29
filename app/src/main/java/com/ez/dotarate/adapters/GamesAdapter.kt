@@ -33,16 +33,6 @@ class GamesAdapter : PagedListAdapter<Game, RecyclerView.ViewHolder>(DIFF_CALLBA
     private var downloadState: DownloadState? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder{
-//        val inflater = LayoutInflater.from(parent.context)
-//
-//        val binding = DataBindingUtil.inflate<GameListItemBinding>(
-//            inflater,
-//            R.layout.game_list_item,
-//            parent,
-//            false
-//        )
-//        return GamesHolder(binding)
-
         return when (viewType) {
             R.layout.game_list_item -> {
                 Log.d("MyLogs", "АДАПТЕР. onCreateViewHolder ДЛЯ ИГРЫ")
@@ -62,11 +52,6 @@ class GamesAdapter : PagedListAdapter<Game, RecyclerView.ViewHolder>(DIFF_CALLBA
             R.layout.download_state_item -> (holder as DownloadStateItemViewHolder).bindTo(
                 downloadState)
         }
-
-//        val game = getItem(position)
-//
-//        // Note that "game" can be null if it's a placeholder.
-//        if (game != null) holder.bind(game)
     }
 
     private fun hasExtraRow() = downloadState != null && downloadState != DownloadState.LOADED

@@ -7,9 +7,10 @@ import com.ez.dotarate.model.repository.UserRepositoryImpl
 import javax.inject.Inject
 
 
-class SplashViewModel @Inject
-constructor(
-    application: Application, private val repository: UserRepositoryImpl
+class SplashViewModel
+@Inject constructor(
+    application: Application,
+    private val repository: UserRepositoryImpl
 ) : AndroidViewModel(application) {
 
     /**

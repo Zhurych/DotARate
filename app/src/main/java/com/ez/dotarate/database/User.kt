@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class User (
     @field:PrimaryKey
     var id: Int? = null,
+    var leaderboard_rank: Int? = null,
     var name: String? = null,
     var avatarUrl: String? = null,
     var wins: Int? = null,

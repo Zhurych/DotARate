@@ -138,6 +138,19 @@
                     app:rankTier="@{user.rankId}"
                     tools:src="@drawable/divine_3" />
 
+                <TextView
+                    android:id="@+id/tvLeaderBoardRank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/ivRank"
+                    app:layout_constraintEnd_toEndOf="@id/ivRank"
+                    app:layout_constraintStart_toStartOf="@id/ivRank"
+                    app:leaderboardRank="@{user.leaderboard_rank}"
+                    tools:text="232" />
+
                 <ImageView
                     android:id="@+id/ivLive"
                     android:layout_width="32dp"

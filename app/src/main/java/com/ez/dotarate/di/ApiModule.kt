@@ -1,6 +1,7 @@
 package com.ez.dotarate.di
 
 import com.ez.dotarate.constants.BASE_URL_OPENDOTA
+import com.ez.dotarate.constants.BASE_URL_PANDASCORE
 import com.ez.dotarate.constants.BASE_URL_STEAM
 import com.ez.dotarate.database.AppDatabase
 import com.ez.dotarate.model.repository.OpenDotaRepositoryImpl
@@ -20,16 +21,26 @@ import javax.inject.Singleton
 class ApiModule {
 
     @Provides
-    internal fun provideUserRepository(api: ServerApi, db: AppDatabase) =
+    internal fun provideUserRepository(@Named("OpendotaApi") api: ServerApi, db: AppDatabase) =
         UserRepositoryImpl(api, db)
 
     @Provides
-    internal fun provideOpenDotaRepository(api: ServerApi, db: AppDatabase) =
+    internal fun provideOpenDotaRepository(@Named("OpendotaApi") api: ServerApi, db: AppDatabase) =
         OpenDotaRepositoryImpl(api, db)
 
     @Provides
-    internal fun providePandaScoreRepository(api: ServerApi) = PandaScoreRepositoryImpl(api)
+    internal fun providePandaScoreRepository(@Named("PandaScoreApi") api: ServerApi) = PandaScoreRepositoryImpl(api)
 
+    @Named("PandaScoreApi")
+    @Provides
+    @Singleton
+    internal fun providePandaScoreApi(client: OkHttpClient): ServerApi =
+        Retrofit.Builder().baseUrl(BASE_URL_PANDASCORE)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build().create(ServerApi::class.java)
+
+    @Named("OpendotaApi")
     @Provides
     @Singleton
     internal fun provideOpendotaApi(client: OkHttpClient): ServerApi =

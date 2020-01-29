@@ -11,11 +11,13 @@ import com.ez.dotarate.model.UserResponse
 import com.ez.dotarate.model.WinsAndLosses
 import com.ez.dotarate.network.ServerApi
 import javax.inject.Inject
+import javax.inject.Named
 
 
-class UserRepositoryImpl @Inject
-constructor(
-    private val api: ServerApi, private val db: AppDatabase
+class UserRepositoryImpl
+@Inject constructor(
+    @Named("OpendotaApi") private val api: ServerApi,
+    private val db: AppDatabase
 ) : UserRepository {
 
     /**

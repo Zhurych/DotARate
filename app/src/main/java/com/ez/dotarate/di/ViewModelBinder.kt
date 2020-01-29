@@ -59,8 +59,8 @@ abstract class ViewModelBinder {
 
     @Binds
     @IntoMap
-    @ViewModelKey(FirstFragViewModel::class)
-    protected abstract fun firstFragViewModel(viewModel: FirstFragViewModel): ViewModel
+    @ViewModelKey(UpcomingGamesViewModel::class)
+    protected abstract fun upcomingGamesViewModel(viewModel: UpcomingGamesViewModel): ViewModel
 
     @Binds
     @IntoMap

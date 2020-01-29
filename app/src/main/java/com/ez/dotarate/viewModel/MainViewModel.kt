@@ -16,5 +16,4 @@ constructor(
 ) : ViewModel() {
 
     val userNameLive = repository.getUserName()
-    val searchUserNameLive = MutableLiveData<String>()
 }
